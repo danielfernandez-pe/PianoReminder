@@ -94,8 +94,8 @@ struct NoteView_Previews: PreviewProvider {
     static var previews: some View {
         NoteView(
             note: .c,
-            clef: .bass,
-            type: .sharp,
+            clef: .treble,
+            type: .natural,
             octave: .middleC
         )
     }

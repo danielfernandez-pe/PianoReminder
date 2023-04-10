@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UI
 
 public struct GameScreen: View {
     @ObservedObject var viewModel: GameViewModel
@@ -17,18 +18,53 @@ public struct GameScreen: View {
     public var body: some View {
         VStack {
             NoteView(
-                note: .a,
+                note: .b,
                 clef: .treble,
-                type: .sharp,
+                type: .flat,
                 octave: .middleC
             )
+            .frame(maxHeight: .infinity)
+
+            Text("Which note is?")
+                .font(.title)
+
+            options
+                .frame(maxHeight: .infinity)
+                .padding(.horizontal, .medium)
+        }
+    }
+
+    private var options: some View {
+        VStack(spacing: .medium) {
+            Button("C Sharp") {
+                print("c sharp tapped")
+            }
+            .buttonStyle(.main)
 
             Button("C Sharp") {
                 print("c sharp tapped")
             }
+            .buttonStyle(.main)
+
+            Button("C Sharp") {
+                print("c sharp tapped")
+            }
+            .buttonStyle(.main)
+
+            Button("C Sharp") {
+                print("c sharp tapped")
+            }
+            .buttonStyle(.main)
         }
     }
 }
+
+extension ButtonStyle where Self == MainButtonStyle {
+    public static var main: MainButtonStyle {
+        MainButtonStyle(textColor: .white, backgroundColor: .blue)
+    }
+}
+
 
 struct GameScreenPreviews: PreviewProvider {
     static var previews: some View {
@@ -42,5 +78,7 @@ struct GameScreenPreviews: PreviewProvider {
 /* TODOs
  - C and F doesn't have a flat
  - Use an image for SHARP
+ - Size is not correct so will overlap if not careful
+ - Little line in the middle of the note if it's not part of the main bars in the staff
  */
 
