@@ -8,41 +8,42 @@
 import Foundation
 
 struct TrebleNotePositioner {
-    private var spaceToMoveOneNote: CGFloat {
-        (Constants.spaceBetweenBars + Constants.barHeight) / 2
-    }
-
     func yPosition(for note: Note, in octave: Octave) -> CGFloat {
         switch note {
         case .c:
             switch octave {
             case .oct1:
-                return spaceToMoveOneNote * 26
+                return Constants.spaceToMoveOneNote * 26
             case .oct2:
-                return spaceToMoveOneNote * 19
+                return Constants.spaceToMoveOneNote * 19
             case .oct3:
-                return spaceToMoveOneNote * 13
+                return Constants.spaceToMoveOneNote * 13
             case .middleC:
-                return spaceToMoveOneNote * 6
+                /*
+                 This is the relative start for the rest. I move it 6 times because it starts, by default in SwiftUI,
+                 in the middle of the screen. Then the rest of octaves for C is just 7 spaces up or down.
+                 The other notes just depends on the position relative to C.
+                 */
+                return Constants.spaceToMoveOneNote * 6
             case .oct5:
-                return spaceToMoveOneNote * -1
+                return Constants.spaceToMoveOneNote * -1
             case .oct6:
-                return spaceToMoveOneNote * -8
+                return Constants.spaceToMoveOneNote * -8
             case .oct7:
-                return spaceToMoveOneNote * -15
+                return Constants.spaceToMoveOneNote * -15
             }
         case .d:
-            return yPosition(for: .c, in: octave) - spaceToMoveOneNote
+            return yPosition(for: .c, in: octave) - Constants.spaceToMoveOneNote
         case .e:
-            return yPosition(for: .c, in: octave) - spaceToMoveOneNote * 2
+            return yPosition(for: .c, in: octave) - Constants.spaceToMoveOneNote * 2
         case .f:
-            return yPosition(for: .c, in: octave) - spaceToMoveOneNote * 3
+            return yPosition(for: .c, in: octave) - Constants.spaceToMoveOneNote * 3
         case .g:
-            return yPosition(for: .c, in: octave) - spaceToMoveOneNote * 4
+            return yPosition(for: .c, in: octave) - Constants.spaceToMoveOneNote * 4
         case .a:
-            return yPosition(for: .c, in: octave) - spaceToMoveOneNote * 5
+            return yPosition(for: .c, in: octave) - Constants.spaceToMoveOneNote * 5
         case .b:
-            return yPosition(for: .c, in: octave) - spaceToMoveOneNote * 6
+            return yPosition(for: .c, in: octave) - Constants.spaceToMoveOneNote * 6
         }
     }
 }

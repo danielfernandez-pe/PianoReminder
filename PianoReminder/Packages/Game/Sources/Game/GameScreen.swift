@@ -18,9 +18,9 @@ public struct GameScreen: View {
     public var body: some View {
         VStack {
             NoteView(
-                note: .b,
+                note: .c,
                 clef: .treble,
-                type: .flat,
+                type: .natural,
                 octave: .middleC
             )
             .frame(maxHeight: .infinity)
@@ -65,7 +65,6 @@ extension ButtonStyle where Self == MainButtonStyle {
     }
 }
 
-
 struct GameScreenPreviews: PreviewProvider {
     static var previews: some View {
         GameScreen(
@@ -74,10 +73,8 @@ struct GameScreenPreviews: PreviewProvider {
     }
 }
 
-
 /* TODOs
  - C and F doesn't have a flat
- - Use an image for SHARP
  - Size is not correct so will overlap if not careful
  - Little line in the middle of the note if it's not part of the main bars in the staff
  */

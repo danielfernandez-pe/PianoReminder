@@ -21,6 +21,7 @@ struct NoteTypeView: View {
                 .frame(height: Constants.spaceBetweenBars * 1.25)
                 .offset(y: -3)
         case .sharp:
+            // TODO: change for image like flat
             ZStack {
                 HStack(spacing: .xSmall) {
                     Rectangle()
