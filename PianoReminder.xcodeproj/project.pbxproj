@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A164A9DF29F571CB0059E7CF /* RswiftLibrary in Frameworks */ = {isa = PBXBuildFile; productRef = A164A9DE29F571CB0059E7CF /* RswiftLibrary */; };
+		A164A9E129F571CB0059E7CF /* rswift in Frameworks */ = {isa = PBXBuildFile; productRef = A164A9E029F571CB0059E7CF /* rswift */; };
 		A1AAC0DB29E431EB00930783 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AAC0DA29E431EB00930783 /* HomeViewModel.swift */; };
 		A1AAC0DD29E431EB00930783 /* HomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AAC0DC29E431EB00930783 /* HomeScreen.swift */; };
 		A1AAC0E029E431EB00930783 /* DIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AAC0DF29E431EB00930783 /* DIContainer.swift */; };
@@ -19,7 +21,6 @@
 		A1AAC0F929E4320F00930783 /* Networking in Frameworks */ = {isa = PBXBuildFile; productRef = A1AAC0F829E4320F00930783 /* Networking */; };
 		A1AAC0FB29E4320F00930783 /* UI in Frameworks */ = {isa = PBXBuildFile; productRef = A1AAC0FA29E4320F00930783 /* UI */; };
 		A1AAC12529E4395D00930783 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AAC12429E4395D00930783 /* R.generated.swift */; };
-		A1AAC12829E439B900930783 /* RswiftLibrary in Frameworks */ = {isa = PBXBuildFile; productRef = A1AAC12729E439B900930783 /* RswiftLibrary */; };
 		A1AAC12B29E474F200930783 /* Game in Frameworks */ = {isa = PBXBuildFile; productRef = A1AAC12A29E474F200930783 /* Game */; };
 /* End PBXBuildFile section */
 
@@ -45,11 +46,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A164A9DF29F571CB0059E7CF /* RswiftLibrary in Frameworks */,
 				A1AAC12B29E474F200930783 /* Game in Frameworks */,
 				A1AAC0F929E4320F00930783 /* Networking in Frameworks */,
-				A1AAC12829E439B900930783 /* RswiftLibrary in Frameworks */,
 				A1AAC0FB29E4320F00930783 /* UI in Frameworks */,
 				A1AAC0F729E4320F00930783 /* Logger in Frameworks */,
+				A164A9E129F571CB0059E7CF /* rswift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -170,8 +172,9 @@
 				A1AAC0F629E4320F00930783 /* Logger */,
 				A1AAC0F829E4320F00930783 /* Networking */,
 				A1AAC0FA29E4320F00930783 /* UI */,
-				A1AAC12729E439B900930783 /* RswiftLibrary */,
 				A1AAC12A29E474F200930783 /* Game */,
+				A164A9DE29F571CB0059E7CF /* RswiftLibrary */,
+				A164A9E029F571CB0059E7CF /* rswift */,
 			);
 			productName = PianoReminder;
 			productReference = A1AAC0D529E431EB00930783 /* PianoReminder.app */;
@@ -202,7 +205,7 @@
 			);
 			mainGroup = A1AAC0CC29E431EB00930783;
 			packageReferences = (
-				A1AAC12629E439B900930783 /* XCRemoteSwiftPackageReference "R.swift" */,
+				A164A9DD29F571CB0059E7CF /* XCRemoteSwiftPackageReference "R.swift" */,
 			);
 			productRefGroup = A1AAC0D629E431EB00930783 /* Products */;
 			projectDirPath = "";
@@ -479,7 +482,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		A1AAC12629E439B900930783 /* XCRemoteSwiftPackageReference "R.swift" */ = {
+		A164A9DD29F571CB0059E7CF /* XCRemoteSwiftPackageReference "R.swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/mac-cain13/R.swift.git";
 			requirement = {
@@ -490,6 +493,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		A164A9DE29F571CB0059E7CF /* RswiftLibrary */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A164A9DD29F571CB0059E7CF /* XCRemoteSwiftPackageReference "R.swift" */;
+			productName = RswiftLibrary;
+		};
+		A164A9E029F571CB0059E7CF /* rswift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A164A9DD29F571CB0059E7CF /* XCRemoteSwiftPackageReference "R.swift" */;
+			productName = rswift;
+		};
 		A1AAC0F629E4320F00930783 /* Logger */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Logger;
@@ -501,11 +514,6 @@
 		A1AAC0FA29E4320F00930783 /* UI */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = UI;
-		};
-		A1AAC12729E439B900930783 /* RswiftLibrary */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = A1AAC12629E439B900930783 /* XCRemoteSwiftPackageReference "R.swift" */;
-			productName = RswiftLibrary;
 		};
 		A1AAC12A29E474F200930783 /* Game */ = {
 			isa = XCSwiftPackageProductDependency;

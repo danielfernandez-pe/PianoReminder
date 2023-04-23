@@ -17,13 +17,23 @@ public struct GameScreen: View {
 
     public var body: some View {
         VStack {
+//            ChordView(
+//                notes: [
+//                    .init(value: .a, type: .natural, octave: .oct3),
+//                    .init(value: .e, type: .natural, octave: .middleC),
+//                    .init(value: .g, type: .natural, octave: .middleC)
+//                ],
+//                clef: .treble
+//            )
+//            .frame(maxHeight: .infinity)
+
             NoteView(
-                note: .c,
+                note: .b,
                 clef: .treble,
                 type: .natural,
                 octave: .middleC
             )
-            .frame(maxHeight: .infinity)
+//            .frame(maxHeight: .infinity)
 
             Text("Which note is?")
                 .font(.title)

@@ -8,6 +8,8 @@
 import SwiftUI
 import UI
 
+
+
 struct NoteView: View {
     var note: Note
     var clef: Clef
@@ -20,7 +22,7 @@ struct NoteView: View {
         noteYPosition > 0
     }
 
-    private var range: ClosedRange<Int> {
+    private var range: ClosedRange<Int>? {
         /*
          The noteYPosition is where I will put the final note.
          Space to move one note basically will put a line
@@ -32,7 +34,12 @@ struct NoteView: View {
          the position of the final note. I rounded because
          I need one extra all the time.
          */
-        (1...Int(((abs(noteYPosition) / Constants.spaceToMoveOneNote) / 2.0).rounded()))
+        let yPosition = abs(noteYPosition)
+        if yPosition > 1 {
+            return (1...Int(((yPosition / Constants.spaceToMoveOneNote) / 2.0).rounded()))
+        } else {
+            return nil
+        }
     }
 
     var noteYPosition: CGFloat {
@@ -58,13 +65,15 @@ struct NoteView: View {
 
     private var noteLines: some View {
         VStack(spacing: Constants.spaceBetweenBars) {
-            ForEach(range, id: \.self) { _ in
-                Rectangle()
-                    .fill(.black)
-                    .frame(
-                        width: Constants.spaceBetweenBars * 1.75,
-                        height: Constants.barHeight
-                    )
+            if let range {
+                ForEach(range, id: \.self) { _ in
+                    Rectangle()
+                        .fill(.black)
+                        .frame(
+                            width: Constants.spaceBetweenBars * 1.75,
+                            height: Constants.barHeight
+                        )
+                }
             }
         }
         .offset(y: linesSize.height / 2 - (Constants.barHeight / 2))
@@ -107,10 +116,10 @@ struct NoteView: View {
 struct NoteView_Previews: PreviewProvider {
     static var previews: some View {
         NoteView(
-            note: .e,
+            note: .b,
             clef: .treble,
             type: .natural,
-            octave: .oct6
+            octave: .middleC
         )
     }
 }

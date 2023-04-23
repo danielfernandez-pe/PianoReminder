@@ -10,6 +10,7 @@ import Networking
 
 final class HomeViewModel: ObservableObject {
     @Published var title = "Hello world"
+
     let networking: any Networking
 
     init(networking: any Networking) {
