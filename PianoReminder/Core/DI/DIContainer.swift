@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Game
 
 protocol DICProtocol {
     func register<Service>(type: Service.Type, service: Any)
@@ -36,12 +37,17 @@ final class DIContainer: DICProtocol {
     }
 
     private func registerServices() {
-//        register(type: AuthServiceType.self, service: AuthService())
+        register(type: GameServiceType.self, service: GameService())
     }
 
     private func registerDatabase() {
     }
 
     private func registerManagers() {
+        guard let service: GameService = resolve(type: GameServiceType.self) as? GameService else {
+            fatalError("GameService registered with error")
+        }
+
+        register(type: GameManager<GameService>.self, service: GameManager<GameService>(gameService: service))
     }
 }

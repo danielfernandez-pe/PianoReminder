@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum NoteType {
+public enum NoteType {
     case natural
     case flat
     case sharp

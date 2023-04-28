@@ -6,7 +6,7 @@ if [ "${ENABLE_PREVIEWS}" = "YES" ]; then
 fi
 
 if mint list | grep -q 'R.swift'; then
-  mint run R.swift rswift generate "$PROJECT_DIR/$PROJECT_NAME/Resources/R.generated.swift"
+  mint run R.swift rswift generate "$PROJECT_DIR/$PROJECT_NAME/Core/Resources/R.generated.swift"
 else
   echo "error: R.swift not installed; run 'mint bootstrap' to install"
   return -1

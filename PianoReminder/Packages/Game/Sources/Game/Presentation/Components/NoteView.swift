@@ -8,13 +8,8 @@
 import SwiftUI
 import UI
 
-
-
 struct NoteView: View {
-    var note: Note
-    var clef: Clef
-    var type: NoteType
-    var octave: Octave
+    var note: SingleNote
 
     @State private var linesSize: CGSize = .zero
 
@@ -43,19 +38,19 @@ struct NoteView: View {
     }
 
     var noteYPosition: CGFloat {
-        switch clef {
+        switch note.clef {
         case .bass:
             return BassNotePositioner()
-                .yPosition(for: note, in: octave)
+                .yPosition(for: note.value, in: note.octave)
         case .treble:
             return TrebleNotePositioner()
-                .yPosition(for: note, in: octave)
+                .yPosition(for: note.value, in: note.octave)
         }
     }
 
     var body: some View {
         ZStack {
-            StaffView(clef: clef)
+            StaffView(clef: note.clef)
 
             noteLines
 
@@ -85,7 +80,7 @@ struct NoteView: View {
 
     private var composedNote: some View {
         HStack(spacing: .xSmall) {
-            NoteTypeView(noteType: type)
+            NoteTypeView(noteType: note.type)
 
             Ellipse()
                 .frame(
@@ -116,10 +111,12 @@ struct NoteView: View {
 struct NoteView_Previews: PreviewProvider {
     static var previews: some View {
         NoteView(
-            note: .b,
-            clef: .treble,
-            type: .natural,
-            octave: .middleC
+            note: .init(
+                value: .b,
+                type: .flat,
+                octave: .middleC,
+                clef: .treble
+            )
         )
     }
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Octave {
+public enum Octave {
     case oct1
     case oct2
     case oct3

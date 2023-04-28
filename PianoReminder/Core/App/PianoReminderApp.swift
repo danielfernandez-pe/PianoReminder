@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import Networking
+import Game
 
 @main
 struct PianoReminderApp: App {
@@ -22,6 +22,8 @@ struct PianoReminderApp: App {
 
 struct InitialScreen: View {
     var body: some View {
-        HomeScreen(viewModel: .init(networking: RestNetworking()))
+        HomeScreen<HomeViewModel>(
+            viewModel: .init(gameManager: DIContainer.shared.resolve(type: GameManager.self))
+        )
     }
 }

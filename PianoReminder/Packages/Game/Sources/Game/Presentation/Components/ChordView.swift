@@ -8,33 +8,26 @@
 import SwiftUI
 import UI
 
-struct ChordNote: Hashable {
-    let value: Note
-    let type: NoteType
-    let octave: Octave
-}
-
 struct ChordView: View {
-    var notes: [ChordNote]
-    var clef: Clef
+    var chord: ChordNote
 
     @State private var linesSizes: [Note: CGSize] = [:]
 
     var body: some View {
         ZStack {
-            StaffView(clef: clef)
+            StaffView(clef: chord.clef)
 
-            ForEach(notes, id: \.self) { note in
+            ForEach(chord.notes, id: \.self) { note in
                 noteLines(for: note)
             }
 
-            ForEach(notes, id: \.self) { note in
+            ForEach(chord.notes, id: \.self) { note in
                 composedNote(for: note)
             }
         }
     }
 
-    private func noteLines(for note: ChordNote) -> some View {
+    private func noteLines(for note: ComposedNote) -> some View {
         VStack(spacing: Constants.spaceBetweenBars) {
             if let range = range(for: note) {
                 ForEach(range, id: \.self) { _ in
@@ -54,7 +47,7 @@ struct ChordView: View {
         })
     }
 
-    private func composedNote(for note: ChordNote) -> some View {
+    private func composedNote(for note: ComposedNote) -> some View {
         HStack(spacing: .xSmall) {
             NoteTypeView(noteType: note.type)
 
@@ -77,12 +70,12 @@ struct ChordView: View {
         .offset(y: noteYPosition(for: note))
     }
 
-    private func shouldRenderLinesToTheBottom(for note: ChordNote) -> Bool {
+    private func shouldRenderLinesToTheBottom(for note: ComposedNote) -> Bool {
         noteYPosition(for: note) > 0
     }
 
-    private func noteYPosition(for note: ChordNote) -> CGFloat {
-        switch clef {
+    private func noteYPosition(for note: ComposedNote) -> CGFloat {
+        switch chord.clef {
         case .bass:
             return BassNotePositioner()
                 .yPosition(for: note.value, in: note.octave)
@@ -92,7 +85,7 @@ struct ChordView: View {
         }
     }
 
-    private func range(for note: ChordNote) -> ClosedRange<Int>? {
+    private func range(for note: ComposedNote) -> ClosedRange<Int>? {
         let yPosition = abs(noteYPosition(for: note))
 
         if yPosition > 1 {
@@ -111,21 +104,25 @@ struct ChordView_Previews: PreviewProvider {
     static var previews: some View {
         VStack(spacing: 100) {
             ChordView(
-                notes: [
-                    .init(value: .a, type: .natural, octave: .oct3),
-                    .init(value: .e, type: .natural, octave: .middleC),
-                    .init(value: .g, type: .natural, octave: .middleC)
-                ],
-                clef: .treble
+                chord: .init(
+                    notes: [
+                        .init(value: .a, type: .natural, octave: .oct3),
+                        .init(value: .e, type: .natural, octave: .middleC),
+                        .init(value: .g, type: .natural, octave: .middleC)
+                    ],
+                    clef: .treble
+                )
             )
 
             ChordView(
-                notes: [
-                    .init(value: .b, type: .natural, octave: .middleC),
-                    .init(value: .f, type: .natural, octave: .oct5),
-                    .init(value: .a, type: .natural, octave: .oct5)
-                ],
-                clef: .treble
+                chord: .init(
+                    notes: [
+                        .init(value: .b, type: .natural, octave: .middleC),
+                        .init(value: .f, type: .natural, octave: .oct5),
+                        .init(value: .a, type: .natural, octave: .oct5)
+                    ],
+                    clef: .treble
+                )
             )
         }
     }
