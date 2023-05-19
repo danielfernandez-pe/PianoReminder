@@ -27,6 +27,7 @@
 
 /* Begin PBXFileReference section */
 		A12D4E2A29F9642900B00FB9 /* Styles+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Styles+.swift"; sourceTree = "<group>"; };
+		A13BAD512A17250B0084EE99 /* Game */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Game; path = Features/Game; sourceTree = "<group>"; };
 		A16994EE29F970510082A171 /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = "<group>"; };
 		A1AAC0D529E431EB00930783 /* PianoReminder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PianoReminder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1AAC0DA29E431EB00930783 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
@@ -40,7 +41,6 @@
 		A1AAC0F229E4320600930783 /* UI */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = UI; path = ../../../packages/UI; sourceTree = "<group>"; };
 		A1AAC0F329E4320600930783 /* Networking */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Networking; path = ../../../packages/Networking; sourceTree = "<group>"; };
 		A1AAC0F429E4320600930783 /* Logger */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Logger; path = ../../../packages/Logger; sourceTree = "<group>"; };
-		A1AAC12929E4741B00930783 /* Game */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Game; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -185,7 +185,7 @@
 		A1AAC0F129E431FE00930783 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
-				A1AAC12929E4741B00930783 /* Game */,
+				A13BAD512A17250B0084EE99 /* Game */,
 				A1AAC0F429E4320600930783 /* Logger */,
 				A1AAC0F329E4320600930783 /* Networking */,
 				A1AAC0F229E4320600930783 /* UI */,

@@ -9,22 +9,21 @@ import Combine
 import Game
 
 protocol HomeViewModelInputs {
-    func setupGame()
+    func setupGame() async
 }
 
 protocol HomeViewModelOutputs: ObservableObject {
-    var homeError: HomeViewModel.HomeError? { get }
+    var uiError: HomeViewModel.UIError? { get }
 }
 
 protocol HomeViewModelType: HomeViewModelInputs, HomeViewModelOutputs {}
 
-// @MainActor ??
 final class HomeViewModel: HomeViewModelType {
-    enum HomeError: Error {
-        case game
+    enum UIError: Error {
+        case gameStart
     }
 
-    @Published var homeError: HomeError?
+    @Published var uiError: UIError?
 
     private let gameManager: GameManager<GameService>
 
@@ -32,13 +31,17 @@ final class HomeViewModel: HomeViewModelType {
         self.gameManager = gameManager
     }
 
-    func setupGame() {
-        Task {
-            do {
-                try await gameManager.setupGameSession()
-            } catch {
-                homeError = .game
-            }
+    func setupGame() async {
+        do {
+            try await gameManager.setupGameSession()
+            //figure out routing to other modules in swiftui app
+        } catch {
+            uiError = .gameStart
         }
+    }
+
+    @MainActor
+    private func setError(to error: UIError) {
+        uiError = error
     }
 }

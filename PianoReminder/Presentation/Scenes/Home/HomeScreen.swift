@@ -13,8 +13,8 @@ struct HomeScreen<ViewModel: HomeViewModelType>: View {
 
     var body: some View {
         VStack {
-            Button("Start game") {
-                viewModel.setupGame()
+            AsyncButton("Start game") {
+                await viewModel.setupGame()
             }
             .buttonStyle(.main)
         }
@@ -27,7 +27,7 @@ struct HomeScreenPreviews: PreviewProvider {
     }
 
     final class MockViewModel: HomeViewModelType {
-        var homeError: HomeViewModel.HomeError?
+        var uiError: HomeViewModel.UIError?
 
         func setupGame() {
         }
