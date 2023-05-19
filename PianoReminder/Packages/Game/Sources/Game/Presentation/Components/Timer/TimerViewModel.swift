@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-final class TimerViewModel: ObservableObject {
+public final class TimerViewModel: ObservableObject {
     @Published var timeLeft: Int = 10
 
     var timerFinished = PassthroughSubject<Void, Never>()

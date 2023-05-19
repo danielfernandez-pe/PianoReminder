@@ -7,18 +7,28 @@
 
 import Combine
 
-public final class GameViewModel: ObservableObject {
-    let timerViewModel: TimerViewModel = .init()
+public protocol GameViewModelInputs {
+    func startTimer()
+}
+
+public protocol GameViewModelOutputs: ObservableObject {
+    var timerViewModel: TimerViewModel { get }
+}
+
+public protocol GameViewModelType: GameViewModelInputs, GameViewModelOutputs {}
+
+public final class GameViewModel: GameViewModelType {
+    public let timerViewModel: TimerViewModel = .init()
     private var cancellables = Set<AnyCancellable>()
 
     public init() {
         setupTimer()
     }
 
-    func startTimer() {
+    public func startTimer() {
         timerViewModel.start()
     }
-    
+
     private func setupTimer() {
         timerViewModel.timerFinished
             .sink { _ in

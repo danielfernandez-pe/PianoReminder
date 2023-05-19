@@ -8,10 +8,10 @@
 import SwiftUI
 import UI
 
-public struct GameScreen: View {
-    @ObservedObject var viewModel: GameViewModel
+public struct GameScreen<ViewModel: GameViewModelType>: View {
+    @ObservedObject var viewModel: ViewModel
 
-    public init(viewModel: GameViewModel) {
+    public init(viewModel: ViewModel) {
         self.viewModel = viewModel
     }
 
@@ -68,7 +68,7 @@ public struct GameScreen: View {
             .buttonStyle(.main)
         }
     }
-    
+
     private var timer: some View {
         TimerView(viewModel: viewModel.timerViewModel)
             .padding(.medium)
@@ -83,9 +83,16 @@ extension ButtonStyle where Self == MainButtonStyle {
 
 struct GameScreenPreviews: PreviewProvider {
     static var previews: some View {
-        GameScreen(
-            viewModel: .init()
+        GameScreen<MockViewModel>(
+            viewModel: MockViewModel()
         )
+    }
+
+    private final class MockViewModel: GameViewModelType {
+        var timerViewModel = TimerViewModel()
+
+        func startTimer() {
+        }
     }
 }
 
