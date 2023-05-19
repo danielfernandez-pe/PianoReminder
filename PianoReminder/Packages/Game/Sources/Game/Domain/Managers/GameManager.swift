@@ -21,7 +21,6 @@ public actor GameManager<Service: GameServiceType>: ObservableObject {
     }
 
     public func setupGameSession() async throws {
-        // TODO: do real networking fetch
         quizNotes = try await gameService.fetchNotes()
         quizChords = try await gameService.fetchChords()
     }

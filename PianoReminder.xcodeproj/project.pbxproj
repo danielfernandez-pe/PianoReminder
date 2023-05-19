@@ -23,11 +23,13 @@
 		A1AAC0F929E4320F00930783 /* Networking in Frameworks */ = {isa = PBXBuildFile; productRef = A1AAC0F829E4320F00930783 /* Networking */; };
 		A1AAC0FB29E4320F00930783 /* UI in Frameworks */ = {isa = PBXBuildFile; productRef = A1AAC0FA29E4320F00930783 /* UI */; };
 		A1AAC12B29E474F200930783 /* Game in Frameworks */ = {isa = PBXBuildFile; productRef = A1AAC12A29E474F200930783 /* Game */; };
+		A1C231662A172DB300F79273 /* Core in Frameworks */ = {isa = PBXBuildFile; productRef = A1C231652A172DB300F79273 /* Core */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		A12D4E2A29F9642900B00FB9 /* Styles+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Styles+.swift"; sourceTree = "<group>"; };
-		A13BAD512A17250B0084EE99 /* Game */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Game; path = Features/Game; sourceTree = "<group>"; };
+		A13BAD522A172C250084EE99 /* Core */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Core; sourceTree = "<group>"; };
+		A13BAD562A172C9B0084EE99 /* Game */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Game; sourceTree = "<group>"; };
 		A16994EE29F970510082A171 /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = "<group>"; };
 		A1AAC0D529E431EB00930783 /* PianoReminder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PianoReminder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1AAC0DA29E431EB00930783 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
@@ -53,6 +55,7 @@
 				A1AAC0F929E4320F00930783 /* Networking in Frameworks */,
 				A1AAC0FB29E4320F00930783 /* UI in Frameworks */,
 				A1AAC0F729E4320F00930783 /* Logger in Frameworks */,
+				A1C231662A172DB300F79273 /* Core in Frameworks */,
 				A164A9E129F571CB0059E7CF /* rswift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -185,7 +188,8 @@
 		A1AAC0F129E431FE00930783 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
-				A13BAD512A17250B0084EE99 /* Game */,
+				A13BAD562A172C9B0084EE99 /* Game */,
+				A13BAD522A172C250084EE99 /* Core */,
 				A1AAC0F429E4320600930783 /* Logger */,
 				A1AAC0F329E4320600930783 /* Networking */,
 				A1AAC0F229E4320600930783 /* UI */,
@@ -234,6 +238,7 @@
 				A1AAC12A29E474F200930783 /* Game */,
 				A164A9DE29F571CB0059E7CF /* RswiftLibrary */,
 				A164A9E029F571CB0059E7CF /* rswift */,
+				A1C231652A172DB300F79273 /* Core */,
 			);
 			productName = PianoReminder;
 			productReference = A1AAC0D529E431EB00930783 /* PianoReminder.app */;
@@ -578,6 +583,10 @@
 		A1AAC12A29E474F200930783 /* Game */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Game;
+		};
+		A1C231652A172DB300F79273 /* Core */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Core;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
