@@ -8,5 +8,22 @@
 import Combine
 
 public final class GameViewModel: ObservableObject {
-    public init() {}
+    let timerViewModel: TimerViewModel = .init()
+    private var cancellables = Set<AnyCancellable>()
+
+    public init() {
+        setupTimer()
+    }
+
+    func startTimer() {
+        timerViewModel.start()
+    }
+    
+    private func setupTimer() {
+        timerViewModel.timerFinished
+            .sink { _ in
+                print("Show overview screen")
+            }
+            .store(in: &cancellables)
+    }
 }

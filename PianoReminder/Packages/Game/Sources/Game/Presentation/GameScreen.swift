@@ -36,6 +36,13 @@ public struct GameScreen: View {
                 .frame(maxHeight: .infinity)
                 .padding(.horizontal, .medium)
         }
+        .overlay(
+            timer,
+            alignment: .topTrailing
+        )
+        .onAppear {
+            viewModel.startTimer()
+        }
     }
 
     private var options: some View {
@@ -60,6 +67,11 @@ public struct GameScreen: View {
             }
             .buttonStyle(.main)
         }
+    }
+    
+    private var timer: some View {
+        TimerView(viewModel: viewModel.timerViewModel)
+            .padding(.medium)
     }
 }
 
