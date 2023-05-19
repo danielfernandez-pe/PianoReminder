@@ -26,15 +26,18 @@ final class HomeViewModel: HomeViewModelType {
     @Published var uiError: UIError?
 
     private let gameManager: GameManager<GameService>
+    private let router: HomeRouter
 
-    init(gameManager: GameManager<GameService>) {
+    init(gameManager: GameManager<GameService>, router: HomeRouter) {
         self.gameManager = gameManager
+        self.router = router
     }
 
+    @MainActor
     func setupGame() async {
         do {
             try await gameManager.setupGameSession()
-            //figure out routing to other modules in swiftui app
+            router.push(.game)
         } catch {
             uiError = .gameStart
         }

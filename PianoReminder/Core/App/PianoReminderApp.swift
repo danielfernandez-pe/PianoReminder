@@ -21,9 +21,16 @@ struct PianoReminderApp: App {
 }
 
 struct InitialScreen: View {
+    @StateObject private var homeRouter: HomeRouter = DIContainer.shared.resolve(type: HomeRouter.self)
+
     var body: some View {
-        HomeScreen<HomeViewModel>(
-            viewModel: .init(gameManager: DIContainer.shared.resolve(type: GameManager.self))
-        )
+        NavigationStack(path: $homeRouter.paths) {
+            HomeScreen<HomeViewModel>(
+                viewModel: .init(
+                    gameManager: DIContainer.shared.resolve(type: GameManager.self),
+                    router: homeRouter
+                )
+            )
+        }
     }
 }

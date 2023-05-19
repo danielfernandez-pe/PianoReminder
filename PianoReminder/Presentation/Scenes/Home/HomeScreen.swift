@@ -18,6 +18,9 @@ struct HomeScreen<ViewModel: HomeViewModelType>: View {
             }
             .buttonStyle(.main)
         }
+        .navigationDestination(for: HomeRouter.Path.self) { path in
+            path.screen
+        }
     }
 }
 

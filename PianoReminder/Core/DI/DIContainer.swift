@@ -20,6 +20,7 @@ final class DIContainer: DICProtocol {
         registerServices()
         registerDatabase()
         registerManagers()
+        registerRouters()
     }
 
     private var services: [String: Any] = [:]
@@ -41,6 +42,10 @@ final class DIContainer: DICProtocol {
     }
 
     private func registerDatabase() {
+    }
+
+    private func registerRouters() {
+        register(type: HomeRouter.self, service: HomeRouter())
     }
 
     private func registerManagers() {

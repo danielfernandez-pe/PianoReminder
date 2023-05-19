@@ -1,30 +1,32 @@
-// 
-//  BaseRouter.swift
-//  PianoReminder
 //
-//  Created by Daniel Yopla on 10.04.2023.
+//  Router.swift
+//  
+//
+//  Created by Daniel Yopla on 19.05.2023.
 //
 
 import Foundation
 
-class BaseRouter<Path: Hashable> {
-    @Published var paths: [Path] = []
+open class Router<Path: Hashable> {
+    @Published public var paths: [Path] = []
 
-    func push(_ path: Path) {
+    public init() {}
+
+    public func push(_ path: Path) {
         paths.append(path)
     }
 
-    func pop() {
+    public func pop() {
         paths.removeLast()
     }
 
-    func pop(to path: Path) {
+    public func pop(to path: Path) {
         guard let destinationPathIndex = paths.firstIndex(where: { $0 == path }) else { return }
         let numToTop = (destinationPathIndex ..< paths.endIndex).count - 1
         paths.removeLast(numToTop)
     }
 
-    func popToRoot() {
+    public func popToRoot() {
         paths.removeAll()
     }
 }
