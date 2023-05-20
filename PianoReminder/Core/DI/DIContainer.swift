@@ -19,7 +19,7 @@ final class DIContainer: DICProtocol {
     private init() {
         registerServices()
         registerDatabase()
-        registerManagers()
+        registerRepositories()
         registerRouters()
     }
 
@@ -31,7 +31,7 @@ final class DIContainer: DICProtocol {
 
     func resolve<Service>(type: Service.Type) -> Service {
         guard let service = services["\(type)"] as? Service else {
-            fatalError("App tried to resolve a service that wasn't registered before")
+            fatalError("App tried to resolve a service \(type) that wasn't registered before")
         }
 
         return service
@@ -39,6 +39,7 @@ final class DIContainer: DICProtocol {
 
     private func registerServices() {
         register(type: GameServiceType.self, service: GameService())
+        register(type: UserServiceType.self, service: UserService())
     }
 
     private func registerDatabase() {
@@ -48,11 +49,16 @@ final class DIContainer: DICProtocol {
         register(type: HomeRouter.self, service: HomeRouter())
     }
 
-    private func registerManagers() {
-        guard let service: GameService = resolve(type: GameServiceType.self) as? GameService else {
+    private func registerRepositories() {
+        guard let gameService: GameService = resolve(type: GameServiceType.self) as? GameService else {
             fatalError("GameService registered with error")
         }
 
-        register(type: (any GameRepositoryType).self, service: GameRepository<GameService>(gameService: service))
+        guard let userService: UserService = resolve(type: UserServiceType.self) as? UserService else {
+            fatalError("UserService registered with error")
+        }
+
+        register(type: (any GameRepositoryType).self, service: GameRepository<GameService>(gameService: gameService))
+        register(type: (any UserSettingsRepositoryType).self, service: UserSettingsRepository<UserService>(userService: userService))
     }
 }

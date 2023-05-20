@@ -1,5 +1,5 @@
 //
-//  ChordNote.swift
+//  Note.swift
 //  
 //
 //  Created by Daniel Yopla on 23.04.2023.
@@ -31,10 +31,12 @@ public struct SingleNote: Hashable {
     let type: NoteType
     let octave: Octave
     let clef: Clef
+    let title: String
 }
 
 // Structure for rendering one chord in the Bar
-public struct ChordNote: Hashable {
+public struct Chord: Hashable {
     let notes: [ComposedNote]
     let clef: Clef
+    let title: String
 }

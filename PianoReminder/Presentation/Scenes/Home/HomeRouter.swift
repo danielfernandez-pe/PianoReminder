@@ -17,7 +17,12 @@ final class HomeRouter: Router<HomeRouter.Path>, ObservableObject {
         var screen: some View {
             switch self {
             case .game:
-                return GameScreen<GameViewModel>(viewModel: GameViewModel())
+                return GameScreen<GameViewModel>(
+                    viewModel: GameViewModel(
+                        gameRepository: DIContainer.shared.resolve(type: (any GameRepositoryType).self),
+                        userSettingsRepository: DIContainer.shared.resolve(type: (any UserSettingsRepositoryType).self)
+                    )
+                )
             }
         }
     }

@@ -9,7 +9,7 @@ import SwiftUI
 import UI
 
 struct ChordView: View {
-    var chord: ChordNote
+    var chord: Chord
 
     @State private var linesSizes: [Note: CGSize] = [:]
     private let bassPositioner = BassNotePositioner()
@@ -112,7 +112,8 @@ struct ChordView_Previews: PreviewProvider {
                         .init(value: .e, type: .natural, octave: .middleC),
                         .init(value: .g, type: .natural, octave: .middleC)
                     ],
-                    clef: .treble
+                    clef: .treble,
+                    title: ""
                 )
             )
 
@@ -123,7 +124,8 @@ struct ChordView_Previews: PreviewProvider {
                         .init(value: .f, type: .natural, octave: .oct5),
                         .init(value: .a, type: .natural, octave: .oct5)
                     ],
-                    clef: .treble
+                    clef: .treble,
+                    title: ""
                 )
             )
         }

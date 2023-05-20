@@ -15,21 +15,31 @@ public struct GameScreen<ViewModel: GameViewModelType>: View {
         self.viewModel = viewModel
     }
 
+    var questionTitle: String {
+        if viewModel.chordQuestion != nil {
+            return "Which chord is?"
+        }
+
+        if viewModel.chordQuestion != nil {
+            return "Whic note is?"
+        }
+
+        return "What will you choose?"
+    }
+
     public var body: some View {
         VStack {
-            ChordView(
-                chord: .init(
-                    notes: [
-                        .init(value: .b, type: .natural, octave: .middleC),
-                        .init(value: .f, type: .natural, octave: .oct5),
-                        .init(value: .a, type: .natural, octave: .oct5)
-                    ],
-                    clef: .treble
-                )
-            )
-            .frame(maxHeight: .infinity)
+            if let chordQuestion = viewModel.chordQuestion {
+                ChordView(chord: chordQuestion.question)
+                    .frame(maxHeight: .infinity)
+            }
 
-            Text("Which note is?")
+            if let noteQuestion = viewModel.noteQuestion {
+                NoteView(note: noteQuestion.question)
+                    .frame(maxHeight: .infinity)
+            }
+
+            Text(questionTitle)
                 .font(.title)
 
             options
@@ -47,25 +57,23 @@ public struct GameScreen<ViewModel: GameViewModelType>: View {
 
     private var options: some View {
         VStack(spacing: .medium) {
-            Button("C Sharp") {
-                print("c sharp tapped")
+            if let chordQuestion = viewModel.chordQuestion {
+                ForEach(chordQuestion.options, id: \.self) { option in
+                    Button(option.value.title) {
+                        viewModel.userTapChordOption(option)
+                    }
+                    .buttonStyle(.main)
+                }
             }
-            .buttonStyle(.main)
 
-            Button("C Sharp") {
-                print("c sharp tapped")
+            if let noteQuestion = viewModel.noteQuestion {
+                ForEach(noteQuestion.options, id: \.self) { option in
+                    Button(option.value.title) {
+                        viewModel.userTapNoteOption(option)
+                    }
+                    .buttonStyle(.main)
+                }
             }
-            .buttonStyle(.main)
-
-            Button("C Sharp") {
-                print("c sharp tapped")
-            }
-            .buttonStyle(.main)
-
-            Button("C Sharp") {
-                print("c sharp tapped")
-            }
-            .buttonStyle(.main)
         }
     }
 
@@ -89,9 +97,20 @@ struct GameScreenPreviews: PreviewProvider {
     }
 
     private final class MockViewModel: GameViewModelType {
+        var noteQuestion: NoteQuestion?
+        var chordQuestion: ChordQuestion?
         var timerViewModel = TimerViewModel()
 
+        func getQuestion() {
+        }
+
         func startTimer() {
+        }
+
+        func userTapNoteOption(_ option: NoteQuestion.Option) {
+        }
+
+        func userTapChordOption(_ option: ChordQuestion.Option) {
         }
     }
 }

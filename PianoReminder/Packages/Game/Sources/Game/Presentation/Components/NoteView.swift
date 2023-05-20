@@ -117,7 +117,8 @@ struct NoteView_Previews: PreviewProvider {
                 value: .b,
                 type: .flat,
                 octave: .middleC,
-                clef: .treble
+                clef: .treble,
+                title: "B"
             )
         )
     }
