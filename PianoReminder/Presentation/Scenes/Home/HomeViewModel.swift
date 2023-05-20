@@ -25,18 +25,18 @@ final class HomeViewModel: HomeViewModelType {
 
     @Published var uiError: UIError?
 
-    private let gameManager: GameManager<GameService>
+    private let gameRepository: any GameRepositoryType
     private let router: HomeRouter
 
-    init(gameManager: GameManager<GameService>, router: HomeRouter) {
-        self.gameManager = gameManager
+    init(gameRepository: any GameRepositoryType, router: HomeRouter) {
+        self.gameRepository = gameRepository
         self.router = router
     }
 
     @MainActor
     func setupGame() async {
         do {
-            try await gameManager.setupGameSession()
+            try await gameRepository.setupGameSession()
             router.push(.game)
         } catch {
             uiError = .gameStart

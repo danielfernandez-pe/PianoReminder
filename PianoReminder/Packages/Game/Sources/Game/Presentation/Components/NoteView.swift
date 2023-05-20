@@ -12,6 +12,8 @@ struct NoteView: View {
     var note: SingleNote
 
     @State private var linesSize: CGSize = .zero
+    private let bassPositioner = BassNotePositioner()
+    private let treblePositioner = TrebleNotePositioner()
 
     private var shouldRenderLinesToTheBottom: Bool {
         noteYPosition > 0
@@ -40,10 +42,10 @@ struct NoteView: View {
     var noteYPosition: CGFloat {
         switch note.clef {
         case .bass:
-            return BassNotePositioner()
+            return bassPositioner
                 .yPosition(for: note.value, in: note.octave)
         case .treble:
-            return TrebleNotePositioner()
+            return treblePositioner
                 .yPosition(for: note.value, in: note.octave)
         }
     }

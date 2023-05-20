@@ -12,6 +12,8 @@ struct ChordView: View {
     var chord: ChordNote
 
     @State private var linesSizes: [Note: CGSize] = [:]
+    private let bassPositioner = BassNotePositioner()
+    private let treblePositioner = TrebleNotePositioner()
 
     var body: some View {
         ZStack {
@@ -77,10 +79,10 @@ struct ChordView: View {
     private func noteYPosition(for note: ComposedNote) -> CGFloat {
         switch chord.clef {
         case .bass:
-            return BassNotePositioner()
+            return bassPositioner
                 .yPosition(for: note.value, in: note.octave)
         case .treble:
-            return TrebleNotePositioner()
+            return treblePositioner
                 .yPosition(for: note.value, in: note.octave)
         }
     }

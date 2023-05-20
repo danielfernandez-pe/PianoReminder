@@ -53,6 +53,6 @@ final class DIContainer: DICProtocol {
             fatalError("GameService registered with error")
         }
 
-        register(type: GameManager<GameService>.self, service: GameManager<GameService>(gameService: service))
+        register(type: (any GameRepositoryType).self, service: GameRepository<GameService>(gameService: service))
     }
 }

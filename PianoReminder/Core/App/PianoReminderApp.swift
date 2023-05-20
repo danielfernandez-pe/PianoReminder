@@ -27,7 +27,7 @@ struct InitialScreen: View {
         NavigationStack(path: $homeRouter.paths) {
             HomeScreen<HomeViewModel>(
                 viewModel: .init(
-                    gameManager: DIContainer.shared.resolve(type: GameManager.self),
+                    gameRepository: DIContainer.shared.resolve(type: (any GameRepositoryType).self),
                     router: homeRouter
                 )
             )

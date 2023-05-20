@@ -1,5 +1,5 @@
 //
-//  GameEngine.swift
+//  GameRepository.swift
 //  
 //
 //  Created by Daniel Yopla on 23.04.2023.
@@ -7,9 +7,14 @@
 
 import Foundation
 
-public actor GameManager<Service: GameServiceType>: ObservableObject {
-    @Published var counter = 60
-    @Published var points = 0
+public protocol GameRepositoryType: ObservableObject {
+    var points: Int { get }
+
+    func setupGameSession() async throws
+}
+
+public final class GameRepository<Service: GameServiceType>: GameRepositoryType {
+    @Published public var points = 0
 
     private var quizNotes: [SingleNote] = []
     private var quizChords: [ChordNote] = []
