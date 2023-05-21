@@ -9,32 +9,15 @@ import Foundation
 import Combine
 
 public final class TimerViewModel: ObservableObject {
-    @Published var timeLeft: Int = 10
+    let timer = Timer.publish(every: 1, on: .main, in: .common)
+        .autoconnect()
+    let timerFinished = PassthroughSubject<Void, Never>()
 
-    var timerFinished = PassthroughSubject<Void, Never>()
-
-    private var cancellable: AnyCancellable?
-
-    func start() {
-        cancellable = Timer.publish(every: 1, on: .main, in: .common)
-            .autoconnect()
-            .sink { [weak self] _ in
-                guard let self else { return }
-                self.timeLeft -= 1
-
-                if self.timeLeft <= 0 {
-                    self.timerFinished.send()
-                }
-            }
+    func timerIsUp() {
+        timerFinished.send()
     }
 
     func pause() {
-        cancellable = nil
-    }
-
-    func reset() {
-        cancellable = nil
-        timeLeft = 60
-        start()
+        timer.upstream.connect().cancel()
     }
 }

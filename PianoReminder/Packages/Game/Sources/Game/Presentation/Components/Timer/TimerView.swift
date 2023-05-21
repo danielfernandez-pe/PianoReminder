@@ -9,10 +9,18 @@ import SwiftUI
 
 struct TimerView: View {
     @ObservedObject var viewModel: TimerViewModel
+    @State private var timeLeft = 60
 
     var body: some View {
-        Text(String(viewModel.timeLeft))
+        Text(String(timeLeft))
             .font(.headline)
+            .onReceive(viewModel.timer) { _ in
+                timeLeft -= 1
+
+                if timeLeft <= 0 {
+                    viewModel.timerIsUp()
+                }
+            }
     }
 }
 

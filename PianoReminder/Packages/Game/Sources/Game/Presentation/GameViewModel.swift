@@ -8,7 +8,6 @@
 import Combine
 
 public protocol GameViewModelInputs {
-    func startTimer()
     func getQuestion()
     func userTapNoteOption(_ option: NoteQuestion.Option)
     func userTapChordOption(_ option: ChordQuestion.Option)
@@ -42,10 +41,6 @@ public final class GameViewModel: GameViewModelType {
         self.userSettingsRepository = userSettingsRepository
         setupTimer()
         getQuestion()
-    }
-
-    public func startTimer() {
-        timerViewModel.start()
     }
 
     public func getQuestion() {

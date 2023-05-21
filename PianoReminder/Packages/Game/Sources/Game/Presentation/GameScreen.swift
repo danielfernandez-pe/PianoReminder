@@ -54,9 +54,6 @@ public struct GameScreen<ViewModel: GameViewModelType>: View {
             timer,
             alignment: .topTrailing
         )
-        .onAppear {
-            viewModel.startTimer()
-        }
     }
 
     private var options: some View {
