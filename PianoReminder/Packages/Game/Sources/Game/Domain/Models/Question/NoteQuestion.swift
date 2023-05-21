@@ -11,7 +11,8 @@ public struct NoteQuestion {
     let question: SingleNote
     let options: [Option]
 
-    public struct Option: Hashable {
+    public struct Option: Identifiable, Hashable {
+        public let id = UUID().uuidString
         let value: SingleNote
         let isAnswer: Bool
     }

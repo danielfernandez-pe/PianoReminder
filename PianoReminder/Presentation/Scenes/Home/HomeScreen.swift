@@ -7,6 +7,7 @@
 
 import SwiftUI
 import UI
+import PianoUI
 
 struct HomeScreen<ViewModel: HomeViewModelType>: View {
     @ObservedObject var viewModel: ViewModel

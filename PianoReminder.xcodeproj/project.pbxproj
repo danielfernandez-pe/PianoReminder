@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A12D4E2B29F9642900B00FB9 /* Styles+.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12D4E2A29F9642900B00FB9 /* Styles+.swift */; };
 		A164A9DF29F571CB0059E7CF /* RswiftLibrary in Frameworks */ = {isa = PBXBuildFile; productRef = A164A9DE29F571CB0059E7CF /* RswiftLibrary */; };
 		A164A9E129F571CB0059E7CF /* rswift in Frameworks */ = {isa = PBXBuildFile; productRef = A164A9E029F571CB0059E7CF /* rswift */; };
 		A16994EF29F970510082A171 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = A16994EE29F970510082A171 /* R.generated.swift */; };
@@ -23,11 +22,11 @@
 		A1AAC0FB29E4320F00930783 /* UI in Frameworks */ = {isa = PBXBuildFile; productRef = A1AAC0FA29E4320F00930783 /* UI */; };
 		A1AAC12B29E474F200930783 /* Game in Frameworks */ = {isa = PBXBuildFile; productRef = A1AAC12A29E474F200930783 /* Game */; };
 		A1BCB5AF2A17B15400380EE6 /* HomeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1BCB5AE2A17B15400380EE6 /* HomeRouter.swift */; };
+		A1BCB5B22A1A503200380EE6 /* PianoUI in Frameworks */ = {isa = PBXBuildFile; productRef = A1BCB5B12A1A503200380EE6 /* PianoUI */; };
 		A1C231662A172DB300F79273 /* Core in Frameworks */ = {isa = PBXBuildFile; productRef = A1C231652A172DB300F79273 /* Core */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		A12D4E2A29F9642900B00FB9 /* Styles+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Styles+.swift"; sourceTree = "<group>"; };
 		A13BAD522A172C250084EE99 /* Core */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Core; sourceTree = "<group>"; };
 		A13BAD562A172C9B0084EE99 /* Game */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Game; sourceTree = "<group>"; };
 		A16994EE29F970510082A171 /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = "<group>"; };
@@ -43,6 +42,7 @@
 		A1AAC0F329E4320600930783 /* Networking */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Networking; path = ../../../packages/Networking; sourceTree = "<group>"; };
 		A1AAC0F429E4320600930783 /* Logger */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Logger; path = ../../../packages/Logger; sourceTree = "<group>"; };
 		A1BCB5AE2A17B15400380EE6 /* HomeRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeRouter.swift; sourceTree = "<group>"; };
+		A1BCB5B02A1A4F9500380EE6 /* PianoUI */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = PianoUI; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +54,7 @@
 				A1AAC12B29E474F200930783 /* Game in Frameworks */,
 				A1AAC0F929E4320F00930783 /* Networking in Frameworks */,
 				A1AAC0FB29E4320F00930783 /* UI in Frameworks */,
+				A1BCB5B22A1A503200380EE6 /* PianoUI in Frameworks */,
 				A1AAC0F729E4320F00930783 /* Logger in Frameworks */,
 				A1C231662A172DB300F79273 /* Core in Frameworks */,
 				A164A9E129F571CB0059E7CF /* rswift in Frameworks */,
@@ -63,22 +64,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		A12D4E2829F9641000B00FB9 /* UI */ = {
-			isa = PBXGroup;
-			children = (
-				A12D4E2929F9641400B00FB9 /* Styles */,
-			);
-			path = UI;
-			sourceTree = "<group>";
-		};
-		A12D4E2929F9641400B00FB9 /* Styles */ = {
-			isa = PBXGroup;
-			children = (
-				A12D4E2A29F9642900B00FB9 /* Styles+.swift */,
-			);
-			path = Styles;
-			sourceTree = "<group>";
-		};
 		A12D4E2C29F9687A00B00FB9 /* Core */ = {
 			isa = PBXGroup;
 			children = (
@@ -107,7 +92,6 @@
 			isa = PBXGroup;
 			children = (
 				A1AAC0D829E431EB00930783 /* Scenes */,
-				A12D4E2829F9641000B00FB9 /* UI */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -188,6 +172,7 @@
 		A1AAC0F129E431FE00930783 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
+				A1BCB5B02A1A4F9500380EE6 /* PianoUI */,
 				A13BAD562A172C9B0084EE99 /* Game */,
 				A13BAD522A172C250084EE99 /* Core */,
 				A1AAC0F429E4320600930783 /* Logger */,
@@ -239,6 +224,7 @@
 				A164A9DE29F571CB0059E7CF /* RswiftLibrary */,
 				A164A9E029F571CB0059E7CF /* rswift */,
 				A1C231652A172DB300F79273 /* Core */,
+				A1BCB5B12A1A503200380EE6 /* PianoUI */,
 			);
 			productName = PianoReminder;
 			productReference = A1AAC0D529E431EB00930783 /* PianoReminder.app */;
@@ -348,7 +334,6 @@
 				A1AAC0E729E431EB00930783 /* PianoReminderApp.swift in Sources */,
 				A1AAC0E029E431EB00930783 /* DIContainer.swift in Sources */,
 				A1AAC0DB29E431EB00930783 /* HomeViewModel.swift in Sources */,
-				A12D4E2B29F9642900B00FB9 /* Styles+.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -583,6 +568,10 @@
 		A1AAC12A29E474F200930783 /* Game */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Game;
+		};
+		A1BCB5B12A1A503200380EE6 /* PianoUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PianoUI;
 		};
 		A1C231652A172DB300F79273 /* Core */ = {
 			isa = XCSwiftPackageProductDependency;

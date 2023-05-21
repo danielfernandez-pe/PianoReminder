@@ -11,7 +11,8 @@ public struct ChordQuestion {
     let question: Chord
     let options: [Option]
 
-    public struct Option: Hashable {
+    public struct Option: Identifiable, Hashable {
+        public let id = UUID().uuidString
         let value: Chord
         let isAnswer: Bool
     }

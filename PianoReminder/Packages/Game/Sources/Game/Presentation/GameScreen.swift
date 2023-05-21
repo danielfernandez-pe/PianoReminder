@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import UI
+import PianoUI
 
 public struct GameScreen<ViewModel: GameViewModelType>: View {
     @ObservedObject var viewModel: ViewModel
@@ -32,19 +32,23 @@ public struct GameScreen<ViewModel: GameViewModelType>: View {
             if let chordQuestion = viewModel.chordQuestion {
                 ChordView(chord: chordQuestion.question)
                     .frame(maxHeight: .infinity)
+                    .background(.debug)
             }
 
             if let noteQuestion = viewModel.noteQuestion {
                 NoteView(note: noteQuestion.question)
                     .frame(maxHeight: .infinity)
+                    .background(.debug)
             }
 
             Text(questionTitle)
                 .font(.title)
+                .background(.debug)
 
             options
                 .frame(maxHeight: .infinity)
                 .padding(.horizontal, .medium)
+                .background(.debug)
         }
         .overlay(
             timer,
@@ -58,7 +62,7 @@ public struct GameScreen<ViewModel: GameViewModelType>: View {
     private var options: some View {
         VStack(spacing: .medium) {
             if let chordQuestion = viewModel.chordQuestion {
-                ForEach(chordQuestion.options, id: \.self) { option in
+                ForEach(chordQuestion.options) { option in
                     Button(option.value.title) {
                         viewModel.userTapChordOption(option)
                     }
@@ -67,7 +71,7 @@ public struct GameScreen<ViewModel: GameViewModelType>: View {
             }
 
             if let noteQuestion = viewModel.noteQuestion {
-                ForEach(noteQuestion.options, id: \.self) { option in
+                ForEach(noteQuestion.options) { option in
                     Button(option.value.title) {
                         viewModel.userTapNoteOption(option)
                     }
@@ -80,12 +84,7 @@ public struct GameScreen<ViewModel: GameViewModelType>: View {
     private var timer: some View {
         TimerView(viewModel: viewModel.timerViewModel)
             .padding(.medium)
-    }
-}
-
-extension ButtonStyle where Self == MainButtonStyle {
-    public static var main: MainButtonStyle {
-        MainButtonStyle(textColor: .white, backgroundColor: .blue)
+            .background(.debug)
     }
 }
 
