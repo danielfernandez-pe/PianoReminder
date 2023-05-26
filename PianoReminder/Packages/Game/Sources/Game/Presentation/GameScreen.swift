@@ -72,6 +72,7 @@ public struct GameScreen<ViewModel: GameViewModelType>: View {
                     .buttonStyle(
                         buttonStyle(chordOption: option, userAnswer: viewModel.userAnswer)
                     )
+                    .bounce(shouldBounce(chordOption: option, userAnswer: viewModel.userAnswer))
                 }
             }
 
@@ -85,6 +86,9 @@ public struct GameScreen<ViewModel: GameViewModelType>: View {
                     .buttonStyle(
                         buttonStyle(noteOption: option, userAnswer: viewModel.userAnswer)
                     )
+                    .if(shouldBounce(noteOption: option, userAnswer: viewModel.userAnswer)) {
+                        $0.bounce()
+                    }
                 }
             }
         }
@@ -114,6 +118,26 @@ public struct GameScreen<ViewModel: GameViewModelType>: View {
         }
 
         return .main
+    }
+
+    private func shouldBounce(chordOption: ChordQuestion.Option? = nil,
+                              noteOption: NoteQuestion.Option? = nil,
+                              userAnswer: UserAnswer?) -> Bool {
+        if let chordOption {
+            if let userChordOption = userAnswer?.chordOption,
+               chordOption.value == userChordOption.value {
+                return userChordOption.isAnswer
+            }
+        }
+
+        if let noteOption {
+            if let userNoteOption = userAnswer?.noteOption,
+               noteOption.value == userNoteOption.value {
+                return userNoteOption.isAnswer
+            }
+        }
+
+        return false
     }
     // swiftlint:enable function_default_parameter_at_end
 }

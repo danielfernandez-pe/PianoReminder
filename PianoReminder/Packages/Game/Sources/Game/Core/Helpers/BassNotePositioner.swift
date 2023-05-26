@@ -7,6 +7,7 @@
 
 import Foundation
 
+// swiftlint:disable cyclomatic_complexity
 struct BassNotePositioner {
     func yPosition(for note: Note, in octave: Octave) -> CGFloat {
         switch note {
@@ -42,3 +43,4 @@ struct BassNotePositioner {
         }
     }
 }
+// swiftlint:enable cyclomatic_complexity
