@@ -14,6 +14,7 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "../UI"),
+        .package(path: "../PianoUI"),
         .package(path: "../Core")
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
@@ -25,6 +26,7 @@ let package = Package(
             name: "Game",
             dependencies: [
                 .product(name: "UI", package: "UI"),
+                .product(name: "PianoUI", package: "PianoUI"),
                 .product(name: "Core", package: "Core")
             ]),
         .testTarget(

@@ -7,9 +7,11 @@
 
 import SwiftUI
 import PianoUI
+import UI
 
 public struct GameScreen<ViewModel: GameViewModelType>: View {
     @ObservedObject var viewModel: ViewModel
+    @State private var backgroundColor: Color = .white
 
     public init(viewModel: ViewModel) {
         self.viewModel = viewModel
@@ -20,35 +22,37 @@ public struct GameScreen<ViewModel: GameViewModelType>: View {
             return "Which chord is?"
         }
 
-        if viewModel.chordQuestion != nil {
-            return "Whic note is?"
+        if viewModel.noteQuestion != nil {
+            return "Which note is?"
         }
 
         return "What will you choose?"
     }
 
     public var body: some View {
-        VStack {
+        VStack(spacing: .medium) {
             if let chordQuestion = viewModel.chordQuestion {
                 ChordView(chord: chordQuestion.question)
                     .frame(maxHeight: .infinity)
-                    .background(.debug)
             }
 
             if let noteQuestion = viewModel.noteQuestion {
                 NoteView(note: noteQuestion.question)
                     .frame(maxHeight: .infinity)
-                    .background(.debug)
             }
 
-            Text(questionTitle)
-                .font(.title)
-                .background(.debug)
+            VStack(spacing: .small) {
+                Text(String(viewModel.currentPoints))
+                    .font(.body)
+                    .fontWeight(.bold)
+
+                Text(questionTitle)
+                    .font(.title)
+            }
 
             options
                 .frame(maxHeight: .infinity)
                 .padding(.horizontal, .medium)
-                .background(.debug)
         }
         .overlay(
             timer,
@@ -61,18 +65,26 @@ public struct GameScreen<ViewModel: GameViewModelType>: View {
             if let chordQuestion = viewModel.chordQuestion {
                 ForEach(chordQuestion.options) { option in
                     Button(option.value.title) {
-                        viewModel.userTapChordOption(option)
+                        Task {
+                            await viewModel.userTapChordOption(option)
+                        }
                     }
-                    .buttonStyle(.main)
+                    .buttonStyle(
+                        buttonStyle(chordOption: option, userAnswer: viewModel.userAnswer)
+                    )
                 }
             }
 
             if let noteQuestion = viewModel.noteQuestion {
                 ForEach(noteQuestion.options) { option in
                     Button(option.value.title) {
-                        viewModel.userTapNoteOption(option)
+                        Task {
+                            await viewModel.userTapNoteOption(option)
+                        }
                     }
-                    .buttonStyle(.main)
+                    .buttonStyle(
+                        buttonStyle(noteOption: option, userAnswer: viewModel.userAnswer)
+                    )
                 }
             }
         }
@@ -81,8 +93,29 @@ public struct GameScreen<ViewModel: GameViewModelType>: View {
     private var timer: some View {
         TimerView(viewModel: viewModel.timerViewModel)
             .padding(.medium)
-            .background(.debug)
     }
+
+    // swiftlint:disable function_default_parameter_at_end
+    private func buttonStyle(chordOption: ChordQuestion.Option? = nil,
+                             noteOption: NoteQuestion.Option? = nil,
+                             userAnswer: UserAnswer?) -> MainButtonStyle {
+        if let chordOption {
+            if let userChordOption = userAnswer?.chordOption,
+               chordOption.value == userChordOption.value {
+                return userChordOption.isAnswer ? .correctAnswer : .wrongAnswer
+            }
+        }
+
+        if let noteOption {
+            if let userNoteOption = userAnswer?.noteOption,
+               noteOption.value == userNoteOption.value {
+                return userNoteOption.isAnswer ? .correctAnswer : .wrongAnswer
+            }
+        }
+
+        return .main
+    }
+    // swiftlint:enable function_default_parameter_at_end
 }
 
 struct GameScreenPreviews: PreviewProvider {
@@ -95,18 +128,18 @@ struct GameScreenPreviews: PreviewProvider {
     private final class MockViewModel: GameViewModelType {
         var noteQuestion: NoteQuestion?
         var chordQuestion: ChordQuestion?
-        var timerViewModel = TimerViewModel()
+        var userAnswer: UserAnswer?
 
-        func getQuestion() {
-        }
+        var currentPoints = 5
+        var timerViewModel = TimerViewModel()
 
         func startTimer() {
         }
 
-        func userTapNoteOption(_ option: NoteQuestion.Option) {
+        func userTapNoteOption(_ option: NoteQuestion.Option) async {
         }
 
-        func userTapChordOption(_ option: ChordQuestion.Option) {
+        func userTapChordOption(_ option: ChordQuestion.Option) async {
         }
     }
 }
@@ -114,6 +147,5 @@ struct GameScreenPreviews: PreviewProvider {
 /* TODOs
  - C and F doesn't have a flat
  - Size is not correct so will overlap if not careful
- - Little line in the middle of the note if it's not part of the main bars in the staff
  */
 

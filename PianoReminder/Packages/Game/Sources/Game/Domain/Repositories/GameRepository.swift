@@ -13,6 +13,7 @@ public protocol GameRepositoryType: ObservableObject {
     func setupGameSession() async throws
     func getChordQuestion() -> ChordQuestion
     func getNoteQuestion() -> NoteQuestion
+    func increasePoints()
 }
 
 public final class GameRepository<Service: GameServiceType>: GameRepositoryType {
@@ -51,7 +52,11 @@ public final class GameRepository<Service: GameServiceType>: GameRepositoryType 
         return NoteQuestion(question: answerNote, options: options)
     }
 
-    func getNote(needToRemove: Bool) -> SingleNote {
+    public func increasePoints() {
+        points += 1
+    }
+
+    private func getNote(needToRemove: Bool) -> SingleNote {
         if quizNotes.isEmpty {
             quizNotes = usedNotes
             usedNotes.removeAll()
@@ -80,7 +85,7 @@ public final class GameRepository<Service: GameServiceType>: GameRepositoryType 
         }
     }
 
-    func getChord(needToRemove: Bool) -> Chord {
+    private func getChord(needToRemove: Bool) -> Chord {
         if quizChords.isEmpty {
             quizChords = usedChords
             usedChords.removeAll()

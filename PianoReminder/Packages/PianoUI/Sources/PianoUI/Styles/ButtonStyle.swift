@@ -12,4 +12,12 @@ extension ButtonStyle where Self == MainButtonStyle {
     public static var main: MainButtonStyle {
         MainButtonStyle(textColor: .white, backgroundColor: .blue)
     }
+
+    public static var correctAnswer: MainButtonStyle {
+        MainButtonStyle(textColor: .white, backgroundColor: .green)
+    }
+
+    public static var wrongAnswer: MainButtonStyle {
+        MainButtonStyle(textColor: .white, backgroundColor: .red)
+    }
 }
