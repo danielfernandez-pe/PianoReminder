@@ -32,22 +32,43 @@ public final class GameRepository<Service: GameServiceType>: GameRepositoryType 
     }
 
     public func setupGameSession() async throws {
+        usedChords.removeAll()
         quizNotes = try await gameService.fetchNotes()
         quizChords = try await gameService.fetchChords()
     }
 
     public func getChordQuestion() -> ChordQuestion {
-        let answerChord = getChord(needToRemove: true)
-        var options: [ChordQuestion.Option] = Array(1...3).map { _ in ChordQuestion.Option(value: getChord(needToRemove: false), isAnswer: false) }
-        options.append(.init(value: answerChord, isAnswer: true))
+        let answerChord = getChord()
+        var optionsIndices: Set<Chord> = [answerChord]
+
+        let totalOptions = quizChords + usedChords
+        while optionsIndices.count < 4 {
+            let randomIndex = Int.random(in: 0..<totalOptions.count)
+            optionsIndices.insert(totalOptions[randomIndex])
+        }
+
+        var options: [ChordQuestion.Option] = optionsIndices.map {
+            ChordQuestion.Option(value: $0, isAnswer: answerChord == $0)
+        }
+
         options.shuffle()
         return ChordQuestion(question: answerChord, options: options)
     }
 
     public func getNoteQuestion() -> NoteQuestion {
-        let answerNote = getNote(needToRemove: true)
-        var options: [NoteQuestion.Option] = Array(1...3).map { _ in NoteQuestion.Option(value: getNote(needToRemove: false), isAnswer: false) }
-        options.append(.init(value: answerNote, isAnswer: true))
+        let answerNote = getNote()
+        var optionsIndices: Set<SingleNote> = [answerNote]
+
+        let totalOptions = quizNotes + usedNotes
+        while optionsIndices.count < 4 {
+            let randomIndex = Int.random(in: 0..<totalOptions.count)
+            optionsIndices.insert(totalOptions[randomIndex])
+        }
+
+        var options: [NoteQuestion.Option] = optionsIndices.map {
+            NoteQuestion.Option(value: $0, isAnswer: answerNote == $0)
+        }
+
         options.shuffle()
         return NoteQuestion(question: answerNote, options: options)
     }
@@ -56,7 +77,7 @@ public final class GameRepository<Service: GameServiceType>: GameRepositoryType 
         points += 1
     }
 
-    private func getNote(needToRemove: Bool) -> SingleNote {
+    private func getNote() -> SingleNote {
         if quizNotes.isEmpty {
             quizNotes = usedNotes
             usedNotes.removeAll()
@@ -65,27 +86,18 @@ public final class GameRepository<Service: GameServiceType>: GameRepositoryType 
         let notesCount = quizNotes.count
 
         guard notesCount > 1 else {
-            if needToRemove {
-                let noteToUse = quizNotes.removeLast()
-                usedNotes.append(noteToUse)
-                return noteToUse
-            } else {
-                return quizNotes.first!
-            }
+            let noteToUse = quizNotes.removeLast()
+            usedNotes.append(noteToUse)
+            return noteToUse
         }
 
         let randomIndex = Int.random(in: 0..<notesCount)
-
-        if needToRemove {
-            let noteToUse = quizNotes.remove(at: randomIndex)
-            usedNotes.append(noteToUse)
-            return noteToUse
-        } else {
-            return quizNotes[randomIndex]
-        }
+        let noteToUse = quizNotes.remove(at: randomIndex)
+        usedNotes.append(noteToUse)
+        return noteToUse
     }
 
-    private func getChord(needToRemove: Bool) -> Chord {
+    private func getChord() -> Chord {
         if quizChords.isEmpty {
             quizChords = usedChords
             usedChords.removeAll()
@@ -94,23 +106,14 @@ public final class GameRepository<Service: GameServiceType>: GameRepositoryType 
         let chordsCount = quizChords.count
 
         guard chordsCount > 1 else {
-            if needToRemove {
-                let chordToUse = quizChords.removeLast()
-                usedChords.append(chordToUse)
-                return chordToUse
-            } else {
-                return quizChords.first!
-            }
+            let chordToUse = quizChords.removeLast()
+            usedChords.append(chordToUse)
+            return chordToUse
         }
 
         let randomIndex = Int.random(in: 0..<chordsCount)
-
-        if needToRemove {
-            let chordToUse = quizChords.remove(at: randomIndex)
-            usedChords.append(chordToUse)
-            return chordToUse
-        } else {
-            return quizChords[randomIndex]
-        }
+        let chordToUse = quizChords.remove(at: randomIndex)
+        usedChords.append(chordToUse)
+        return chordToUse
     }
 }
