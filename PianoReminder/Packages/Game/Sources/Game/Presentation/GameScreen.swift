@@ -72,7 +72,9 @@ public struct GameScreen<ViewModel: GameViewModelType>: View {
                     .buttonStyle(
                         buttonStyle(chordOption: option, userAnswer: viewModel.userAnswer)
                     )
-                    .bounce(shouldBounce(chordOption: option, userAnswer: viewModel.userAnswer))
+                    .if(shouldBounce(chordOption: option, userAnswer: viewModel.userAnswer)) {
+                        $0.bounce()
+                    }
                 }
             }
 
