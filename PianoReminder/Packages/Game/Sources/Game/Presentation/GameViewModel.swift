@@ -71,9 +71,10 @@ public final class GameViewModel: GameViewModelType {
 
         do {
             try await Task.sleep(nanoseconds: 2_000_000_000)
+            userAnswer = nil
             getQuestion()
         } catch {
-            getQuestion()
+            fatalError("this should never happen")
         }
     }
 
