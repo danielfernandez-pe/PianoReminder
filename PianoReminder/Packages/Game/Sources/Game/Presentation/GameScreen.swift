@@ -17,27 +17,10 @@ public struct GameScreen<ViewModel: GameViewModelType>: View {
         self.viewModel = viewModel
     }
 
-    var questionTitle: String {
-        if viewModel.chordQuestion != nil {
-            return "Which chord is?"
-        }
-
-        if viewModel.noteQuestion != nil {
-            return "Which note is?"
-        }
-
-        return "What will you choose?"
-    }
-
     public var body: some View {
         VStack(spacing: .medium) {
-            if let chordQuestion = viewModel.chordQuestion {
-                ChordView(chord: chordQuestion.question)
-                    .frame(maxHeight: .infinity)
-            }
-
-            if let noteQuestion = viewModel.noteQuestion {
-                NoteView(note: noteQuestion.question)
+            if let question = viewModel.question {
+                question.musicView
                     .frame(maxHeight: .infinity)
             }
 
@@ -46,7 +29,7 @@ public struct GameScreen<ViewModel: GameViewModelType>: View {
                     .font(.body)
                     .fontWeight(.bold)
 
-                Text(questionTitle)
+                Text(viewModel.title)
                     .font(.title)
             }
 
@@ -62,33 +45,17 @@ public struct GameScreen<ViewModel: GameViewModelType>: View {
 
     private var options: some View {
         VStack(spacing: .medium) {
-            if let chordQuestion = viewModel.chordQuestion {
-                ForEach(chordQuestion.options) { option in
-                    Button(option.value.title) {
+            if let question = viewModel.question {
+                ForEach(question.options) { option in
+                    Button(option.title) {
                         Task {
-                            await viewModel.userTapChordOption(option)
+                            await viewModel.userTapOption(option)
                         }
                     }
                     .buttonStyle(
-                        buttonStyle(chordOption: option, userAnswer: viewModel.userAnswer)
+                        buttonStyle(option: option, answer: viewModel.userAnswer)
                     )
-                    .if(shouldBounce(chordOption: option, userAnswer: viewModel.userAnswer)) {
-                        $0.bounce()
-                    }
-                }
-            }
-
-            if let noteQuestion = viewModel.noteQuestion {
-                ForEach(noteQuestion.options) { option in
-                    Button(option.value.title) {
-                        Task {
-                            await viewModel.userTapNoteOption(option)
-                        }
-                    }
-                    .buttonStyle(
-                        buttonStyle(noteOption: option, userAnswer: viewModel.userAnswer)
-                    )
-                    .if(shouldBounce(noteOption: option, userAnswer: viewModel.userAnswer)) {
+                    .if(shouldBounce(option: option, answer: viewModel.userAnswer)) {
                         $0.bounce()
                     }
                 }
@@ -101,47 +68,27 @@ public struct GameScreen<ViewModel: GameViewModelType>: View {
             .padding(.medium)
     }
 
-    // swiftlint:disable function_default_parameter_at_end
-    private func buttonStyle(chordOption: ChordQuestion.Option? = nil,
-                             noteOption: NoteQuestion.Option? = nil,
-                             userAnswer: UserAnswer?) -> MainButtonStyle {
-        if let chordOption {
-            if let userChordOption = userAnswer?.chordOption,
-               chordOption.value == userChordOption.value {
-                return userChordOption.isAnswer ? .correctAnswer : .wrongAnswer
-            }
-        }
-
-        if let noteOption {
-            if let userNoteOption = userAnswer?.noteOption,
-               noteOption.value == userNoteOption.value {
-                return userNoteOption.isAnswer ? .correctAnswer : .wrongAnswer
+    private func buttonStyle(option: UserOption,
+                             answer: UserOption?) -> MainButtonStyle {
+        if let answer {
+            if option == answer {
+                return option.isAnswer ? .correctAnswer : .wrongAnswer
             }
         }
 
         return .main
     }
 
-    private func shouldBounce(chordOption: ChordQuestion.Option? = nil,
-                              noteOption: NoteQuestion.Option? = nil,
-                              userAnswer: UserAnswer?) -> Bool {
-        if let chordOption {
-            if let userChordOption = userAnswer?.chordOption,
-               chordOption.value == userChordOption.value {
-                return userChordOption.isAnswer
-            }
-        }
-
-        if let noteOption {
-            if let userNoteOption = userAnswer?.noteOption,
-               noteOption.value == userNoteOption.value {
-                return userNoteOption.isAnswer
+    private func shouldBounce(option: UserOption,
+                              answer: UserOption?) -> Bool {
+        if let answer {
+            if option == answer {
+                return option.isAnswer
             }
         }
 
         return false
     }
-    // swiftlint:enable function_default_parameter_at_end
 }
 
 struct GameScreenPreviews: PreviewProvider {
@@ -152,9 +99,9 @@ struct GameScreenPreviews: PreviewProvider {
     }
 
     private final class MockViewModel: GameViewModelType {
-        var noteQuestion: NoteQuestion?
-        var chordQuestion: ChordQuestion?
-        var userAnswer: UserAnswer?
+        var title: String = "Which note will you choose?"
+        var question: Question?
+        var userAnswer: UserOption?
 
         var currentPoints = 5
         var timerViewModel = TimerViewModel()
@@ -162,10 +109,7 @@ struct GameScreenPreviews: PreviewProvider {
         func startTimer() {
         }
 
-        func userTapNoteOption(_ option: NoteQuestion.Option) async {
-        }
-
-        func userTapChordOption(_ option: ChordQuestion.Option) async {
+        func userTapOption(_ option: UserOption) async {
         }
     }
 }

@@ -11,8 +11,7 @@ public protocol GameRepositoryType: ObservableObject {
     var points: Int { get }
 
     func setupGameSession() async throws
-    func getChordQuestion() -> ChordQuestion
-    func getNoteQuestion() -> NoteQuestion
+    func getQuestion(gameType: GameType) -> Question
     func increasePoints()
 }
 
@@ -37,7 +36,18 @@ public final class GameRepository<Service: GameServiceType>: GameRepositoryType 
         quizChords = try await gameService.fetchChords()
     }
 
-    public func getChordQuestion() -> ChordQuestion {
+    public func getQuestion(gameType: GameType) -> Question {
+        switch gameType {
+        case .notes:
+            return getNoteQuestion().getQuestion()
+        case .chords:
+            return getChordQuestion().getQuestion()
+        case .notesAndChords:
+            fatalError("Not implemented yet")
+        }
+    }
+
+    private func getChordQuestion() -> ChordQuestion {
         let answerChord = getChord()
         var optionsIndices: Set<Chord> = [answerChord]
 
@@ -52,10 +62,10 @@ public final class GameRepository<Service: GameServiceType>: GameRepositoryType 
         }
 
         options.shuffle()
-        return ChordQuestion(question: answerChord, options: options)
+        return ChordQuestion(question: answerChord, chordOptions: options)
     }
 
-    public func getNoteQuestion() -> NoteQuestion {
+    private func getNoteQuestion() -> NoteQuestion {
         let answerNote = getNote()
         var optionsIndices: Set<SingleNote> = [answerNote]
 
@@ -70,7 +80,7 @@ public final class GameRepository<Service: GameServiceType>: GameRepositoryType 
         }
 
         options.shuffle()
-        return NoteQuestion(question: answerNote, options: options)
+        return NoteQuestion(question: answerNote, noteOptions: options)
     }
 
     public func increasePoints() {

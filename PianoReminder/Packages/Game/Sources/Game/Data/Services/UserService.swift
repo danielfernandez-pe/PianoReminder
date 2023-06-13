@@ -11,6 +11,6 @@ public final class UserService: UserServiceType {
     public init() {}
 
     public func getGameType() -> GameType {
-        .notes
+        .chords
     }
 }

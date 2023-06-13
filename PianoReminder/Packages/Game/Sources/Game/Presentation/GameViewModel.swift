@@ -8,14 +8,14 @@
 import Combine
 
 public protocol GameViewModelInputs {
-    func userTapNoteOption(_ option: NoteQuestion.Option) async
-    func userTapChordOption(_ option: ChordQuestion.Option) async
+    func userTapOption(_ option: UserOption) async
 }
 
 public protocol GameViewModelOutputs: ObservableObject {
-    var noteQuestion: NoteQuestion? { get }
-    var chordQuestion: ChordQuestion? { get }
-    var userAnswer: UserAnswer? { get }
+    var title: String { get }
+
+    var question: Question? { get }
+    var userAnswer: UserOption? { get }
 
     var currentPoints: Int { get }
     var timerViewModel: TimerViewModel { get }
@@ -24,9 +24,19 @@ public protocol GameViewModelOutputs: ObservableObject {
 public protocol GameViewModelType: GameViewModelInputs, GameViewModelOutputs {}
 
 public final class GameViewModel: GameViewModelType {
-    @Published public var noteQuestion: NoteQuestion?
-    @Published public var chordQuestion: ChordQuestion?
-    @Published public var userAnswer: UserAnswer?
+    public var title: String {
+        switch userSettingsRepository.getGameType() {
+        case .chords:
+            return "Which chord is?"
+        case .notes:
+            return "Which note is?"
+        case .notesAndChords:
+            return "What will you choose?"
+        }
+    }
+
+    @Published public var question: Question?
+    @Published public var userAnswer: UserOption?
 
     public var currentPoints: Int { gameRepository.points }
     public let timerViewModel: TimerViewModel = .init()
@@ -48,24 +58,14 @@ public final class GameViewModel: GameViewModelType {
     }
 
     @MainActor
-    public func userTapNoteOption(_ option: NoteQuestion.Option) async {
-        guard let noteQuestion else { return }
-        let isCorrect = option.value == noteQuestion.question
-        userAnswer = UserAnswer(noteOption: option, chordOption: nil, isCorrect: isCorrect)
-        await continueAfterUserTap()
-    }
-
-    @MainActor
-    public func userTapChordOption(_ option: ChordQuestion.Option) async {
-        guard let chordQuestion else { return }
-        let isCorrect = option.value == chordQuestion.question
-        userAnswer = UserAnswer(noteOption: nil, chordOption: option, isCorrect: isCorrect)
+    public func userTapOption(_ option: UserOption) async {
+        userAnswer = UserOption(title: option.title, isAnswer: option.isAnswer)
         await continueAfterUserTap()
     }
 
     @MainActor
     private func continueAfterUserTap() async {
-        if userAnswer?.isCorrect == true {
+        if userAnswer?.isAnswer == true {
             gameRepository.increasePoints()
         }
 
@@ -79,14 +79,7 @@ public final class GameViewModel: GameViewModelType {
     }
 
     private func getQuestion() {
-        switch userSettingsRepository.getGameType() {
-        case .notes:
-            noteQuestion = gameRepository.getNoteQuestion()
-        case .chords:
-            chordQuestion = gameRepository.getChordQuestion()
-        case .notesAndChords:
-            break // wtf?
-        }
+        question = gameRepository.getQuestion(gameType: userSettingsRepository.getGameType())
     }
 
     private func setupTimer() {
