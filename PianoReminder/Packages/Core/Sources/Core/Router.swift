@@ -12,7 +12,7 @@ open class Router<Path: Hashable> {
 
     public init() {}
 
-    public func push(_ path: Path) {
+    open func push(_ path: Path) {
         paths.append(path)
     }
 

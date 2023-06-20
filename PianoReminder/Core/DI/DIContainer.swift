@@ -7,19 +7,13 @@
 
 import Foundation
 import Game
-
-protocol DICProtocol {
-    func register<Service>(type: Service.Type, service: Any)
-    func resolve<Service>(type: Service.Type) -> Service
-}
+import DependencyInjection
 
 final class DIContainer: DICProtocol {
     static let shared = DIContainer()
 
     private init() {
-        registerServices()
-        registerDatabase()
-        registerRepositories()
+        registerModules()
         registerRouters()
     }
 
@@ -37,28 +31,11 @@ final class DIContainer: DICProtocol {
         return service
     }
 
-    private func registerServices() {
-        register(type: GameServiceType.self, service: GameService())
-        register(type: UserServiceType.self, service: UserService())
-    }
-
-    private func registerDatabase() {
-    }
-
     private func registerRouters() {
         register(type: HomeRouter.self, service: HomeRouter())
     }
 
-    private func registerRepositories() {
-        guard let gameService: GameService = resolve(type: GameServiceType.self) as? GameService else {
-            fatalError("GameService registered with error")
-        }
-
-        guard let userService: UserService = resolve(type: UserServiceType.self) as? UserService else {
-            fatalError("UserService registered with error")
-        }
-
-        register(type: (any GameRepositoryType).self, service: GameRepository<GameService>(gameService: gameService))
-        register(type: (any UserSettingsRepositoryType).self, service: UserSettingsRepository<UserService>(userService: userService))
+    private func registerModules() {
+        GameDI.register(container: self)
     }
 }

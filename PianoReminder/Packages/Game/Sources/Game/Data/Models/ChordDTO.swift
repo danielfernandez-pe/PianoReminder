@@ -12,7 +12,7 @@ protocol DTO: Decodable {
     func toModel() -> Model
 }
 
-public struct ChordDTO: DTO {
+struct ChordDTO: DTO {
     typealias Model = Chord
 
     let notes: [ComposedNote]

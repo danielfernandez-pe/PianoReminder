@@ -7,10 +7,10 @@
 
 import Foundation
 
-public final class GameService: GameServiceType {
-    public init() {}
+final class GameService: GameServiceType {
+    init() {}
 
-    public func fetchNotes() async throws -> [SingleNoteDTO] {
+    func fetchNotes() async throws -> [SingleNoteDTO] {
         [
             .init(value: .c, type: .natural, octave: .middleC, clef: .treble, title: "C"),
             .init(value: .g, type: .flat, octave: .oct1, clef: .bass, title: "G flat"),
@@ -25,7 +25,7 @@ public final class GameService: GameServiceType {
         ]
     }
 
-    public func fetchChords() async throws -> [ChordDTO] {
+    func fetchChords() async throws -> [ChordDTO] {
         [
             InMemoryChords.cMajor,
             InMemoryChords.fMajor,
@@ -36,7 +36,7 @@ public final class GameService: GameServiceType {
     }
 }
 
-public enum InMemoryChords {
+enum InMemoryChords {
     static let cMajor: ChordDTO = .init(
         notes: [
             .init(value: .c, type: .natural, octave: .middleC),

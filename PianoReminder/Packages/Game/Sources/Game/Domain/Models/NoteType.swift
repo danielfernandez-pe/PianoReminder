@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum NoteType: Decodable {
+enum NoteType: Decodable {
     case natural
     case flat
     case sharp

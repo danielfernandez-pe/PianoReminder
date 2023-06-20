@@ -7,9 +7,7 @@
 
 import Foundation
 
-public final class GameRepository<Service: GameServiceType>: GameRepositoryType {
-    @Published public var points = 0
-
+final class GameRepository<Service: GameServiceType>: GameRepositoryType {
     private var quizNotes: [SingleNoteDTO] = []
     private var quizChords: [ChordDTO] = []
 
@@ -18,25 +16,25 @@ public final class GameRepository<Service: GameServiceType>: GameRepositoryType 
 
     private let gameService: Service
 
-    public init(gameService: Service) {
+    init(gameService: Service) {
         self.gameService = gameService
     }
 
-    public func setupGameSession() async throws {
+    func setupGameSession() async throws {
         usedChords.removeAll()
         quizNotes = try await gameService.fetchNotes()
         quizChords = try await gameService.fetchChords()
     }
 
-    public func noteOptions() -> [SingleNote] {
+    func noteOptions() -> [SingleNote] {
         quizNotes.map { $0.toModel() } + usedNotes.map { $0.toModel() }
     }
 
-    public func chordOptions() -> [Chord] {
+    func chordOptions() -> [Chord] {
         quizChords.map { $0.toModel() } + usedChords.map { $0.toModel() }
     }
 
-    public func getNote() -> SingleNote {
+    func getNote() -> SingleNote {
         if quizNotes.isEmpty {
             quizNotes = usedNotes
             usedNotes.removeAll()
@@ -56,7 +54,7 @@ public final class GameRepository<Service: GameServiceType>: GameRepositoryType 
         return noteToUse.toModel()
     }
 
-    public func getChord() -> Chord {
+    func getChord() -> Chord {
         if quizChords.isEmpty {
             quizChords = usedChords
             usedChords.removeAll()

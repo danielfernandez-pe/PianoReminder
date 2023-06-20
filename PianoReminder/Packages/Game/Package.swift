@@ -10,25 +10,34 @@ let package = Package(
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
             name: "Game",
-            targets: ["Game"])
+            targets: ["Game"]),
+        .library(
+            name: "GameAPI",
+            targets: ["GameAPI"]
+        )
     ],
     dependencies: [
         .package(path: "../UI"),
         .package(path: "../PianoUI"),
-        .package(path: "../Core")
-        // Dependencies declare other packages that this package depends on.
-        // .package(url: /* package url */, from: "1.0.0"),
+        .package(path: "../Core"),
+        .package(path: "../DependencyInjection")
     ],
     targets: [
-        // Targets are the basic building blocks of a package. A target can define a module or a test suite.
-        // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "Game",
             dependencies: [
                 .product(name: "UI", package: "UI"),
                 .product(name: "PianoUI", package: "PianoUI"),
-                .product(name: "Core", package: "Core")
-            ]),
+                .product(name: "Core", package: "Core"),
+                .product(name: "DependencyInjection", package: "DependencyInjection"),
+                .target(name: "GameAPI")
+            ],
+            path: "Sources"),
+        .target(
+            name: "GameAPI",
+            dependencies: [
+            ],
+            path: "SourcesAPI"),
         .testTarget(
             name: "GameTests",
             dependencies: ["Game"])

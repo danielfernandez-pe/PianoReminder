@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum Octave: Decodable {
+enum Octave: Decodable {
     case oct1
     case oct2
     case oct3

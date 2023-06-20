@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct SingleNoteDTO: DTO {
+struct SingleNoteDTO: DTO {
     typealias Model = SingleNote
 
     let value: Note

@@ -7,12 +7,12 @@
 
 import Foundation
 
-public enum GameType {
+enum GameType {
     case notes
     case chords
     case notesAndChords
 }
 
-public protocol UserServiceType {
+protocol UserServiceType {
     func getGameType() -> GameType
 }

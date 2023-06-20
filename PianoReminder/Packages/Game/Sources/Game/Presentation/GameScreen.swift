@@ -9,15 +9,15 @@ import SwiftUI
 import PianoUI
 import UI
 
-public struct GameScreen<ViewModel: GameViewModelType>: View {
+struct GameScreen<ViewModel: GameViewModelType>: View {
     @ObservedObject var viewModel: ViewModel
     @State private var backgroundColor: Color = .white
 
-    public init(viewModel: ViewModel) {
+    init(viewModel: ViewModel) {
         self.viewModel = viewModel
     }
 
-    public var body: some View {
+    var body: some View {
         VStack(spacing: .medium) {
             if let question = viewModel.question {
                 question.musicView
@@ -41,6 +41,9 @@ public struct GameScreen<ViewModel: GameViewModelType>: View {
             timer,
             alignment: .topTrailing
         )
+        .onAppear {
+            viewModel.getQuestion()
+        }
     }
 
     private var options: some View {
@@ -107,6 +110,9 @@ struct GameScreenPreviews: PreviewProvider {
         var timerViewModel = TimerViewModel()
 
         func startTimer() {
+        }
+
+        func getQuestion() {
         }
 
         func userTapOption(_ option: UserOption) async {

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol GameRepositoryType: ObservableObject {
+protocol GameRepositoryType: ObservableObject {
     func setupGameSession() async throws
 
     func getNote() -> SingleNote

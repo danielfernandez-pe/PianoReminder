@@ -1,13 +1,14 @@
 //
-//  File.swift
+//  SetupGameSessionUseCase.swift
 //  
 //
 //  Created by Daniel Yopla on 20.06.2023.
 //
 
 import Foundation
+import GameAPI
 
-struct SetupGameSessionUseCase {
+struct SetupGameSessionUseCase: SetupGameSessionUseCaseType {
     private let gameRepository: any GameRepositoryType
 
     init(gameRepository: any GameRepositoryType) {

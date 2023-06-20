@@ -7,8 +7,8 @@
 
 import Foundation
 
-public struct UserOption: Identifiable, Equatable {
-    public var id: String { title }
+struct UserOption: Identifiable, Equatable {
+    var id: String { title }
 
     let title: String
     let isAnswer: Bool

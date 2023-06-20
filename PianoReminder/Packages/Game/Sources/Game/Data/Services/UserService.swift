@@ -7,10 +7,8 @@
 
 import Foundation
 
-public final class UserService: UserServiceType {
-    public init() {}
-
-    public func getGameType() -> GameType {
+final class UserService: UserServiceType {
+    func getGameType() -> GameType {
         .chords
     }
 }

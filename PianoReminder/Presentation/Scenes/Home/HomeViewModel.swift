@@ -6,7 +6,7 @@
 //
 
 import Combine
-import Game
+import GameAPI
 
 protocol HomeViewModelInputs {
     func setupGame() async
@@ -25,18 +25,18 @@ final class HomeViewModel: HomeViewModelType {
 
     @Published var uiError: UIError?
 
-    private let gameRepository: any GameRepositoryType
+    private let setupGameSessionUseCase: any SetupGameSessionUseCaseType
     private let router: HomeRouter
 
-    init(gameRepository: any GameRepositoryType, router: HomeRouter) {
-        self.gameRepository = gameRepository
+    init(setupGameSessionUseCase: any SetupGameSessionUseCaseType, router: HomeRouter) {
+        self.setupGameSessionUseCase = setupGameSessionUseCase
         self.router = router
     }
 
     @MainActor
     func setupGame() async {
         do {
-            try await gameRepository.setupGameSession()
+            try await setupGameSessionUseCase.setupGameSession()
             router.push(.game)
         } catch {
             uiError = .gameStart

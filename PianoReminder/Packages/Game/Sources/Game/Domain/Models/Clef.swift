@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum Clef: String, Decodable {
+enum Clef: String, Decodable {
     case treble
     case bass
 

@@ -5,16 +5,22 @@
 //  Created by Daniel Yopla on 19.05.2023.
 //
 
-import Combine
 import Core
 import SwiftUI
+import DependencyInjection
 
-final class GameRouter: Router<GameRouter.Path>, ObservableObject {
-    enum Path {
+public final class GameRouter: Router<GameRouter.Path> {
+    public enum Path {
         case overview
+    }
 
-        var screen: some View {
-            return fatalError("Not yet")
-        }
+    private let container: any DICProtocol
+
+    public init(container: any DICProtocol) {
+        self.container = container
+    }
+
+    public func start() -> some View {
+        container.resolve(type: GameScreen<GameViewModel>.self)
     }
 }

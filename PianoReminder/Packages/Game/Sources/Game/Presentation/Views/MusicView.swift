@@ -8,19 +8,15 @@
 import SwiftUI
 
 // Just a wrapper to use it in Question protocol to render the view without knowing it's domain data
-public struct MusicView: View {
-    public enum MusicType {
+struct MusicView: View {
+    enum MusicType {
         case chord(Chord)
         case note(SingleNote)
     }
 
-    private let type: MusicType
+    let type: MusicType
 
-    public init(type: MusicType) {
-        self.type = type
-    }
-
-    public var body: some View {
+    var body: some View {
         switch type {
         case .chord(let chord):
             ChordView(chord: chord)

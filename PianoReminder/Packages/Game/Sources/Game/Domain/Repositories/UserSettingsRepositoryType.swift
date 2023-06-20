@@ -7,6 +7,6 @@
 
 import Combine
 
-public protocol UserSettingsRepositoryType: ObservableObject {
+protocol UserSettingsRepositoryType: ObservableObject {
     func getGameType() -> GameType
 }

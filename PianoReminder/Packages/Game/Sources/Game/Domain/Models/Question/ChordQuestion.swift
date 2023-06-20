@@ -7,12 +7,12 @@
 
 import SwiftUI
 
-public struct ChordQuestion {
+struct ChordQuestion {
     let question: Chord
     let chordOptions: [Option]
 
-    public struct Option: Identifiable, Hashable {
-        public let id = UUID().uuidString
+    struct Option: Identifiable, Hashable {
+        let id = UUID().uuidString
         let value: Chord
         let isAnswer: Bool
     }

@@ -8,6 +8,7 @@
 import SwiftUI
 import UI
 import PianoUI
+import Game
 
 struct HomeScreen<ViewModel: HomeViewModelType>: View {
     @ObservedObject var viewModel: ViewModel
@@ -20,8 +21,16 @@ struct HomeScreen<ViewModel: HomeViewModelType>: View {
             .buttonStyle(.main)
         }
         .navigationDestination(for: HomeRouter.Path.self) { path in
-            path.screen
+            switch path {
+            case .game:
+                gameScreen()
+            }
         }
+    }
+
+    private func gameScreen() -> some View {
+        let gameRouter = GameRouter(container: DIContainer.shared)
+        return gameRouter.start()
     }
 }
 

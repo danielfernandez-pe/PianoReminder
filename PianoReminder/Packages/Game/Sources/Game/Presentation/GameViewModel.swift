@@ -7,11 +7,12 @@
 
 import Combine
 
-public protocol GameViewModelInputs {
+protocol GameViewModelInputs {
     func userTapOption(_ option: UserOption) async
+    func getQuestion()
 }
 
-public protocol GameViewModelOutputs: ObservableObject {
+protocol GameViewModelOutputs: ObservableObject {
     var title: String { get }
 
     var question: Question? { get }
@@ -21,10 +22,10 @@ public protocol GameViewModelOutputs: ObservableObject {
     var timerViewModel: TimerViewModel { get }
 }
 
-public protocol GameViewModelType: GameViewModelInputs, GameViewModelOutputs {}
+protocol GameViewModelType: GameViewModelInputs, GameViewModelOutputs {}
 
-public final class GameViewModel: GameViewModelType {
-    public var title: String {
+final class GameViewModel: GameViewModelType {
+    var title: String {
         switch getGameTypeUseCase.getGameType() {
         case .chords:
             return "Which chord is?"
@@ -35,11 +36,11 @@ public final class GameViewModel: GameViewModelType {
         }
     }
 
-    @Published public var question: Question?
-    @Published public var userAnswer: UserOption?
-    @Published public var currentPoints: Int = 0
+    @Published var question: Question?
+    @Published var userAnswer: UserOption?
+    @Published var currentPoints: Int = 0
 
-    public let timerViewModel: TimerViewModel = .init()
+    let timerViewModel: TimerViewModel = .init()
 
     // MARK: - Dependencies
 
@@ -51,19 +52,31 @@ public final class GameViewModel: GameViewModelType {
 
     private var cancellables = Set<AnyCancellable>()
 
-    public init(gameRepository: any GameRepositoryType, userSettingsRepository: any UserSettingsRepositoryType) {
-        getNoteQuestionUseCase = GetNoteQuestionUseCase(gameRepository: gameRepository)
-        getChordQuestionUseCase = GetChordQuestionUseCase(gameRepository: gameRepository)
-        getGameTypeUseCase = GetGameTypeUseCase(userSettingsRepository: userSettingsRepository)
+    init(getNoteQuestionUseCase: GetNoteQuestionUseCase, getChordQuestionUseCase: GetChordQuestionUseCase, getGameTypeUseCase: GetGameTypeUseCase) {
+        self.getNoteQuestionUseCase = getNoteQuestionUseCase
+        self.getChordQuestionUseCase = getChordQuestionUseCase
+        self.getGameTypeUseCase = getGameTypeUseCase
 
         setupTimer()
-        getQuestion()
     }
 
     @MainActor
-    public func userTapOption(_ option: UserOption) async {
+    func userTapOption(_ option: UserOption) async {
         userAnswer = UserOption(title: option.title, isAnswer: option.isAnswer)
         await continueAfterUserTap()
+    }
+
+    func getQuestion() {
+        switch getGameTypeUseCase.getGameType() {
+        case .notes:
+            let noteQuestion = getNoteQuestionUseCase.getNoteQuestion()
+            question = QuestionMapper.question(noteQuestion: noteQuestion)
+        case .chords:
+            let chordQuestion = getChordQuestionUseCase.getChordQuestion()
+            question = QuestionMapper.question(chordQuestion: chordQuestion)
+        case .notesAndChords:
+            fatalError("Implement some random mechanism")
+        }
     }
 
     @MainActor
@@ -78,19 +91,6 @@ public final class GameViewModel: GameViewModelType {
             getQuestion()
         } catch {
             fatalError("this should never happen")
-        }
-    }
-
-    private func getQuestion() {
-        switch getGameTypeUseCase.getGameType() {
-        case .notes:
-            let noteQuestion = getNoteQuestionUseCase.getNoteQuestion()
-            question = QuestionMapper.question(noteQuestion: noteQuestion)
-        case .chords:
-            let chordQuestion = getChordQuestionUseCase.getChordQuestion()
-            question = QuestionMapper.question(chordQuestion: chordQuestion)
-        case .notesAndChords:
-            fatalError("Implement some random mechanism")
         }
     }
 

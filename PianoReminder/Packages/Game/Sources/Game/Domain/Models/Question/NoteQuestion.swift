@@ -7,12 +7,12 @@
 
 import SwiftUI
 
-public struct NoteQuestion {
+struct NoteQuestion {
     let question: SingleNote
     let noteOptions: [Option]
 
-    public struct Option: Identifiable, Hashable {
-        public let id = UUID().uuidString
+    struct Option: Identifiable, Hashable {
+        let id = UUID().uuidString
         let value: SingleNote
         let isAnswer: Bool
     }

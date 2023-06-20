@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import Game
+import GameAPI
 
 @main
 struct PianoReminderApp: App {
@@ -27,7 +27,7 @@ struct InitialScreen: View {
         NavigationStack(path: $homeRouter.paths) {
             HomeScreen<HomeViewModel>(
                 viewModel: .init(
-                    gameRepository: DIContainer.shared.resolve(type: (any GameRepositoryType).self),
+                    setupGameSessionUseCase: DIContainer.shared.resolve(type: (any SetupGameSessionUseCaseType).self),
                     router: homeRouter
                 )
             )

@@ -7,12 +7,7 @@
 
 import SwiftUI
 
-public struct Question {
+struct Question {
     var options: [UserOption]
     var musicView: MusicView
-
-    public init(options: [UserOption], musicView: MusicView) {
-        self.options = options
-        self.musicView = musicView
-    }
 }

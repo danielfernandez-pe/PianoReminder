@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-public final class TimerViewModel: ObservableObject {
+final class TimerViewModel: ObservableObject {
     let timer = Timer.publish(every: 1, on: .main, in: .common)
         .autoconnect()
     let timerFinished = PassthroughSubject<Void, Never>()

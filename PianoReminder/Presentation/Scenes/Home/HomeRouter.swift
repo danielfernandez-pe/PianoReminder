@@ -6,24 +6,12 @@
 //
 
 import Combine
+import SwiftUI
 import Core
 import Game
-import SwiftUI
 
 final class HomeRouter: Router<HomeRouter.Path>, ObservableObject {
     enum Path {
         case game
-
-        var screen: some View {
-            switch self {
-            case .game:
-                return GameScreen<GameViewModel>(
-                    viewModel: GameViewModel(
-                        gameRepository: DIContainer.shared.resolve(type: (any GameRepositoryType).self),
-                        userSettingsRepository: DIContainer.shared.resolve(type: (any UserSettingsRepositoryType).self)
-                    )
-                )
-            }
-        }
     }
 }
