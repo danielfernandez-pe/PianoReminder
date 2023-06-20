@@ -10,7 +10,7 @@ import Foundation
 public final class GameService: GameServiceType {
     public init() {}
 
-    public func fetchNotes() async throws -> [SingleNote] {
+    public func fetchNotes() async throws -> [SingleNoteDTO] {
         [
             .init(value: .c, type: .natural, octave: .middleC, clef: .treble, title: "C"),
             .init(value: .g, type: .flat, octave: .oct1, clef: .bass, title: "G flat"),
@@ -25,7 +25,7 @@ public final class GameService: GameServiceType {
         ]
     }
 
-    public func fetchChords() async throws -> [Chord] {
+    public func fetchChords() async throws -> [ChordDTO] {
         [
             InMemoryChords.cMajor,
             InMemoryChords.fMajor,
@@ -37,7 +37,7 @@ public final class GameService: GameServiceType {
 }
 
 public enum InMemoryChords {
-    static let cMajor: Chord = .init(
+    static let cMajor: ChordDTO = .init(
         notes: [
             .init(value: .c, type: .natural, octave: .middleC),
             .init(value: .e, type: .natural, octave: .middleC),
@@ -47,7 +47,7 @@ public enum InMemoryChords {
         title: "C Major"
     )
 
-    static let fMajor: Chord = .init(
+    static let fMajor: ChordDTO = .init(
         notes: [
             .init(value: .f, type: .natural, octave: .middleC),
             .init(value: .a, type: .natural, octave: .middleC),
@@ -57,7 +57,7 @@ public enum InMemoryChords {
         title: "F Major"
     )
 
-    static let dMinor: Chord = .init(
+    static let dMinor: ChordDTO = .init(
         notes: [
             .init(value: .d, type: .natural, octave: .middleC),
             .init(value: .f, type: .natural, octave: .middleC),
@@ -67,7 +67,7 @@ public enum InMemoryChords {
         title: "D Minor"
     )
 
-    static let dMajor: Chord = .init(
+    static let dMajor: ChordDTO = .init(
         notes: [
             .init(value: .d, type: .natural, octave: .middleC),
             .init(value: .f, type: .sharp, octave: .middleC),
@@ -77,7 +77,7 @@ public enum InMemoryChords {
         title: "D Major"
     )
 
-    static let gMajor: Chord = .init(
+    static let gMajor: ChordDTO = .init(
         notes: [
             .init(value: .g, type: .natural, octave: .middleC),
             .init(value: .b, type: .natural, octave: .middleC),

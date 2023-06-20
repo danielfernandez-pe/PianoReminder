@@ -8,6 +8,6 @@
 import Foundation
 
 public protocol GameServiceType {
-    func fetchNotes() async throws -> [SingleNote]
-    func fetchChords() async throws -> [Chord]
+    func fetchNotes() async throws -> [SingleNoteDTO]
+    func fetchChords() async throws -> [ChordDTO]
 }

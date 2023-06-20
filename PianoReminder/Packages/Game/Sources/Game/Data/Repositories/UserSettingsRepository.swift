@@ -2,14 +2,10 @@
 //  UserSettingsRepository.swift
 //  
 //
-//  Created by Daniel Yopla on 20.05.2023.
+//  Created by Daniel Yopla on 15.06.2023.
 //
 
-import Combine
-
-public protocol UserSettingsRepositoryType: ObservableObject {
-    func getGameType() -> GameType
-}
+import Foundation
 
 public final class UserSettingsRepository<Service: UserServiceType>: UserSettingsRepositoryType {
     private let userService: Service

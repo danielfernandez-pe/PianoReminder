@@ -16,8 +16,4 @@ public struct NoteQuestion {
         let value: SingleNote
         let isAnswer: Bool
     }
-
-    func getQuestion() -> Question {
-        Question(options: noteOptions.map { .init(title: $0.value.title, isAnswer: $0.isAnswer) }, musicView: MusicView(type: .note(question)))
-    }
 }

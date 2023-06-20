@@ -25,7 +25,7 @@ public protocol GameViewModelType: GameViewModelInputs, GameViewModelOutputs {}
 
 public final class GameViewModel: GameViewModelType {
     public var title: String {
-        switch userSettingsRepository.getGameType() {
+        switch getGameTypeUseCase.getGameType() {
         case .chords:
             return "Which chord is?"
         case .notes:
@@ -37,22 +37,25 @@ public final class GameViewModel: GameViewModelType {
 
     @Published public var question: Question?
     @Published public var userAnswer: UserOption?
+    @Published public var currentPoints: Int = 0
 
-    public var currentPoints: Int { gameRepository.points }
     public let timerViewModel: TimerViewModel = .init()
 
     // MARK: - Dependencies
 
-    private let gameRepository: any GameRepositoryType
-    private let userSettingsRepository: any UserSettingsRepositoryType
+    private let getNoteQuestionUseCase: GetNoteQuestionUseCase
+    private let getChordQuestionUseCase: GetChordQuestionUseCase
+    private let getGameTypeUseCase: GetGameTypeUseCase
 
     // MARK: - Properties
 
     private var cancellables = Set<AnyCancellable>()
 
     public init(gameRepository: any GameRepositoryType, userSettingsRepository: any UserSettingsRepositoryType) {
-        self.gameRepository = gameRepository
-        self.userSettingsRepository = userSettingsRepository
+        getNoteQuestionUseCase = GetNoteQuestionUseCase(gameRepository: gameRepository)
+        getChordQuestionUseCase = GetChordQuestionUseCase(gameRepository: gameRepository)
+        getGameTypeUseCase = GetGameTypeUseCase(userSettingsRepository: userSettingsRepository)
+
         setupTimer()
         getQuestion()
     }
@@ -66,7 +69,7 @@ public final class GameViewModel: GameViewModelType {
     @MainActor
     private func continueAfterUserTap() async {
         if userAnswer?.isAnswer == true {
-            gameRepository.increasePoints()
+            currentPoints += 1
         }
 
         do {
@@ -79,7 +82,16 @@ public final class GameViewModel: GameViewModelType {
     }
 
     private func getQuestion() {
-        question = gameRepository.getQuestion(gameType: userSettingsRepository.getGameType())
+        switch getGameTypeUseCase.getGameType() {
+        case .notes:
+            let noteQuestion = getNoteQuestionUseCase.getNoteQuestion()
+            question = QuestionMapper.question(noteQuestion: noteQuestion)
+        case .chords:
+            let chordQuestion = getChordQuestionUseCase.getChordQuestion()
+            question = QuestionMapper.question(chordQuestion: chordQuestion)
+        case .notesAndChords:
+            fatalError("Implement some random mechanism")
+        }
     }
 
     private func setupTimer() {

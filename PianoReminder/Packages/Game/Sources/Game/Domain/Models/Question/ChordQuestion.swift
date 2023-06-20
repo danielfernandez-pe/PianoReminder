@@ -16,8 +16,4 @@ public struct ChordQuestion {
         let value: Chord
         let isAnswer: Bool
     }
-
-    func getQuestion() -> Question {
-        Question(options: chordOptions.map { .init(title: $0.value.title, isAnswer: $0.isAnswer) }, musicView: MusicView(type: .chord(question)))
-    }
 }

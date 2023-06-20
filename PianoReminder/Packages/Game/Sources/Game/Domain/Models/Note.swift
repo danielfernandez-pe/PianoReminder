@@ -8,7 +8,7 @@
 import Foundation
 
 // swiftlint:disable identifier_name
-public enum Note: Hashable {
+public enum Note: Hashable, Decodable {
     case c
     case d
     case e
@@ -19,14 +19,14 @@ public enum Note: Hashable {
 }
 // swiftlint:enable identifier_name
 
-public struct ComposedNote: Hashable {
+public struct ComposedNote: Hashable, Decodable {
     let value: Note
     let type: NoteType
     let octave: Octave
 }
 
 // Structure for rendering one note in the Bar
-public struct SingleNote: Hashable {
+public struct SingleNote: Hashable, Decodable {
     let value: Note
     let type: NoteType
     let octave: Octave
@@ -35,7 +35,7 @@ public struct SingleNote: Hashable {
 }
 
 // Structure for rendering one chord in the Bar
-public struct Chord: Hashable {
+public struct Chord: Hashable, Decodable {
     let notes: [ComposedNote]
     let clef: Clef
     let title: String
