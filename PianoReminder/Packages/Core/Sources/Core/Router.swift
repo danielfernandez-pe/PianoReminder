@@ -7,7 +7,7 @@
 
 import Foundation
 
-open class Router<Path: Hashable> {
+open class Router<Path: Hashable>: ObservableObject {
     @Published public var paths: [Path] = []
 
     public init() {}
@@ -17,6 +17,7 @@ open class Router<Path: Hashable> {
     }
 
     public func pop() {
+        guard paths.count > 1 else { return }
         paths.removeLast()
     }
 
@@ -27,6 +28,7 @@ open class Router<Path: Hashable> {
     }
 
     public func popToRoot() {
-        paths.removeAll()
+        guard !paths.isEmpty, let first = paths.first else { return }
+        paths = [first]
     }
 }

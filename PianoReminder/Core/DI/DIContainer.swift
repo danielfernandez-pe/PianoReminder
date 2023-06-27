@@ -31,11 +31,11 @@ final class DIContainer: DICProtocol {
         return service
     }
 
-    private func registerRouters() {
-        register(type: HomeRouter.self, service: HomeRouter())
-    }
-
     private func registerModules() {
         GameDI.register(container: self)
+    }
+
+    private func registerRouters() {
+        register(type: HomeRouter.self, service: HomeRouter(container: self))
     }
 }

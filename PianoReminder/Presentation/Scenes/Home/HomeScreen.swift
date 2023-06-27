@@ -12,25 +12,19 @@ import Game
 
 struct HomeScreen<ViewModel: HomeViewModelType>: View {
     @ObservedObject var viewModel: ViewModel
+    @State private var isGamePresented = false
 
     var body: some View {
         VStack {
             AsyncButton("Start game") {
                 await viewModel.setupGame()
+                isGamePresented = true
             }
             .buttonStyle(.main)
         }
-        .navigationDestination(for: HomeRouter.Path.self) { path in
-            switch path {
-            case .game:
-                gameScreen()
-            }
+        .fullScreenCover(isPresented: $isGamePresented) {
+            viewModel.gameStartScreen()
         }
-    }
-
-    private func gameScreen() -> some View {
-        let gameRouter = GameRouter(container: DIContainer.shared)
-        return gameRouter.start()
     }
 }
 
@@ -43,6 +37,10 @@ struct HomeScreenPreviews: PreviewProvider {
         var uiError: HomeViewModel.UIError?
 
         func setupGame() {
+        }
+
+        func gameStartScreen() -> some View {
+            EmptyView()
         }
     }
 }

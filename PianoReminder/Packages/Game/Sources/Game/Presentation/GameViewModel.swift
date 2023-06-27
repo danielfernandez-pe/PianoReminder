@@ -6,6 +6,7 @@
 //
 
 import Combine
+import SwiftUI
 
 protocol GameViewModelInputs {
     func userTapOption(_ option: UserOption) async
@@ -13,6 +14,8 @@ protocol GameViewModelInputs {
 }
 
 protocol GameViewModelOutputs: ObservableObject {
+    associatedtype Content: View
+
     var title: String { get }
 
     var question: Question? { get }
@@ -20,6 +23,9 @@ protocol GameViewModelOutputs: ObservableObject {
 
     var currentPoints: Int { get }
     var timerViewModel: TimerViewModel { get }
+    var paths: [GameRouter.Path] { get set }
+
+    func currentScreen() -> Content
 }
 
 protocol GameViewModelType: GameViewModelInputs, GameViewModelOutputs {}
@@ -42,20 +48,30 @@ final class GameViewModel: GameViewModelType {
 
     let timerViewModel: TimerViewModel = .init()
 
+    var paths: [GameRouter.Path] {
+        get { router.paths }
+        set { router.paths = newValue }
+    }
+
     // MARK: - Dependencies
 
     private let getNoteQuestionUseCase: GetNoteQuestionUseCase
     private let getChordQuestionUseCase: GetChordQuestionUseCase
     private let getGameTypeUseCase: GetGameTypeUseCase
+    private let router: GameRouter
 
     // MARK: - Properties
 
     private var cancellables = Set<AnyCancellable>()
 
-    init(getNoteQuestionUseCase: GetNoteQuestionUseCase, getChordQuestionUseCase: GetChordQuestionUseCase, getGameTypeUseCase: GetGameTypeUseCase) {
+    init(getNoteQuestionUseCase: GetNoteQuestionUseCase,
+         getChordQuestionUseCase: GetChordQuestionUseCase,
+         getGameTypeUseCase: GetGameTypeUseCase,
+         router: GameRouter) {
         self.getNoteQuestionUseCase = getNoteQuestionUseCase
         self.getChordQuestionUseCase = getChordQuestionUseCase
         self.getGameTypeUseCase = getGameTypeUseCase
+        self.router = router
 
         setupTimer()
     }
@@ -79,6 +95,10 @@ final class GameViewModel: GameViewModelType {
         }
     }
 
+    func currentScreen() -> some View {
+        router.currentScreen()
+    }
+
     @MainActor
     private func continueAfterUserTap() async {
         if userAnswer?.isAnswer == true {
@@ -96,8 +116,9 @@ final class GameViewModel: GameViewModelType {
 
     private func setupTimer() {
         timerViewModel.timerFinished
-            .sink { _ in
-                print("Show overview screen")
+            .sink { [weak self] _ in
+                self?.router.push(.overview)
+                self?.objectWillChange.send()
             }
             .store(in: &cancellables)
     }

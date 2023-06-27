@@ -9,7 +9,7 @@ import SwiftUI
 
 struct TimerView: View {
     @ObservedObject var viewModel: TimerViewModel
-    @State private var timeLeft = 60
+    @State private var timeLeft = 5
 
     var body: some View {
         Text(String(timeLeft))

@@ -6,6 +6,7 @@
 //
 
 import Combine
+import SwiftUI
 import GameAPI
 
 protocol HomeViewModelInputs {
@@ -13,7 +14,11 @@ protocol HomeViewModelInputs {
 }
 
 protocol HomeViewModelOutputs: ObservableObject {
+    associatedtype Content: View
+
     var uiError: HomeViewModel.UIError? { get }
+
+    func gameStartScreen() -> Content
 }
 
 protocol HomeViewModelType: HomeViewModelInputs, HomeViewModelOutputs {}
@@ -37,10 +42,13 @@ final class HomeViewModel: HomeViewModelType {
     func setupGame() async {
         do {
             try await setupGameSessionUseCase.setupGameSession()
-            router.push(.game)
         } catch {
             uiError = .gameStart
         }
+    }
+
+    func gameStartScreen() -> some View {
+        router.startGame()
     }
 
     @MainActor

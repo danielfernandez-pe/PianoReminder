@@ -23,4 +23,16 @@ public final class GameRouter: Router<GameRouter.Path> {
     public func start() -> some View {
         container.resolve(type: GameScreen<GameViewModel>.self)
     }
+
+    @ViewBuilder
+    func currentScreen() -> some View {
+        if let last = paths.last {
+            switch last {
+            case .overview:
+                container.resolve(type: GameOverviewScreen<GameOverviewViewModel>.self)
+            }
+        } else {
+            fatalError("This shouldn't happen")
+        }
+    }
 }

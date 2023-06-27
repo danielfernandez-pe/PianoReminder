@@ -11,38 +11,42 @@ import UI
 
 struct GameScreen<ViewModel: GameViewModelType>: View {
     @ObservedObject var viewModel: ViewModel
-    @State private var backgroundColor: Color = .white
 
     init(viewModel: ViewModel) {
         self.viewModel = viewModel
     }
 
     var body: some View {
-        VStack(spacing: .medium) {
-            if let question = viewModel.question {
-                question.musicView
+        NavigationStack(path: $viewModel.paths) {
+            VStack(spacing: .medium) {
+                if let question = viewModel.question {
+                    question.musicView
+                        .frame(maxHeight: .infinity)
+                }
+
+                VStack(spacing: .small) {
+                    Text(String(viewModel.currentPoints))
+                        .font(.body)
+                        .fontWeight(.bold)
+
+                    Text(viewModel.title)
+                        .font(.title)
+                }
+
+                options
                     .frame(maxHeight: .infinity)
+                    .padding(.horizontal, .medium)
             }
-
-            VStack(spacing: .small) {
-                Text(String(viewModel.currentPoints))
-                    .font(.body)
-                    .fontWeight(.bold)
-
-                Text(viewModel.title)
-                    .font(.title)
+            .overlay(
+                timer,
+                alignment: .topTrailing
+            )
+            .onAppear {
+                viewModel.getQuestion()
             }
-
-            options
-                .frame(maxHeight: .infinity)
-                .padding(.horizontal, .medium)
-        }
-        .overlay(
-            timer,
-            alignment: .topTrailing
-        )
-        .onAppear {
-            viewModel.getQuestion()
+            .navigationDestination(for: GameRouter.Path.self) { _ in
+                viewModel.currentScreen()
+            }
         }
     }
 
@@ -105,17 +109,19 @@ struct GameScreenPreviews: PreviewProvider {
         var title: String = "Which note will you choose?"
         var question: Question?
         var userAnswer: UserOption?
-
         var currentPoints = 5
-        var timerViewModel = TimerViewModel()
 
-        func startTimer() {
+        var timerViewModel = TimerViewModel()
+        var paths: [GameRouter.Path] = []
+
+        func userTapOption(_ option: UserOption) async {
         }
 
         func getQuestion() {
         }
 
-        func userTapOption(_ option: UserOption) async {
+        func currentScreen() -> some View {
+            EmptyView()
         }
     }
 }

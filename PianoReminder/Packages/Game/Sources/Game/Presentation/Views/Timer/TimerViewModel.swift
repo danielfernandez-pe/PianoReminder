@@ -15,6 +15,7 @@ final class TimerViewModel: ObservableObject {
 
     func timerIsUp() {
         timerFinished.send()
+        timerFinished.send(completion: .finished)
     }
 
     func pause() {

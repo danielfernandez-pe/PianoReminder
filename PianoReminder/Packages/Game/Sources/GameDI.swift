@@ -47,12 +47,15 @@ public struct GameDI {
 
         // PRESENTATION
 
+        container.register(type: GameRouter.self, service: GameRouter(container: container))
+
         container.register(
             type: (any GameViewModelType).self,
             service: GameViewModel(
                 getNoteQuestionUseCase: container.resolve(type: GetNoteQuestionUseCase.self),
                 getChordQuestionUseCase: container.resolve(type: GetChordQuestionUseCase.self),
-                getGameTypeUseCase: container.resolve(type: GetGameTypeUseCase.self)
+                getGameTypeUseCase: container.resolve(type: GetGameTypeUseCase.self),
+                router: container.resolve(type: GameRouter.self)
             )
         )
 
@@ -61,6 +64,15 @@ public struct GameDI {
         container.register(
             type: GameScreen<GameViewModel>.self,
             service: GameScreen<GameViewModel>(viewModel: gameViewModel)
+        )
+
+        container.register(type: (any GameOverviewViewModelType).self, service: GameOverviewViewModel())
+
+        let gameOverviewViewModel: GameOverviewViewModel = container.resolve(type: (any GameOverviewViewModelType).self) as! GameOverviewViewModel
+
+        container.register(
+            type: GameOverviewScreen<GameOverviewViewModel>.self,
+            service: GameOverviewScreen<GameOverviewViewModel>(viewModel: gameOverviewViewModel)
         )
     }
 }
