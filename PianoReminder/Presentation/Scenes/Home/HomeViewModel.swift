@@ -17,6 +17,7 @@ protocol HomeViewModelOutputs: ObservableObject {
     associatedtype Content: View
 
     var uiError: HomeViewModel.UIError? { get }
+    var isGamePresented: Bool { get set }
 
     func gameStartScreen() -> Content
 }
@@ -30,6 +31,11 @@ final class HomeViewModel: HomeViewModelType {
 
     @Published var uiError: UIError?
 
+    var isGamePresented: Bool {
+        get { router.isGamePresented }
+        set { router.isGamePresented = newValue }
+    }
+
     private let setupGameSessionUseCase: any SetupGameSessionUseCaseType
     private let router: HomeRouter
 
@@ -42,6 +48,7 @@ final class HomeViewModel: HomeViewModelType {
     func setupGame() async {
         do {
             try await setupGameSessionUseCase.setupGameSession()
+            router.presentGame()
         } catch {
             uiError = .gameStart
         }

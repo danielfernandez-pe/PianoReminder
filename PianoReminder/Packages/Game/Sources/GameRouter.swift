@@ -5,14 +5,23 @@
 //  Created by Daniel Yopla on 19.05.2023.
 //
 
-import Core
+import Combine
 import SwiftUI
+import Core
 import DependencyInjection
 
-public final class GameRouter: Router<GameRouter.Path> {
+public final class GameRouter: BaseRouter<GameRouter.Path>, Routing {
     public enum Path {
         case overview
     }
+
+    public var didFinish: AnyPublisher<Void, Never> { didFinishSubject.eraseToAnyPublisher() }
+
+    // MARK: - Private properties
+
+    private let didFinishSubject = PassthroughSubject<Void, Never>()
+
+    // MARK: - Dependencies
 
     private let container: any DICProtocol
 
@@ -22,6 +31,12 @@ public final class GameRouter: Router<GameRouter.Path> {
 
     public func start() -> some View {
         container.resolve(type: GameScreen<GameViewModel>.self)
+    }
+
+    func finish() {
+        didFinishSubject.send()
+//        didFinishSubject.sendAndComplete() TODO: this should be fix by a new DI library
+        paths = []
     }
 
     @ViewBuilder
@@ -34,5 +49,12 @@ public final class GameRouter: Router<GameRouter.Path> {
         } else {
             fatalError("This shouldn't happen")
         }
+    }
+}
+
+extension PassthroughSubject where Output == Void {
+    func sendAndComplete() {
+        self.send()
+        self.send(completion: .finished)
     }
 }

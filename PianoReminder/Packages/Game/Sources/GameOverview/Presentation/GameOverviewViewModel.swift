@@ -8,6 +8,7 @@
 import Combine
 
 protocol GameOverviewViewModelInputs {
+    func backHomeTap()
 }
 
 protocol GameOverviewViewModelOutputs: ObservableObject {
@@ -18,8 +19,13 @@ protocol GameOverviewViewModelType: GameOverviewViewModelInputs, GameOverviewVie
 final class GameOverviewViewModel: GameOverviewViewModelType {
     // MARK: - Dependencies
 
-    // MARK: - Properties
+    private let router: GameRouter
 
-    init() {
+    init(router: GameRouter) {
+        self.router = router
+    }
+
+    func backHomeTap() {
+        router.finish()
     }
 }

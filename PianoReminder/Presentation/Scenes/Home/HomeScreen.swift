@@ -12,17 +12,15 @@ import Game
 
 struct HomeScreen<ViewModel: HomeViewModelType>: View {
     @ObservedObject var viewModel: ViewModel
-    @State private var isGamePresented = false
 
     var body: some View {
         VStack {
             AsyncButton("Start game") {
                 await viewModel.setupGame()
-                isGamePresented = true
             }
             .buttonStyle(.main)
         }
-        .fullScreenCover(isPresented: $isGamePresented) {
+        .fullScreenCover(isPresented: $viewModel.isGamePresented) {
             viewModel.gameStartScreen()
         }
     }
@@ -35,6 +33,7 @@ struct HomeScreenPreviews: PreviewProvider {
 
     final class MockViewModel: HomeViewModelType {
         var uiError: HomeViewModel.UIError?
+        var isGamePresented: Bool = false
 
         func setupGame() {
         }

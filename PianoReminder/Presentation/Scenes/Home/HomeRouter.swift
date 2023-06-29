@@ -11,10 +11,21 @@ import Core
 import Game
 import DependencyInjection
 
-public final class HomeRouter: Router<HomeRouter.Path> {
+public final class HomeRouter: BaseRouter<HomeRouter.Path>, Routing {
     public enum Path {
         case something
     }
+
+    public var didFinish: AnyPublisher<Void, Never> { didFinishSubject.eraseToAnyPublisher() }
+
+    @Published var isGamePresented = false
+
+    // MARK: - Private properties
+
+    private let didFinishSubject = PassthroughSubject<Void, Never>()
+    private var cancellable: AnyCancellable?
+
+    // MARK: - Dependencies
 
     private let container: any DICProtocol
     private let gameRouter: GameRouter
@@ -25,8 +36,18 @@ public final class HomeRouter: Router<HomeRouter.Path> {
     }
 
     public func start() -> some View {
-//        container.resolve(type: GameScreen<GameViewModel>.self)
+//        container.resolve(type: GameScreen<GameViewModel>.self) example
         EmptyView()
+    }
+
+    func presentGame() {
+        isGamePresented = true
+
+        cancellable = gameRouter
+            .didFinish
+            .sink { [weak self] _ in
+                self?.isGamePresented = false
+            }
     }
 
     func startGame() -> some View {
@@ -38,7 +59,7 @@ public final class HomeRouter: Router<HomeRouter.Path> {
         if let last = paths.last {
             switch last {
             case .something:
-//                container.resolve(type: GameOverviewScreen<GameOverviewViewModel>.self)
+//                container.resolve(type: GameOverviewScreen<GameOverviewViewModel>.self) example
                 EmptyView()
             }
         } else {

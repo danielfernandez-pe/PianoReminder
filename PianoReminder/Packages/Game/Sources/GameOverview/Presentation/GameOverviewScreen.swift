@@ -7,7 +7,6 @@
 
 import SwiftUI
 import PianoUI
-import UI
 
 struct GameOverviewScreen<ViewModel: GameOverviewViewModelType>: View {
     @ObservedObject var viewModel: ViewModel
@@ -19,7 +18,11 @@ struct GameOverviewScreen<ViewModel: GameOverviewViewModelType>: View {
     var body: some View {
         VStack(spacing: .medium) {
             Text("Hello world")
+
+            Button("Back to home", action: { viewModel.backHomeTap() })
+                .buttonStyle(.main)
         }
+        .toolbar(.hidden, for: .navigationBar)
     }
 }
 
@@ -31,5 +34,7 @@ struct GameOverviewScreenPreviews: PreviewProvider {
     }
 
     private final class MockViewModel: GameOverviewViewModelType {
+        func backHomeTap() {
+        }
     }
 }

@@ -66,7 +66,12 @@ public struct GameDI {
             service: GameScreen<GameViewModel>(viewModel: gameViewModel)
         )
 
-        container.register(type: (any GameOverviewViewModelType).self, service: GameOverviewViewModel())
+        container.register(
+            type: (any GameOverviewViewModelType).self,
+            service: GameOverviewViewModel(
+                router: container.resolve(type: GameRouter.self)
+            )
+        )
 
         let gameOverviewViewModel: GameOverviewViewModel = container.resolve(type: (any GameOverviewViewModelType).self) as! GameOverviewViewModel
 

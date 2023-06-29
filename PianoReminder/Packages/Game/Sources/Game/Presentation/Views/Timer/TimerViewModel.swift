@@ -15,7 +15,7 @@ final class TimerViewModel: ObservableObject {
 
     func timerIsUp() {
         timerFinished.send()
-        timerFinished.send(completion: .finished)
+//        timerFinished.send(completion: .finished) TODO: this should be fix by a new DI library
     }
 
     func pause() {

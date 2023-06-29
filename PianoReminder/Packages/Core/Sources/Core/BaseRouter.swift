@@ -7,7 +7,7 @@
 
 import Foundation
 
-open class Router<Path: Hashable>: ObservableObject {
+open class BaseRouter<Path: Hashable>: ObservableObject {
     @Published public var paths: [Path] = []
 
     public init() {}
