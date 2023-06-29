@@ -53,16 +53,16 @@ final class GameViewModel: GameViewModelType {
         set { router.paths = newValue }
     }
 
+    // MARK: - Private properties
+
+    private var cancellables = Set<AnyCancellable>()
+
     // MARK: - Dependencies
 
     private let getNoteQuestionUseCase: GetNoteQuestionUseCase
     private let getChordQuestionUseCase: GetChordQuestionUseCase
     private let getGameTypeUseCase: GetGameTypeUseCase
     private let router: GameRouter
-
-    // MARK: - Properties
-
-    private var cancellables = Set<AnyCancellable>()
 
     init(getNoteQuestionUseCase: GetNoteQuestionUseCase,
          getChordQuestionUseCase: GetChordQuestionUseCase,

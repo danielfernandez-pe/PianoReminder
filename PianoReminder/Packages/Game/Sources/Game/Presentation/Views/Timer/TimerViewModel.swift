@@ -14,7 +14,7 @@ final class TimerViewModel: ObservableObject {
     let timerFinished = PassthroughSubject<Void, Never>()
 
     func timerIsUp() {
-        timerFinished.send()
+        timerFinished.sendAndComplete()
 //        timerFinished.send(completion: .finished) TODO: this should be fix by a new DI library
     }
 

@@ -34,9 +34,7 @@ public final class GameRouter: BaseRouter<GameRouter.Path>, Routing {
     }
 
     func finish() {
-        didFinishSubject.send()
-//        didFinishSubject.sendAndComplete() TODO: this should be fix by a new DI library
-        paths = []
+        didFinishSubject.sendAndComplete() // TODO: this should be fix by a new DI library
     }
 
     @ViewBuilder
