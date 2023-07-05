@@ -32,7 +32,7 @@ public final class HomeRouter: BaseRouter<HomeRouter.Path>, Routing {
 
     public init(container: any DICProtocol) {
         self.container = container
-        gameRouter = container.resolve(type: GameRouter.self)
+        gameRouter = container.resolveService(GameRouter.self)
     }
 
     public func start() -> some View {

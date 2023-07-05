@@ -12,7 +12,7 @@
 		A16994EF29F970510082A171 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = A16994EE29F970510082A171 /* R.generated.swift */; };
 		A1AAC0DB29E431EB00930783 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AAC0DA29E431EB00930783 /* HomeViewModel.swift */; };
 		A1AAC0DD29E431EB00930783 /* HomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AAC0DC29E431EB00930783 /* HomeScreen.swift */; };
-		A1AAC0E029E431EB00930783 /* DIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AAC0DF29E431EB00930783 /* DIContainer.swift */; };
+		A1AAC0E029E431EB00930783 /* DependencyInjection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AAC0DF29E431EB00930783 /* DependencyInjection.swift */; };
 		A1AAC0E329E431EB00930783 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AAC0E229E431EB00930783 /* AppDelegate.swift */; };
 		A1AAC0E729E431EB00930783 /* PianoReminderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AAC0E629E431EB00930783 /* PianoReminderApp.swift */; };
 		A1AAC0E929E431EB00930783 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A1AAC0E829E431EB00930783 /* LaunchScreen.storyboard */; };
@@ -35,7 +35,7 @@
 		A1AAC0D529E431EB00930783 /* PianoReminder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PianoReminder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1AAC0DA29E431EB00930783 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		A1AAC0DC29E431EB00930783 /* HomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreen.swift; sourceTree = "<group>"; };
-		A1AAC0DF29E431EB00930783 /* DIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIContainer.swift; sourceTree = "<group>"; };
+		A1AAC0DF29E431EB00930783 /* DependencyInjection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyInjection.swift; sourceTree = "<group>"; };
 		A1AAC0E229E431EB00930783 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A1AAC0E629E431EB00930783 /* PianoReminderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PianoReminderApp.swift; sourceTree = "<group>"; };
 		A1AAC0E829E431EB00930783 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -157,7 +157,7 @@
 		A1AAC0DE29E431EB00930783 /* DI */ = {
 			isa = PBXGroup;
 			children = (
-				A1AAC0DF29E431EB00930783 /* DIContainer.swift */,
+				A1AAC0DF29E431EB00930783 /* DependencyInjection.swift */,
 			);
 			path = DI;
 			sourceTree = "<group>";
@@ -337,7 +337,7 @@
 				A1BCB5AF2A17B15400380EE6 /* HomeRouter.swift in Sources */,
 				A16994EF29F970510082A171 /* R.generated.swift in Sources */,
 				A1AAC0E729E431EB00930783 /* PianoReminderApp.swift in Sources */,
-				A1AAC0E029E431EB00930783 /* DIContainer.swift in Sources */,
+				A1AAC0E029E431EB00930783 /* DependencyInjection.swift in Sources */,
 				A1AAC0DB29E431EB00930783 /* HomeViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

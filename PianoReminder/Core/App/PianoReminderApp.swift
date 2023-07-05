@@ -7,6 +7,7 @@
 
 import SwiftUI
 import GameAPI
+import DependencyInjection
 
 @main
 struct PianoReminderApp: App {
@@ -21,13 +22,13 @@ struct PianoReminderApp: App {
 }
 
 struct InitialScreen: View {
-    @StateObject private var homeRouter: HomeRouter = DIContainer.shared.resolve(type: HomeRouter.self)
+    @StateObject private var homeRouter: HomeRouter = DIContainer.shared.resolveService(HomeRouter.self)
 
     var body: some View {
         NavigationStack(path: $homeRouter.paths) {
             HomeScreen<HomeViewModel>(
                 viewModel: .init(
-                    setupGameSessionUseCase: DIContainer.shared.resolve(type: (any SetupGameSessionUseCaseType).self),
+                    setupGameSessionUseCase: DIContainer.shared.resolveService((any SetupGameSessionUseCaseType).self),
                     router: homeRouter
                 )
             )

@@ -9,76 +9,77 @@ import Foundation
 import DependencyInjection
 import GameAPI
 
-// swiftlint:disable force_cast
+// swiftlint:disable force_cast identifier_name
 public struct GameDI {
     public static func register(container: DICProtocol) {
         // DATA
 
-        container.register(type: GameServiceType.self, service: GameService())
-        container.register(type: UserServiceType.self, service: UserService())
+        container.registerService(type: GameServiceType.self, scope: .graph) { _ in
+            GameService()
+        }
 
-        let gameService: GameService = container.resolve(type: GameServiceType.self) as! GameService
-        let userService: UserService = container.resolve(type: UserServiceType.self) as! UserService
+        container.registerService(type: UserServiceType.self, scope: .graph) { _ in
+            UserService()
+        }
 
-        container.register(type: (any GameRepositoryType).self, service: GameRepository<GameService>(gameService: gameService))
-        container.register(type: (any UserSettingsRepositoryType).self, service: UserSettingsRepository<UserService>(userService: userService))
+        container.registerService(type: (any GameRepositoryType).self, scope: .container) { r in
+            let gameService: GameService = r.resolveService(GameServiceType.self) as! GameService
+            return GameRepository<GameService>(gameService: gameService)
+        }
+
+        container.registerService(type: (any UserSettingsRepositoryType).self, scope: .graph) { r in
+            let userService: UserService = r.resolveService(UserServiceType.self) as! UserService
+            return UserSettingsRepository<UserService>(userService: userService)
+        }
 
         // DOMAIN
 
-        container.register(
-            type: GetChordQuestionUseCase.self,
-            service: GetChordQuestionUseCase(gameRepository: container.resolve(type: (any GameRepositoryType).self))
-        )
+        container.registerService(type: GetChordQuestionUseCase.self, scope: .graph) { r in
+            GetChordQuestionUseCase(gameRepository: r.resolveService((any GameRepositoryType).self))
+        }
 
-        container.register(
-            type: GetGameTypeUseCase.self,
-            service: GetGameTypeUseCase(userSettingsRepository: container.resolve(type: (any UserSettingsRepositoryType).self))
-        )
+        container.registerService(type: GetGameTypeUseCase.self, scope: .graph) { r in
+            GetGameTypeUseCase(userSettingsRepository: r.resolveService((any UserSettingsRepositoryType).self))
+        }
 
-        container.register(
-            type: GetNoteQuestionUseCase.self,
-            service: GetNoteQuestionUseCase(gameRepository: container.resolve(type: (any GameRepositoryType).self))
-        )
+        container.registerService(type: GetNoteQuestionUseCase.self, scope: .graph) { r in
+            GetNoteQuestionUseCase(gameRepository: r.resolveService((any GameRepositoryType).self))
+        }
 
-        container.register(
-            type: (any SetupGameSessionUseCaseType).self,
-            service: SetupGameSessionUseCase(gameRepository: container.resolve(type: (any GameRepositoryType).self))
-        )
+        container.registerService(type: (any SetupGameSessionUseCaseType).self, scope: .graph) { r in
+            SetupGameSessionUseCase(gameRepository: r.resolveService((any GameRepositoryType).self))
+        }
 
         // PRESENTATION
 
-        container.register(type: GameRouter.self, service: GameRouter(container: container))
+        container.registerService(type: GameRouter.self, scope: .graph) { _ in
+            GameRouter(container: container)
+        }
 
-        container.register(
-            type: (any GameViewModelType).self,
-            service: GameViewModel(
-                getNoteQuestionUseCase: container.resolve(type: GetNoteQuestionUseCase.self),
-                getChordQuestionUseCase: container.resolve(type: GetChordQuestionUseCase.self),
-                getGameTypeUseCase: container.resolve(type: GetGameTypeUseCase.self),
-                router: container.resolve(type: GameRouter.self)
+        container.registerService(type: (any GameViewModelType).self, scope: .graph) { r in
+            GameViewModel(
+                getNoteQuestionUseCase: r.resolveService(GetNoteQuestionUseCase.self),
+                getChordQuestionUseCase: r.resolveService(GetChordQuestionUseCase.self),
+                getGameTypeUseCase: r.resolveService(GetGameTypeUseCase.self),
+                router: r.resolveService(GameRouter.self)
             )
-        )
+        }
 
-        let gameViewModel: GameViewModel = container.resolve(type: (any GameViewModelType).self) as! GameViewModel
+        container.registerService(type: GameScreen<GameViewModel>.self, scope: .graph) { r in
+            GameScreen<GameViewModel>(viewModel: r.resolveService((any GameViewModelType).self) as! GameViewModel)
+        }
 
-        container.register(
-            type: GameScreen<GameViewModel>.self,
-            service: GameScreen<GameViewModel>(viewModel: gameViewModel)
-        )
-
-        container.register(
-            type: (any GameOverviewViewModelType).self,
-            service: GameOverviewViewModel(
-                router: container.resolve(type: GameRouter.self)
+        container.registerService(type: (any GameOverviewViewModelType).self, scope: .graph) { r in
+            GameOverviewViewModel(
+                router: r.resolveService(GameRouter.self)
             )
-        )
+        }
 
-        let gameOverviewViewModel: GameOverviewViewModel = container.resolve(type: (any GameOverviewViewModelType).self) as! GameOverviewViewModel
-
-        container.register(
-            type: GameOverviewScreen<GameOverviewViewModel>.self,
-            service: GameOverviewScreen<GameOverviewViewModel>(viewModel: gameOverviewViewModel)
-        )
+        container.registerService(type: GameOverviewScreen<GameOverviewViewModel>.self, scope: .graph) { r in
+            GameOverviewScreen<GameOverviewViewModel>(
+                viewModel: r.resolveService((any GameOverviewViewModelType).self) as! GameOverviewViewModel
+            )
+        }
     }
 }
-// swiftlint:enable force_cast
+// swiftlint:enable force_cast identifier_name

@@ -30,7 +30,7 @@ public final class GameRouter: BaseRouter<GameRouter.Path>, Routing {
     }
 
     public func start() -> some View {
-        container.resolve(type: GameScreen<GameViewModel>.self)
+        container.resolveService(GameScreen<GameViewModel>.self)
     }
 
     func finish() {
@@ -42,7 +42,7 @@ public final class GameRouter: BaseRouter<GameRouter.Path>, Routing {
         if let last = paths.last {
             switch last {
             case .overview:
-                container.resolve(type: GameOverviewScreen<GameOverviewViewModel>.self)
+                container.resolveService(GameOverviewScreen<GameOverviewViewModel>.self)
             }
         } else {
             fatalError("This shouldn't happen")
