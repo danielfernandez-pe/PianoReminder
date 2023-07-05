@@ -52,7 +52,7 @@ public struct GameDI {
 
         // PRESENTATION
 
-        container.registerService(type: GameRouter.self, scope: .graph) { _ in
+        container.registerService(type: GameRouter.self, scope: .weak) { _ in
             GameRouter(container: container)
         }
 

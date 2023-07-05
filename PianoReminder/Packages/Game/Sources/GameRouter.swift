@@ -30,11 +30,12 @@ public final class GameRouter: BaseRouter<GameRouter.Path>, Routing {
     }
 
     public func start() -> some View {
-        container.resolveService(GameScreen<GameViewModel>.self)
+        paths = []
+        return container.resolveService(GameScreen<GameViewModel>.self)
     }
 
     func finish() {
-        didFinishSubject.sendAndComplete() // TODO: this should be fix by a new DI library
+        didFinishSubject.send()
     }
 
     @ViewBuilder
@@ -47,12 +48,5 @@ public final class GameRouter: BaseRouter<GameRouter.Path>, Routing {
         } else {
             fatalError("This shouldn't happen")
         }
-    }
-}
-
-extension PassthroughSubject where Output == Void {
-    func sendAndComplete() {
-        self.send()
-        self.send(completion: .finished)
     }
 }

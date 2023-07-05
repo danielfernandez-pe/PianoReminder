@@ -22,6 +22,7 @@ final class GameRepository<Service: GameServiceType>: GameRepositoryType {
 
     func setupGameSession() async throws {
         usedChords.removeAll()
+        usedNotes.removeAll()
         quizNotes = try await gameService.fetchNotes()
         quizChords = try await gameService.fetchChords()
     }
