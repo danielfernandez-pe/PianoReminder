@@ -9,6 +9,7 @@ import Foundation
 import Game
 import DependencyInjection
 
+// move
 final class DependencyInjection {
     static func setup() {
         GameDI.register(container: DIContainer.shared)
