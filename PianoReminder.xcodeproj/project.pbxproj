@@ -17,14 +17,13 @@
 		A1AAC0E729E431EB00930783 /* PianoReminderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AAC0E629E431EB00930783 /* PianoReminderApp.swift */; };
 		A1AAC0E929E431EB00930783 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A1AAC0E829E431EB00930783 /* LaunchScreen.storyboard */; };
 		A1AAC0EB29E431ED00930783 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1AAC0EA29E431ED00930783 /* Assets.xcassets */; };
-		A1AAC0F729E4320F00930783 /* Logger in Frameworks */ = {isa = PBXBuildFile; productRef = A1AAC0F629E4320F00930783 /* Logger */; };
-		A1AAC0F929E4320F00930783 /* Networking in Frameworks */ = {isa = PBXBuildFile; productRef = A1AAC0F829E4320F00930783 /* Networking */; };
-		A1AAC0FB29E4320F00930783 /* UI in Frameworks */ = {isa = PBXBuildFile; productRef = A1AAC0FA29E4320F00930783 /* UI */; };
 		A1AAC12B29E474F200930783 /* Game in Frameworks */ = {isa = PBXBuildFile; productRef = A1AAC12A29E474F200930783 /* Game */; };
 		A1BCB5AF2A17B15400380EE6 /* HomeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1BCB5AE2A17B15400380EE6 /* HomeRouter.swift */; };
 		A1BCB5B22A1A503200380EE6 /* PianoUI in Frameworks */ = {isa = PBXBuildFile; productRef = A1BCB5B12A1A503200380EE6 /* PianoUI */; };
 		A1C231662A172DB300F79273 /* Core in Frameworks */ = {isa = PBXBuildFile; productRef = A1C231652A172DB300F79273 /* Core */; };
 		A1C54C9D2A4174AE00EAE440 /* GameAPI in Frameworks */ = {isa = PBXBuildFile; productRef = A1C54C9C2A4174AE00EAE440 /* GameAPI */; };
+		A1CFFD732A572CBE002A88B1 /* UI in Frameworks */ = {isa = PBXBuildFile; productRef = A1CFFD722A572CBE002A88B1 /* UI */; };
+		A1CFFD752A573010002A88B1 /* Logger in Frameworks */ = {isa = PBXBuildFile; productRef = A1CFFD742A573010002A88B1 /* Logger */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,9 +39,7 @@
 		A1AAC0E629E431EB00930783 /* PianoReminderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PianoReminderApp.swift; sourceTree = "<group>"; };
 		A1AAC0E829E431EB00930783 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A1AAC0EA29E431ED00930783 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		A1AAC0F229E4320600930783 /* UI */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = UI; path = ../../../packages/UI; sourceTree = "<group>"; };
 		A1AAC0F329E4320600930783 /* Networking */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Networking; path = ../../../packages/Networking; sourceTree = "<group>"; };
-		A1AAC0F429E4320600930783 /* Logger */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Logger; path = ../../../packages/Logger; sourceTree = "<group>"; };
 		A1BCB5AE2A17B15400380EE6 /* HomeRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeRouter.swift; sourceTree = "<group>"; };
 		A1BCB5B02A1A4F9500380EE6 /* PianoUI */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = PianoUI; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -54,12 +51,11 @@
 			files = (
 				A164A9DF29F571CB0059E7CF /* RswiftLibrary in Frameworks */,
 				A1AAC12B29E474F200930783 /* Game in Frameworks */,
-				A1AAC0F929E4320F00930783 /* Networking in Frameworks */,
-				A1AAC0FB29E4320F00930783 /* UI in Frameworks */,
 				A1BCB5B22A1A503200380EE6 /* PianoUI in Frameworks */,
-				A1AAC0F729E4320F00930783 /* Logger in Frameworks */,
+				A1CFFD732A572CBE002A88B1 /* UI in Frameworks */,
 				A1C54C9D2A4174AE00EAE440 /* GameAPI in Frameworks */,
 				A1C231662A172DB300F79273 /* Core in Frameworks */,
+				A1CFFD752A573010002A88B1 /* Logger in Frameworks */,
 				A164A9E129F571CB0059E7CF /* rswift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -179,9 +175,7 @@
 				A1BCB5B02A1A4F9500380EE6 /* PianoUI */,
 				A13BAD562A172C9B0084EE99 /* Game */,
 				A13BAD522A172C250084EE99 /* Core */,
-				A1AAC0F429E4320600930783 /* Logger */,
 				A1AAC0F329E4320600930783 /* Networking */,
-				A1AAC0F229E4320600930783 /* UI */,
 			);
 			path = Packages;
 			sourceTree = "<group>";
@@ -221,15 +215,14 @@
 			);
 			name = PianoReminder;
 			packageProductDependencies = (
-				A1AAC0F629E4320F00930783 /* Logger */,
-				A1AAC0F829E4320F00930783 /* Networking */,
-				A1AAC0FA29E4320F00930783 /* UI */,
 				A1AAC12A29E474F200930783 /* Game */,
 				A164A9DE29F571CB0059E7CF /* RswiftLibrary */,
 				A164A9E029F571CB0059E7CF /* rswift */,
 				A1C231652A172DB300F79273 /* Core */,
 				A1BCB5B12A1A503200380EE6 /* PianoUI */,
 				A1C54C9C2A4174AE00EAE440 /* GameAPI */,
+				A1CFFD722A572CBE002A88B1 /* UI */,
+				A1CFFD742A573010002A88B1 /* Logger */,
 			);
 			productName = PianoReminder;
 			productReference = A1AAC0D529E431EB00930783 /* PianoReminder.app */;
@@ -261,6 +254,8 @@
 			mainGroup = A1AAC0CC29E431EB00930783;
 			packageReferences = (
 				A164A9DD29F571CB0059E7CF /* XCRemoteSwiftPackageReference "R.swift" */,
+				A1B970532A572A4200D01BAB /* XCRemoteSwiftPackageReference "Logger" */,
+				A1CFFD712A572CBE002A88B1 /* XCRemoteSwiftPackageReference "UI" */,
 			);
 			productRefGroup = A1AAC0D629E431EB00930783 /* Products */;
 			projectDirPath = "";
@@ -545,6 +540,22 @@
 				minimumVersion = 7.0.0;
 			};
 		};
+		A1B970532A572A4200D01BAB /* XCRemoteSwiftPackageReference "Logger" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "git@github.com:danielfcodes/Logger.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+		A1CFFD712A572CBE002A88B1 /* XCRemoteSwiftPackageReference "UI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "git@github.com:danielfcodes/UI.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -557,18 +568,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = A164A9DD29F571CB0059E7CF /* XCRemoteSwiftPackageReference "R.swift" */;
 			productName = rswift;
-		};
-		A1AAC0F629E4320F00930783 /* Logger */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Logger;
-		};
-		A1AAC0F829E4320F00930783 /* Networking */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Networking;
-		};
-		A1AAC0FA29E4320F00930783 /* UI */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = UI;
 		};
 		A1AAC12A29E474F200930783 /* Game */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -585,6 +584,16 @@
 		A1C54C9C2A4174AE00EAE440 /* GameAPI */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = GameAPI;
+		};
+		A1CFFD722A572CBE002A88B1 /* UI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A1CFFD712A572CBE002A88B1 /* XCRemoteSwiftPackageReference "UI" */;
+			productName = UI;
+		};
+		A1CFFD742A573010002A88B1 /* Logger */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A1B970532A572A4200D01BAB /* XCRemoteSwiftPackageReference "Logger" */;
+			productName = Logger;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

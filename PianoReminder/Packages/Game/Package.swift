@@ -17,10 +17,10 @@ let package = Package(
         )
     ],
     dependencies: [
-        .package(path: "../UI"),
         .package(path: "../PianoUI"),
         .package(path: "../Core"),
-        .package(path: "../DependencyInjection")
+        .package(path: "../DependencyInjection"),
+        .package(url: "git@github.com:danielfcodes/UI.git", from: "1.0.0")
     ],
     targets: [
         .target(
