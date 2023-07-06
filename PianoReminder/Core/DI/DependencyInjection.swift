@@ -9,7 +9,7 @@ import Foundation
 import Game
 import DependencyInjection
 
-// move
+// move the router
 final class DependencyInjection {
     static func setup() {
         GameDI.register(container: DIContainer.shared)
