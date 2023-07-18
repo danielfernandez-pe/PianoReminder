@@ -11,21 +11,21 @@ protocol GameOverviewViewModelInputs {
     func backHomeTap()
 }
 
-protocol GameOverviewViewModelOutputs: ObservableObject {
+protocol GameOverviewViewModelOutputs {
 }
 
 protocol GameOverviewViewModelType: GameOverviewViewModelInputs, GameOverviewViewModelOutputs {}
 
+protocol GameOverviewRouter: AnyObject {
+    func closeGame()
+}
+
 final class GameOverviewViewModel: GameOverviewViewModelType {
+    weak var router: (any GameOverviewRouter)?
+
     // MARK: - Dependencies
 
-    private let router: GameRouter
-
-    init(router: GameRouter) {
-        self.router = router
-    }
-
     func backHomeTap() {
-        router.finish()
+        router?.closeGame()
     }
 }

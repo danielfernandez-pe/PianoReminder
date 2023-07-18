@@ -11,7 +11,7 @@ import PianoUI
 import Game
 
 struct HomeScreen<ViewModel: HomeViewModelType>: View {
-    @ObservedObject var viewModel: ViewModel
+    var viewModel: ViewModel
 
     var body: some View {
         VStack {
@@ -19,9 +19,6 @@ struct HomeScreen<ViewModel: HomeViewModelType>: View {
                 await viewModel.setupGame()
             }
             .buttonStyle(.main)
-        }
-        .fullScreenCover(isPresented: $viewModel.isGamePresented) {
-            viewModel.gameStartScreen()
         }
     }
 }

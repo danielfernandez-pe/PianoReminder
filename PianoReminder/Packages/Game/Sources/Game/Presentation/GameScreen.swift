@@ -10,44 +10,45 @@ import PianoUI
 import UI
 
 struct GameScreen<ViewModel: GameViewModelType>: View {
-    @ObservedObject var viewModel: ViewModel
+    var viewModel: ViewModel
 
     init(viewModel: ViewModel) {
         self.viewModel = viewModel
     }
 
     var body: some View {
-        NavigationStack(path: $viewModel.paths) {
-            VStack(spacing: .medium) {
-                if let question = viewModel.question {
-                    question.musicView
-                        .frame(maxHeight: .infinity)
-                }
-
-                VStack(spacing: .small) {
-                    Text(String(viewModel.currentPoints))
-                        .font(.body)
-                        .fontWeight(.bold)
-
-                    Text(viewModel.title)
-                        .font(.title)
-                }
-
-                options
+        VStack(spacing: .medium) {
+            if let question = viewModel.question {
+                question.musicView
                     .frame(maxHeight: .infinity)
-                    .padding(.horizontal, .medium)
             }
-            .overlay(
-                timer,
-                alignment: .topTrailing
-            )
-            .onAppear {
-                viewModel.getQuestion()
+
+            VStack(spacing: .small) {
+                Text(String(viewModel.currentPoints))
+                    .font(.body)
+                    .fontWeight(.bold)
+
+                Text(viewModel.title)
+                    .font(.title)
             }
-            .navigationDestination(for: GameRouter.Path.self) { _ in
-                viewModel.currentScreen()
-            }
+
+            options
+                .frame(maxHeight: .infinity)
+                .padding(.horizontal, .medium)
         }
+        .overlay(
+            timer,
+            alignment: .topTrailing
+        )
+        .onAppear {
+            viewModel.getQuestion()
+        }
+//        NavigationStack(path: $viewModel.paths) {
+//            
+//            .navigationDestination(for: GameRouter.Path.self) { _ in
+//                viewModel.currentScreen()
+//            }
+//        }
     }
 
     private var options: some View {
@@ -112,7 +113,6 @@ struct GameScreenPreviews: PreviewProvider {
         var currentPoints = 5
 
         var timerViewModel = TimerViewModel()
-        var paths: [GameRouter.Path] = []
 
         func userTapOption(_ option: UserOption) async {
         }

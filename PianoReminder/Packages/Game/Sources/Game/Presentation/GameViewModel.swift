@@ -13,9 +13,7 @@ protocol GameViewModelInputs {
     func getQuestion()
 }
 
-protocol GameViewModelOutputs: ObservableObject {
-    associatedtype Content: View
-
+protocol GameViewModelOutputs {
     var title: String { get }
 
     var question: Question? { get }
@@ -23,14 +21,15 @@ protocol GameViewModelOutputs: ObservableObject {
 
     var currentPoints: Int { get }
     var timerViewModel: TimerViewModel { get }
-    var paths: [GameRouter.Path] { get set }
-
-    func currentScreen() -> Content
 }
 
 protocol GameViewModelType: GameViewModelInputs, GameViewModelOutputs {}
 
-final class GameViewModel: GameViewModelType {
+protocol GameRouter: AnyObject {
+    func openOverview()
+}
+
+@Observable final class GameViewModel: GameViewModelType {
     var title: String {
         switch getGameTypeUseCase.getGameType() {
         case .chords:
@@ -42,16 +41,13 @@ final class GameViewModel: GameViewModelType {
         }
     }
 
-    @Published var question: Question?
-    @Published var userAnswer: UserOption?
-    @Published var currentPoints: Int = 0
+    var question: Question?
+    var userAnswer: UserOption?
+    var currentPoints: Int = 0
 
     let timerViewModel: TimerViewModel = .init()
 
-    var paths: [GameRouter.Path] {
-        get { router.paths }
-        set { router.paths = newValue }
-    }
+    weak var router: (any GameRouter)?
 
     // MARK: - Private properties
 
@@ -62,16 +58,13 @@ final class GameViewModel: GameViewModelType {
     private let getNoteQuestionUseCase: GetNoteQuestionUseCase
     private let getChordQuestionUseCase: GetChordQuestionUseCase
     private let getGameTypeUseCase: GetGameTypeUseCase
-    private let router: GameRouter
 
     init(getNoteQuestionUseCase: GetNoteQuestionUseCase,
          getChordQuestionUseCase: GetChordQuestionUseCase,
-         getGameTypeUseCase: GetGameTypeUseCase,
-         router: GameRouter) {
+         getGameTypeUseCase: GetGameTypeUseCase) {
         self.getNoteQuestionUseCase = getNoteQuestionUseCase
         self.getChordQuestionUseCase = getChordQuestionUseCase
         self.getGameTypeUseCase = getGameTypeUseCase
-        self.router = router
 
         setupTimer()
     }
@@ -95,10 +88,6 @@ final class GameViewModel: GameViewModelType {
         }
     }
 
-    func currentScreen() -> some View {
-        router.currentScreen()
-    }
-
     @MainActor
     private func continueAfterUserTap() async {
         if userAnswer?.isAnswer == true {
@@ -117,8 +106,7 @@ final class GameViewModel: GameViewModelType {
     private func setupTimer() {
         timerViewModel.timerFinished
             .sink { [weak self] _ in
-                self?.router.push(.overview)
-                self?.objectWillChange.send()
+                self?.router?.openOverview()
             }
             .store(in: &cancellables)
     }

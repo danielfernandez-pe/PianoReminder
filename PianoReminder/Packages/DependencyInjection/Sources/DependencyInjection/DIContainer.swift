@@ -26,6 +26,7 @@ public protocol DICRegistering {
 
 public protocol DICResolvering {
     func resolveService<Service>(_ type: Service.Type) -> Service
+    func resolveService<Service, Arg1>(_ type: Service.Type, arg1: Arg1) -> Service
 }
 
 public protocol DICProtocol: DICRegistering, DICResolvering {}
@@ -45,6 +46,10 @@ public final class DIContainer: DICProtocol {
     public func resolveService<Service>(_ type: Service.Type) -> Service {
         container.resolveService(type)
     }
+
+    public func resolveService<Service, Arg1>(_ type: Service.Type, arg1: Arg1) -> Service {
+        container.resolveService(type, arg1: arg1)
+    }
 }
 
 extension Container: DICProtocol {
@@ -60,6 +65,10 @@ extension Container: DICProtocol {
 extension Resolver where Self: DICResolvering {
     public func resolveService<Service>(_ type: Service.Type) -> Service {
         self.resolve(type)!
+    }
+
+    public func resolveService<Service, Arg1>(_ type: Service.Type, arg1: Arg1) -> Service {
+        self.resolve(type, argument: arg1)!
     }
 }
 // swiftlint:enable force_cast

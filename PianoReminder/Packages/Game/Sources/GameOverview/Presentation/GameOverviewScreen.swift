@@ -9,7 +9,7 @@ import SwiftUI
 import PianoUI
 
 struct GameOverviewScreen<ViewModel: GameOverviewViewModelType>: View {
-    @ObservedObject var viewModel: ViewModel
+    var viewModel: ViewModel
 
     init(viewModel: ViewModel) {
         self.viewModel = viewModel

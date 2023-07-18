@@ -52,16 +52,15 @@ public struct GameDI {
 
         // PRESENTATION
 
-        container.registerService(type: GameRouter.self, scope: .weak) { _ in
-            GameRouter(container: container)
-        }
+//        container.registerService(type: GameRouter.self, scope: .weak) { _ in
+//            GameRouter(container: container)
+//        }
 
         container.registerService(type: (any GameViewModelType).self, scope: .graph) { r in
             GameViewModel(
                 getNoteQuestionUseCase: r.resolveService(GetNoteQuestionUseCase.self),
                 getChordQuestionUseCase: r.resolveService(GetChordQuestionUseCase.self),
-                getGameTypeUseCase: r.resolveService(GetGameTypeUseCase.self),
-                router: r.resolveService(GameRouter.self)
+                getGameTypeUseCase: r.resolveService(GetGameTypeUseCase.self)
             )
         }
 
@@ -71,7 +70,7 @@ public struct GameDI {
 
         container.registerService(type: (any GameOverviewViewModelType).self, scope: .graph) { r in
             GameOverviewViewModel(
-                router: r.resolveService(GameRouter.self)
+//                router: r.resolveService(GameRouter.self)
             )
         }
 

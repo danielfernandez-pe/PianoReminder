@@ -13,49 +13,40 @@ protocol HomeViewModelInputs {
     func setupGame() async
 }
 
-protocol HomeViewModelOutputs: ObservableObject {
-    associatedtype Content: View
-
+protocol HomeViewModelOutputs {
     var uiError: HomeViewModel.UIError? { get }
-    var isGamePresented: Bool { get set }
+}
 
-    func gameStartScreen() -> Content
+protocol HomeRouter: AnyObject {
+    func openGame()
 }
 
 protocol HomeViewModelType: HomeViewModelInputs, HomeViewModelOutputs {}
 
-final class HomeViewModel: HomeViewModelType {
+@Observable final class HomeViewModel: HomeViewModelType {
     enum UIError: Error {
         case gameStart
     }
 
-    @Published var uiError: UIError?
-
-    var isGamePresented: Bool {
-        get { router.isGamePresented }
-        set { router.isGamePresented = newValue }
-    }
+    var uiError: UIError?
 
     private let setupGameSessionUseCase: any SetupGameSessionUseCaseType
-    private let router: HomeRouter
+    private weak var homeRouter: (any HomeRouter)? // TODO weak not letting to work the router
 
-    init(setupGameSessionUseCase: any SetupGameSessionUseCaseType, router: HomeRouter) {
+    init(setupGameSessionUseCase: any SetupGameSessionUseCaseType, homeRouter: any HomeRouter) {
         self.setupGameSessionUseCase = setupGameSessionUseCase
-        self.router = router
+        self.homeRouter = homeRouter
     }
 
     @MainActor
     func setupGame() async {
         do {
             try await setupGameSessionUseCase.setupGameSession()
-            router.presentGame()
+            homeRouter?.openGame()
+//            router.presentGame()
         } catch {
             uiError = .gameStart
         }
-    }
-
-    func gameStartScreen() -> some View {
-        router.startGame()
     }
 
     @MainActor

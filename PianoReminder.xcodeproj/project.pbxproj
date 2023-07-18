@@ -7,9 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A147B9792A64837800E5212A /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A147B9782A64837800E5212A /* HomeCoordinator.swift */; };
 		A164A9DF29F571CB0059E7CF /* RswiftLibrary in Frameworks */ = {isa = PBXBuildFile; productRef = A164A9DE29F571CB0059E7CF /* RswiftLibrary */; };
 		A164A9E129F571CB0059E7CF /* rswift in Frameworks */ = {isa = PBXBuildFile; productRef = A164A9E029F571CB0059E7CF /* rswift */; };
 		A16994EF29F970510082A171 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = A16994EE29F970510082A171 /* R.generated.swift */; };
+		A18679702A647ABD00A4B75E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A186796F2A647ABD00A4B75E /* SceneDelegate.swift */; };
 		A1AAC0DB29E431EB00930783 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AAC0DA29E431EB00930783 /* HomeViewModel.swift */; };
 		A1AAC0DD29E431EB00930783 /* HomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AAC0DC29E431EB00930783 /* HomeScreen.swift */; };
 		A1AAC0E029E431EB00930783 /* DependencyInjection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AAC0DF29E431EB00930783 /* DependencyInjection.swift */; };
@@ -30,7 +32,9 @@
 		A12FCE8E2A48AFAD001CA28F /* DependencyInjection */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = DependencyInjection; sourceTree = "<group>"; };
 		A13BAD522A172C250084EE99 /* Core */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Core; sourceTree = "<group>"; };
 		A13BAD562A172C9B0084EE99 /* Game */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Game; sourceTree = "<group>"; };
+		A147B9782A64837800E5212A /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
 		A16994EE29F970510082A171 /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = "<group>"; };
+		A186796F2A647ABD00A4B75E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		A1AAC0D529E431EB00930783 /* PianoReminder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PianoReminder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1AAC0DA29E431EB00930783 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		A1AAC0DC29E431EB00930783 /* HomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreen.swift; sourceTree = "<group>"; };
@@ -42,6 +46,7 @@
 		A1AAC0F329E4320600930783 /* Networking */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Networking; path = ../../../packages/Networking; sourceTree = "<group>"; };
 		A1BCB5AE2A17B15400380EE6 /* HomeRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeRouter.swift; sourceTree = "<group>"; };
 		A1BCB5B02A1A4F9500380EE6 /* PianoUI */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = PianoUI; sourceTree = "<group>"; };
+		A1DA0A722A647DD700B1978E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -146,6 +151,7 @@
 				A1AAC0DA29E431EB00930783 /* HomeViewModel.swift */,
 				A1AAC0DC29E431EB00930783 /* HomeScreen.swift */,
 				A1BCB5AE2A17B15400380EE6 /* HomeRouter.swift */,
+				A147B9782A64837800E5212A /* HomeCoordinator.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -161,9 +167,11 @@
 		A1AAC0E129E431EB00930783 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				A1DA0A722A647DD700B1978E /* Info.plist */,
 				A1AAC0E229E431EB00930783 /* AppDelegate.swift */,
 				A1AAC0E629E431EB00930783 /* PianoReminderApp.swift */,
 				A1AAC0E829E431EB00930783 /* LaunchScreen.storyboard */,
+				A186796F2A647ABD00A4B75E /* SceneDelegate.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -297,7 +305,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"$SRCROOT\"/BuildPhases/R.sh\n";
+			shellScript = "#\"$SRCROOT\"/BuildPhases/R.sh\n";
 			showEnvVarsInLog = 0;
 		};
 		A1AAC12329E435BE00930783 /* SwiftLint */ = {
@@ -317,7 +325,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"$SRCROOT\"/BuildPhases/Swiftlint.sh\n";
+			shellScript = "#\"$SRCROOT\"/BuildPhases/Swiftlint.sh\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -329,11 +337,13 @@
 			files = (
 				A1AAC0E329E431EB00930783 /* AppDelegate.swift in Sources */,
 				A1AAC0DD29E431EB00930783 /* HomeScreen.swift in Sources */,
+				A147B9792A64837800E5212A /* HomeCoordinator.swift in Sources */,
 				A1BCB5AF2A17B15400380EE6 /* HomeRouter.swift in Sources */,
 				A16994EF29F970510082A171 /* R.generated.swift in Sources */,
 				A1AAC0E729E431EB00930783 /* PianoReminderApp.swift in Sources */,
 				A1AAC0E029E431EB00930783 /* DependencyInjection.swift in Sources */,
 				A1AAC0DB29E431EB00930783 /* HomeViewModel.swift in Sources */,
+				A18679702A647ABD00A4B75E /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -464,10 +474,12 @@
 				DEVELOPMENT_TEAM = 4RGG6YXDS6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PianoReminder/Core/App/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -491,10 +503,12 @@
 				DEVELOPMENT_TEAM = 4RGG6YXDS6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PianoReminder/Core/App/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
