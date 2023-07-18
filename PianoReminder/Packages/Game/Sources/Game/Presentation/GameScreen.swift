@@ -43,12 +43,6 @@ struct GameScreen<ViewModel: GameViewModelType>: View {
         .onAppear {
             viewModel.getQuestion()
         }
-//        NavigationStack(path: $viewModel.paths) {
-//            
-//            .navigationDestination(for: GameRouter.Path.self) { _ in
-//                viewModel.currentScreen()
-//            }
-//        }
     }
 
     private var options: some View {

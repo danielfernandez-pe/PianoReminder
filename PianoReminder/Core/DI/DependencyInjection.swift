@@ -9,13 +9,8 @@ import Foundation
 import Game
 import DependencyInjection
 
-// move the router
 final class DependencyInjection {
     static func setup() {
         GameDI.register(container: DIContainer.shared)
-
-//        DIContainer.shared.registerService(type: HomeRouter.self, scope: .graph) { _ in
-//            HomeRouter(container: DIContainer.shared)
-//        }
     }
 }

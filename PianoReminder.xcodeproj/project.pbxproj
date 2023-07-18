@@ -16,11 +16,9 @@
 		A1AAC0DD29E431EB00930783 /* HomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AAC0DC29E431EB00930783 /* HomeScreen.swift */; };
 		A1AAC0E029E431EB00930783 /* DependencyInjection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AAC0DF29E431EB00930783 /* DependencyInjection.swift */; };
 		A1AAC0E329E431EB00930783 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AAC0E229E431EB00930783 /* AppDelegate.swift */; };
-		A1AAC0E729E431EB00930783 /* PianoReminderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AAC0E629E431EB00930783 /* PianoReminderApp.swift */; };
 		A1AAC0E929E431EB00930783 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A1AAC0E829E431EB00930783 /* LaunchScreen.storyboard */; };
 		A1AAC0EB29E431ED00930783 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1AAC0EA29E431ED00930783 /* Assets.xcassets */; };
 		A1AAC12B29E474F200930783 /* Game in Frameworks */ = {isa = PBXBuildFile; productRef = A1AAC12A29E474F200930783 /* Game */; };
-		A1BCB5AF2A17B15400380EE6 /* HomeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1BCB5AE2A17B15400380EE6 /* HomeRouter.swift */; };
 		A1BCB5B22A1A503200380EE6 /* PianoUI in Frameworks */ = {isa = PBXBuildFile; productRef = A1BCB5B12A1A503200380EE6 /* PianoUI */; };
 		A1C231662A172DB300F79273 /* Core in Frameworks */ = {isa = PBXBuildFile; productRef = A1C231652A172DB300F79273 /* Core */; };
 		A1C54C9D2A4174AE00EAE440 /* GameAPI in Frameworks */ = {isa = PBXBuildFile; productRef = A1C54C9C2A4174AE00EAE440 /* GameAPI */; };
@@ -40,11 +38,9 @@
 		A1AAC0DC29E431EB00930783 /* HomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreen.swift; sourceTree = "<group>"; };
 		A1AAC0DF29E431EB00930783 /* DependencyInjection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyInjection.swift; sourceTree = "<group>"; };
 		A1AAC0E229E431EB00930783 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		A1AAC0E629E431EB00930783 /* PianoReminderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PianoReminderApp.swift; sourceTree = "<group>"; };
 		A1AAC0E829E431EB00930783 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A1AAC0EA29E431ED00930783 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A1AAC0F329E4320600930783 /* Networking */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Networking; path = ../../../packages/Networking; sourceTree = "<group>"; };
-		A1BCB5AE2A17B15400380EE6 /* HomeRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeRouter.swift; sourceTree = "<group>"; };
 		A1BCB5B02A1A4F9500380EE6 /* PianoUI */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = PianoUI; sourceTree = "<group>"; };
 		A1DA0A722A647DD700B1978E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -150,7 +146,6 @@
 			children = (
 				A1AAC0DA29E431EB00930783 /* HomeViewModel.swift */,
 				A1AAC0DC29E431EB00930783 /* HomeScreen.swift */,
-				A1BCB5AE2A17B15400380EE6 /* HomeRouter.swift */,
 				A147B9782A64837800E5212A /* HomeCoordinator.swift */,
 			);
 			path = Home;
@@ -169,9 +164,8 @@
 			children = (
 				A1DA0A722A647DD700B1978E /* Info.plist */,
 				A1AAC0E229E431EB00930783 /* AppDelegate.swift */,
-				A1AAC0E629E431EB00930783 /* PianoReminderApp.swift */,
-				A1AAC0E829E431EB00930783 /* LaunchScreen.storyboard */,
 				A186796F2A647ABD00A4B75E /* SceneDelegate.swift */,
+				A1AAC0E829E431EB00930783 /* LaunchScreen.storyboard */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -338,9 +332,7 @@
 				A1AAC0E329E431EB00930783 /* AppDelegate.swift in Sources */,
 				A1AAC0DD29E431EB00930783 /* HomeScreen.swift in Sources */,
 				A147B9792A64837800E5212A /* HomeCoordinator.swift in Sources */,
-				A1BCB5AF2A17B15400380EE6 /* HomeRouter.swift in Sources */,
 				A16994EF29F970510082A171 /* R.generated.swift in Sources */,
-				A1AAC0E729E431EB00930783 /* PianoReminderApp.swift in Sources */,
 				A1AAC0E029E431EB00930783 /* DependencyInjection.swift in Sources */,
 				A1AAC0DB29E431EB00930783 /* HomeViewModel.swift in Sources */,
 				A18679702A647ABD00A4B75E /* SceneDelegate.swift in Sources */,
