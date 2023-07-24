@@ -9,17 +9,13 @@ import SwiftUI
 import DependencyInjection
 
 final class GameFactory {
-    static func getGameController(container: DICProtocol, router: any GameRouter) -> UIViewController {
-        let view = container.resolveService(GameScreen<GameViewModel>.self)
-        view.viewModel.router = router
+    static func getGameController(container: DICProtocol, viewModel: GameViewModel) -> UIViewController {
+        let view = GameScreen<GameViewModel>(viewModel: viewModel)
         let controller = UIHostingController(rootView: view)
         return controller
     }
 
-    static func getGameOverviewController(container: DICProtocol, router: any GameOverviewRouter) -> UIViewController {
-        let view = container.resolveService(GameOverviewScreen<GameOverviewViewModel>.self)
-        view.viewModel.router = router
-        let controller = UIHostingController(rootView: view)
-        return controller
+    static func getGameViewModel(container: DICProtocol) -> GameViewModel {
+        container.resolveService(GameViewModel.self)
     }
 }

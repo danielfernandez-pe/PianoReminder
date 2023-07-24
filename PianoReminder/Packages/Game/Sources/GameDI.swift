@@ -52,7 +52,7 @@ public struct GameDI {
 
         // PRESENTATION
 
-        container.registerService(type: (any GameViewModelType).self, scope: .graph) { r in
+        container.registerService(type: GameViewModel.self, scope: .graph) { r in
             GameViewModel(
                 getNoteQuestionUseCase: r.resolveService(GetNoteQuestionUseCase.self),
                 getChordQuestionUseCase: r.resolveService(GetChordQuestionUseCase.self),
@@ -60,18 +60,8 @@ public struct GameDI {
             )
         }
 
-        container.registerService(type: GameScreen<GameViewModel>.self, scope: .graph) { r in
-            GameScreen<GameViewModel>(viewModel: r.resolveService((any GameViewModelType).self) as! GameViewModel)
-        }
-
-        container.registerService(type: (any GameOverviewViewModelType).self, scope: .graph) { r in
+        container.registerService(type: GameOverviewViewModel.self, scope: .graph) { r in
             GameOverviewViewModel()
-        }
-
-        container.registerService(type: GameOverviewScreen<GameOverviewViewModel>.self, scope: .graph) { r in
-            GameOverviewScreen<GameOverviewViewModel>(
-                viewModel: r.resolveService((any GameOverviewViewModelType).self) as! GameOverviewViewModel
-            )
         }
     }
 }

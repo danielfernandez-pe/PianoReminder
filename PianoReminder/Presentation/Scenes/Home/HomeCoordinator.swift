@@ -38,7 +38,7 @@ public final class HomeCoordinator: BaseCoordinator {
 
 extension HomeCoordinator: HomeRouter {
     func openGame() {
-        let gameCoordinator = GameCoordinator(presentedController: homeController!, container: container)
+        let gameCoordinator = GameCoordinator(presentingController: homeController!, container: container)
         presentCoordinator(gameCoordinator)
 
         gameCoordinator.coordinatorDidFinish = { [weak self] coordinator in

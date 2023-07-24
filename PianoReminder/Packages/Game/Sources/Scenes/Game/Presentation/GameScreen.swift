@@ -43,6 +43,7 @@ struct GameScreen<ViewModel: GameViewModelType>: View {
         .onAppear {
             viewModel.getQuestion()
         }
+        .toolbar(.hidden)
     }
 
     private var options: some View {

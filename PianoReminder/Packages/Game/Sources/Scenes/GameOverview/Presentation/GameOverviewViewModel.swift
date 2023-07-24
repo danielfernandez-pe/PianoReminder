@@ -16,16 +16,16 @@ protocol GameOverviewViewModelOutputs {
 
 protocol GameOverviewViewModelType: GameOverviewViewModelInputs, GameOverviewViewModelOutputs {}
 
-protocol GameOverviewRouter: AnyObject {
-    func closeGame()
-}
-
 final class GameOverviewViewModel: GameOverviewViewModelType {
-    weak var router: (any GameOverviewRouter)?
+    enum Route {
+        case close
+    }
+
+    let routing = PassthroughSubject<Route, Never>()
 
     // MARK: - Dependencies
 
     func backHomeTap() {
-        router?.closeGame()
+        routing.send(.close)
     }
 }

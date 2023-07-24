@@ -1,8 +1,21 @@
 //
-//  File.swift
-//  
+//  GameOverviewFactory.swift
+//
 //
 //  Created by Daniel Yopla on 24.07.2023.
 //
 
-import Foundation
+import SwiftUI
+import DependencyInjection
+
+final class GameOverviewFactory {
+    static func getGameOverviewController(container: DICProtocol, viewModel: GameOverviewViewModel) -> UIViewController {
+        let view = GameOverviewScreen<GameOverviewViewModel>(viewModel: viewModel)
+        let controller = UIHostingController(rootView: view)
+        return controller
+    }
+
+    static func getGameOverviewViewModel(container: DICProtocol) -> GameOverviewViewModel {
+        container.resolveService(GameOverviewViewModel.self)
+    }
+}

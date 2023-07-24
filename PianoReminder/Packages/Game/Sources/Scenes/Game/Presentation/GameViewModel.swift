@@ -25,11 +25,11 @@ protocol GameViewModelOutputs {
 
 protocol GameViewModelType: GameViewModelInputs, GameViewModelOutputs {}
 
-protocol GameRouter: AnyObject {
-    func openOverview()
-}
-
 @Observable final class GameViewModel: GameViewModelType {
+    enum Route {
+        case overview
+    }
+
     var title: String {
         switch getGameTypeUseCase.getGameType() {
         case .chords:
@@ -47,7 +47,7 @@ protocol GameRouter: AnyObject {
 
     let timerViewModel: TimerViewModel = .init()
 
-    weak var router: (any GameRouter)?
+    let routing = PassthroughSubject<Route, Never>()
 
     // MARK: - Private properties
 
@@ -105,9 +105,8 @@ protocol GameRouter: AnyObject {
 
     private func setupTimer() {
         timerViewModel.timerFinished
-            .sink { [weak self] _ in
-                self?.router?.openOverview()
-            }
+            .map { _ in Route.overview }
+            .subscribe(routing)
             .store(in: &cancellables)
     }
 }
