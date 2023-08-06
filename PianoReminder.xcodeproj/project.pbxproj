@@ -8,9 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		A147B9792A64837800E5212A /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A147B9782A64837800E5212A /* HomeCoordinator.swift */; };
-		A164A9DF29F571CB0059E7CF /* RswiftLibrary in Frameworks */ = {isa = PBXBuildFile; productRef = A164A9DE29F571CB0059E7CF /* RswiftLibrary */; };
-		A164A9E129F571CB0059E7CF /* rswift in Frameworks */ = {isa = PBXBuildFile; productRef = A164A9E029F571CB0059E7CF /* rswift */; };
-		A16994EF29F970510082A171 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = A16994EE29F970510082A171 /* R.generated.swift */; };
 		A18679702A647ABD00A4B75E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A186796F2A647ABD00A4B75E /* SceneDelegate.swift */; };
 		A1AAC0DB29E431EB00930783 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AAC0DA29E431EB00930783 /* HomeViewModel.swift */; };
 		A1AAC0DD29E431EB00930783 /* HomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AAC0DC29E431EB00930783 /* HomeScreen.swift */; };
@@ -31,7 +28,6 @@
 		A13BAD522A172C250084EE99 /* Core */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Core; sourceTree = "<group>"; };
 		A13BAD562A172C9B0084EE99 /* Game */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Game; sourceTree = "<group>"; };
 		A147B9782A64837800E5212A /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
-		A16994EE29F970510082A171 /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = "<group>"; };
 		A186796F2A647ABD00A4B75E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		A1AAC0D529E431EB00930783 /* PianoReminder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PianoReminder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1AAC0DA29E431EB00930783 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
@@ -50,14 +46,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A164A9DF29F571CB0059E7CF /* RswiftLibrary in Frameworks */,
 				A1AAC12B29E474F200930783 /* Game in Frameworks */,
 				A1BCB5B22A1A503200380EE6 /* PianoUI in Frameworks */,
 				A1CFFD732A572CBE002A88B1 /* UI in Frameworks */,
 				A1C54C9D2A4174AE00EAE440 /* GameAPI in Frameworks */,
 				A1C231662A172DB300F79273 /* Core in Frameworks */,
 				A1CFFD752A573010002A88B1 /* Logger in Frameworks */,
-				A164A9E129F571CB0059E7CF /* rswift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -192,7 +186,6 @@
 		A1AAC12229E4358C00930783 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				A16994EE29F970510082A171 /* R.generated.swift */,
 				A1AAC0EA29E431ED00930783 /* Assets.xcassets */,
 			);
 			path = Resources;
@@ -205,7 +198,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A1AAC0EE29E431ED00930783 /* Build configuration list for PBXNativeTarget "PianoReminder" */;
 			buildPhases = (
-				A1AAC12129E4356F00930783 /* R.swift */,
 				A1AAC12329E435BE00930783 /* SwiftLint */,
 				A1AAC0D129E431EB00930783 /* Sources */,
 				A1AAC0D229E431EB00930783 /* Frameworks */,
@@ -218,8 +210,6 @@
 			name = PianoReminder;
 			packageProductDependencies = (
 				A1AAC12A29E474F200930783 /* Game */,
-				A164A9DE29F571CB0059E7CF /* RswiftLibrary */,
-				A164A9E029F571CB0059E7CF /* rswift */,
 				A1C231652A172DB300F79273 /* Core */,
 				A1BCB5B12A1A503200380EE6 /* PianoUI */,
 				A1C54C9C2A4174AE00EAE440 /* GameAPI */,
@@ -255,7 +245,6 @@
 			);
 			mainGroup = A1AAC0CC29E431EB00930783;
 			packageReferences = (
-				A164A9DD29F571CB0059E7CF /* XCRemoteSwiftPackageReference "R.swift" */,
 				A1B970532A572A4200D01BAB /* XCRemoteSwiftPackageReference "Logger" */,
 				A1CFFD712A572CBE002A88B1 /* XCRemoteSwiftPackageReference "UI" */,
 			);
@@ -281,27 +270,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		A1AAC12129E4356F00930783 /* R.swift */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = R.swift;
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(SRCROOT)/R.generated.swift",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "#\"$SRCROOT\"/BuildPhases/R.sh\n";
-			showEnvVarsInLog = 0;
-		};
 		A1AAC12329E435BE00930783 /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
@@ -332,7 +300,6 @@
 				A1AAC0E329E431EB00930783 /* AppDelegate.swift in Sources */,
 				A1AAC0DD29E431EB00930783 /* HomeScreen.swift in Sources */,
 				A147B9792A64837800E5212A /* HomeCoordinator.swift in Sources */,
-				A16994EF29F970510082A171 /* R.generated.swift in Sources */,
 				A1AAC0E029E431EB00930783 /* DependencyInjection.swift in Sources */,
 				A1AAC0DB29E431EB00930783 /* HomeViewModel.swift in Sources */,
 				A18679702A647ABD00A4B75E /* SceneDelegate.swift in Sources */,
@@ -538,14 +505,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		A164A9DD29F571CB0059E7CF /* XCRemoteSwiftPackageReference "R.swift" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/mac-cain13/R.swift.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 7.0.0;
-			};
-		};
 		A1B970532A572A4200D01BAB /* XCRemoteSwiftPackageReference "Logger" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "git@github.com:danielfcodes/Logger.git";
@@ -565,16 +524,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		A164A9DE29F571CB0059E7CF /* RswiftLibrary */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = A164A9DD29F571CB0059E7CF /* XCRemoteSwiftPackageReference "R.swift" */;
-			productName = RswiftLibrary;
-		};
-		A164A9E029F571CB0059E7CF /* rswift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = A164A9DD29F571CB0059E7CF /* XCRemoteSwiftPackageReference "R.swift" */;
-			productName = rswift;
-		};
 		A1AAC12A29E474F200930783 /* Game */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Game;
