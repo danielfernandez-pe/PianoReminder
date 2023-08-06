@@ -10,6 +10,15 @@
       }
     },
     {
+      "identity" : "networking",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/danielfcodes/Networking",
+      "state" : {
+        "revision" : "87c60174b700d5cb959b19bb46f55bce826582dc",
+        "version" : "1.2.0"
+      }
+    },
+    {
       "identity" : "swinject",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Swinject/Swinject.git",
@@ -24,7 +33,7 @@
       "location" : "git@github.com:danielfcodes/UI.git",
       "state" : {
         "revision" : "39c91b0710718adf4d39780c61d77d38221ae5b7",
-        "version" : "1.2.0"
+        "version" : "1.2.1"
       }
     }
   ],

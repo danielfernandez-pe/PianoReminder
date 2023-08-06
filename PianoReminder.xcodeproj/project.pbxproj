@@ -36,7 +36,6 @@
 		A1AAC0E229E431EB00930783 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A1AAC0E829E431EB00930783 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A1AAC0EA29E431ED00930783 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		A1AAC0F329E4320600930783 /* Networking */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Networking; path = ../../../packages/Networking; sourceTree = "<group>"; };
 		A1BCB5B02A1A4F9500380EE6 /* PianoUI */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = PianoUI; sourceTree = "<group>"; };
 		A1DA0A722A647DD700B1978E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -171,7 +170,6 @@
 				A1BCB5B02A1A4F9500380EE6 /* PianoUI */,
 				A13BAD562A172C9B0084EE99 /* Game */,
 				A13BAD522A172C250084EE99 /* Core */,
-				A1AAC0F329E4320600930783 /* Networking */,
 			);
 			path = Packages;
 			sourceTree = "<group>";
@@ -247,6 +245,7 @@
 			packageReferences = (
 				A1B970532A572A4200D01BAB /* XCRemoteSwiftPackageReference "Logger" */,
 				A1CFFD712A572CBE002A88B1 /* XCRemoteSwiftPackageReference "UI" */,
+				A14DE5582A80297200E72D15 /* XCRemoteSwiftPackageReference "Networking" */,
 			);
 			productRefGroup = A1AAC0D629E431EB00930783 /* Products */;
 			projectDirPath = "";
@@ -505,6 +504,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		A14DE5582A80297200E72D15 /* XCRemoteSwiftPackageReference "Networking" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/danielfcodes/Networking";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.0;
+			};
+		};
 		A1B970532A572A4200D01BAB /* XCRemoteSwiftPackageReference "Logger" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "git@github.com:danielfcodes/Logger.git";
