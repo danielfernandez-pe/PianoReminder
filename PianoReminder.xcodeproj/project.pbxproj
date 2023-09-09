@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A11E68572AACC2A00019BE15 /* Networking in Frameworks */ = {isa = PBXBuildFile; productRef = A11E68562AACC2A00019BE15 /* Networking */; };
 		A147B9792A64837800E5212A /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A147B9782A64837800E5212A /* HomeCoordinator.swift */; };
 		A18679702A647ABD00A4B75E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A186796F2A647ABD00A4B75E /* SceneDelegate.swift */; };
 		A1AAC0DB29E431EB00930783 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AAC0DA29E431EB00930783 /* HomeViewModel.swift */; };
@@ -50,6 +51,7 @@
 				A1CFFD732A572CBE002A88B1 /* UI in Frameworks */,
 				A1C54C9D2A4174AE00EAE440 /* GameAPI in Frameworks */,
 				A1C231662A172DB300F79273 /* Core in Frameworks */,
+				A11E68572AACC2A00019BE15 /* Networking in Frameworks */,
 				A1CFFD752A573010002A88B1 /* Logger in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -213,6 +215,7 @@
 				A1C54C9C2A4174AE00EAE440 /* GameAPI */,
 				A1CFFD722A572CBE002A88B1 /* UI */,
 				A1CFFD742A573010002A88B1 /* Logger */,
+				A11E68562AACC2A00019BE15 /* Networking */,
 			);
 			productName = PianoReminder;
 			productReference = A1AAC0D529E431EB00930783 /* PianoReminder.app */;
@@ -245,7 +248,7 @@
 			packageReferences = (
 				A1B970532A572A4200D01BAB /* XCRemoteSwiftPackageReference "Logger" */,
 				A1CFFD712A572CBE002A88B1 /* XCRemoteSwiftPackageReference "UI" */,
-				A14DE5582A80297200E72D15 /* XCRemoteSwiftPackageReference "Networking" */,
+				A11E68552AACC2A00019BE15 /* XCRemoteSwiftPackageReference "Networking" */,
 			);
 			productRefGroup = A1AAC0D629E431EB00930783 /* Products */;
 			projectDirPath = "";
@@ -504,9 +507,9 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		A14DE5582A80297200E72D15 /* XCRemoteSwiftPackageReference "Networking" */ = {
+		A11E68552AACC2A00019BE15 /* XCRemoteSwiftPackageReference "Networking" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/danielfcodes/Networking";
+			repositoryURL = "git@github.com:danielfcodes/Networking.git";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 1.2.0;
@@ -531,6 +534,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		A11E68562AACC2A00019BE15 /* Networking */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A11E68552AACC2A00019BE15 /* XCRemoteSwiftPackageReference "Networking" */;
+			productName = Networking;
+		};
 		A1AAC12A29E474F200930783 /* Game */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Game;
