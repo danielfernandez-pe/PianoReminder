@@ -21,6 +21,12 @@ struct GameScreen<ViewModel: GameViewModelType>: View {
             if let question = viewModel.question {
                 question.musicView
                     .frame(maxHeight: .infinity)
+                    .background {
+                        RoundedRectangle(cornerRadius: 12)
+                            .fill(.white)
+                    }
+                    .padding(.horizontal, .medium)
+                    .shadow(radius: 16)
             }
 
             VStack(spacing: .small) {
@@ -37,7 +43,8 @@ struct GameScreen<ViewModel: GameViewModelType>: View {
                 .padding(.horizontal, .medium)
         }
         .overlay(
-            timer,
+            timer
+                .padding(.trailing, .medium),
             alignment: .topTrailing
         )
         .onAppear {
@@ -102,8 +109,18 @@ struct GameScreenPreviews: PreviewProvider {
     }
 
     private final class MockViewModel: GameViewModelType {
-        var title: String = "Which note will you choose?"
-        var question: Question?
+        var title: String = "Which chord will you choose?"
+        var question: Question? = .init(
+            options: [
+                .init(title: "C major", isAnswer: false),
+                .init(title: "D major", isAnswer: false),
+                .init(title: "F major", isAnswer: false),
+                .init(title: "G major", isAnswer: false)
+            ],
+            musicView: .init(
+                type: .chord(InMemoryChords.cMajor.toModel())
+            )
+        )
         var userAnswer: UserOption?
         var currentPoints = 5
 
