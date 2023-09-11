@@ -6,9 +6,10 @@
 //
 
 import SwiftUI
-import Logger
+import Lumberjack
+import DependencyInjection
 
-let logger = Logger(label: "PianoReminder")
+let logger = DIContainer.shared.resolveService(LumberjackCoordinator.self)
 
 @UIApplicationMain
 class AppDelegate: NSObject, UIApplicationDelegate {
