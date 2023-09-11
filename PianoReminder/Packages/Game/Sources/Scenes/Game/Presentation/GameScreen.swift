@@ -17,9 +17,7 @@ struct GameScreen<ViewModel: GameViewModelType>: View {
     }
 
     var body: some View {
-        VStack(spacing: .medium) {
-            Spacer()
-
+        VStack(spacing: .xLarge) {
             if let question = viewModel.question {
                 question.musicView
                     .frame(maxHeight: .infinity)
@@ -27,7 +25,6 @@ struct GameScreen<ViewModel: GameViewModelType>: View {
                         RoundedRectangle(cornerRadius: 12)
                             .fill(.white)
                     }
-                    .padding(.horizontal, .medium)
                     .shadow(radius: 16)
                     .overlay(
                         timer
@@ -36,25 +33,20 @@ struct GameScreen<ViewModel: GameViewModelType>: View {
                     )
             }
 
-            Spacer()
-
-            VStack(spacing: .small) {
-                Text(String(viewModel.currentPoints))
-                    .font(.body)
-                    .fontWeight(.bold)
-
+            VStack(spacing: .large) {
                 Text(viewModel.title)
-                    .font(.title)
-            }
+                    .font(.headline)
+                    .frame(maxWidth: .infinity, alignment: .leading)
 
-            options
-                .frame(maxHeight: .infinity)
-                .padding(.horizontal, .medium)
+                options
+            }
+            .frame(maxHeight: .infinity, alignment: .top)
         }
         .onAppear {
             viewModel.getQuestion()
         }
         .toolbar(.hidden)
+        .padding(.horizontal, .medium)
     }
 
     private var options: some View {
