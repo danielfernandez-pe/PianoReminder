@@ -18,6 +18,8 @@ struct GameScreen<ViewModel: GameViewModelType>: View {
 
     var body: some View {
         VStack(spacing: .medium) {
+            Spacer()
+
             if let question = viewModel.question {
                 question.musicView
                     .frame(maxHeight: .infinity)
@@ -27,7 +29,14 @@ struct GameScreen<ViewModel: GameViewModelType>: View {
                     }
                     .padding(.horizontal, .medium)
                     .shadow(radius: 16)
+                    .overlay(
+                        timer
+                            .padding(.trailing, .medium),
+                        alignment: .topTrailing
+                    )
             }
+
+            Spacer()
 
             VStack(spacing: .small) {
                 Text(String(viewModel.currentPoints))
@@ -42,11 +51,6 @@ struct GameScreen<ViewModel: GameViewModelType>: View {
                 .frame(maxHeight: .infinity)
                 .padding(.horizontal, .medium)
         }
-        .overlay(
-            timer
-                .padding(.trailing, .medium),
-            alignment: .topTrailing
-        )
         .onAppear {
             viewModel.getQuestion()
         }
@@ -54,20 +58,18 @@ struct GameScreen<ViewModel: GameViewModelType>: View {
     }
 
     private var options: some View {
-        VStack(spacing: .medium) {
+        Grid(verticalSpacing: .large) {
             if let question = viewModel.question {
-                ForEach(question.options) { option in
-                    Button(option.title) {
-                        Task {
-                            await viewModel.userTapOption(option)
-                        }
-                    }
-                    .buttonStyle(
-                        buttonStyle(option: option, answer: viewModel.userAnswer)
-                    )
-                    .if(shouldBounce(option: option, answer: viewModel.userAnswer)) {
-                        $0.bounce()
-                    }
+                GridRow {
+                    option(question: question, optionIndex: 0)
+                    
+                    option(question: question, optionIndex: 1)
+                }
+
+                GridRow {
+                    option(question: question, optionIndex: 2)
+                    
+                    option(question: question, optionIndex: 3)
                 }
             }
         }
@@ -76,6 +78,18 @@ struct GameScreen<ViewModel: GameViewModelType>: View {
     private var timer: some View {
         TimerView(viewModel: viewModel.timerViewModel)
             .padding(.medium)
+    }
+
+    private func option(question: Question, optionIndex: Int) -> some View {
+        Button(question.options[optionIndex].title) {
+            Task {
+                await viewModel.userTapOption(question.options[optionIndex])
+            }
+        }
+        .buttonStyle(
+            buttonStyle(option: question.options[optionIndex], answer: viewModel.userAnswer)
+        )
+        .if(shouldShowInteraction(option: question.options[optionIndex], answer: viewModel.userAnswer)) { $0.showInteraction() }
     }
 
     private func buttonStyle(option: UserOption,
@@ -89,15 +103,35 @@ struct GameScreen<ViewModel: GameViewModelType>: View {
         return .main
     }
 
-    private func shouldBounce(option: UserOption,
-                              answer: UserOption?) -> Bool {
+    private func shouldShowInteraction(option: UserOption, answer: UserOption?) -> Bool {
         if let answer {
-            if option == answer {
-                return option.isAnswer
-            }
+            return option == answer
         }
 
         return false
+    }
+}
+
+struct UserInteractionModifier: ViewModifier {
+    @State private var showInteraction = false
+
+    func body(content: Content) -> some View {
+        content
+            .scaleEffect(showInteraction ? 1.1 : 1)
+            .animation(.easeInOut(duration: 0.2), value: showInteraction)
+            .onAppear {
+                showInteraction = true
+
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                    showInteraction = false
+                }
+            }
+    }
+}
+
+extension View {
+    public func showInteraction() -> some View {
+        modifier(UserInteractionModifier())
     }
 }
 

@@ -95,7 +95,7 @@ protocol GameViewModelType: GameViewModelInputs, GameViewModelOutputs {}
         }
 
         do {
-            try await Task.sleep(nanoseconds: 2_000_000_000)
+            try await Task.sleep(nanoseconds: 400_000_000)
             userAnswer = nil
             getQuestion()
         } catch {
