@@ -7,6 +7,7 @@
 
 import Combine
 import SwiftUI
+import AVFoundation
 
 protocol GameViewModelInputs {
     func userTapOption(_ option: UserOption) async
@@ -52,6 +53,7 @@ protocol GameViewModelType: GameViewModelInputs, GameViewModelOutputs {}
     // MARK: - Private properties
 
     private var cancellables = Set<AnyCancellable>()
+    private var audioPlayer: AVAudioPlayer?
 
     // MARK: - Dependencies
 
@@ -67,6 +69,7 @@ protocol GameViewModelType: GameViewModelInputs, GameViewModelOutputs {}
         self.getGameTypeUseCase = getGameTypeUseCase
 
         setupTimer()
+        setupSuccessSound()
     }
 
     @MainActor
@@ -92,6 +95,7 @@ protocol GameViewModelType: GameViewModelInputs, GameViewModelOutputs {}
     private func continueAfterUserTap() async {
         if userAnswer?.isAnswer == true {
             currentPoints += 1
+            playSuccessSound()
         }
 
         do {
@@ -108,5 +112,22 @@ protocol GameViewModelType: GameViewModelInputs, GameViewModelOutputs {}
             .map { _ in Route.overview }
             .subscribe(routing)
             .store(in: &cancellables)
+    }
+
+    private func setupSuccessSound() {
+        guard let path = Bundle.module.path(forResource: "success.wav", ofType: nil) else { return }
+        let url = URL(filePath: path)
+
+        do {
+            audioPlayer = try AVAudioPlayer(contentsOf: url)
+        } catch {
+            // log
+        }
+    }
+
+    private func playSuccessSound() {
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            self?.audioPlayer?.play()
+        }
     }
 }

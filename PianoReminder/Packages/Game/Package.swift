@@ -32,7 +32,11 @@ let package = Package(
                 .product(name: "DependencyInjection", package: "DependencyInjection"),
                 .target(name: "GameAPI")
             ],
-            path: "Sources"),
+            path: "Sources",
+            resources: [
+                .process("Resources/Sounds/success.wav")
+            ]
+        ),
         .target(
             name: "GameAPI",
             dependencies: [
