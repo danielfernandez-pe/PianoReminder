@@ -92,7 +92,7 @@ struct GameScreen<ViewModel: GameViewModelType>: View {
             }
         }
 
-        return .main
+        return .primary
     }
 
     private func shouldShowInteraction(option: UserOption, answer: UserOption?) -> Bool {
