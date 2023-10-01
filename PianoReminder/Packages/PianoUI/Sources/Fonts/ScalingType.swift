@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-enum ScalingType {
+public enum ScalingType {
     /// Size: 24
     case title
     /// Size: 16

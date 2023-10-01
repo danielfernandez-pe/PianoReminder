@@ -29,7 +29,6 @@
 		A13BAD522A172C250084EE99 /* Core */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Core; sourceTree = "<group>"; };
 		A13BAD562A172C9B0084EE99 /* Game */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Game; sourceTree = "<group>"; };
 		A147B9782A64837800E5212A /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
-		A16A8C2B2AC83186003FDD2D /* UI */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = UI; path = ../packages/UI; sourceTree = "<group>"; };
 		A186796F2A647ABD00A4B75E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		A1AAC0D529E431EB00930783 /* PianoReminder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PianoReminder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1AAC0DA29E431EB00930783 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
@@ -73,7 +72,6 @@
 		A1AAC0CC29E431EB00930783 = {
 			isa = PBXGroup;
 			children = (
-				A16A8C2B2AC83186003FDD2D /* UI */,
 				A1AAC0D729E431EB00930783 /* PianoReminder */,
 				A1AAC0D629E431EB00930783 /* Products */,
 				A1AAC0F529E4320F00930783 /* Frameworks */,

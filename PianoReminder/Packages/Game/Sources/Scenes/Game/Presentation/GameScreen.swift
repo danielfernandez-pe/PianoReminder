@@ -17,36 +17,46 @@ struct GameScreen<ViewModel: GameViewModelType>: View {
     }
 
     var body: some View {
-        VStack(spacing: .xLarge) {
-            if let question = viewModel.question {
-                question.musicView
-                    .frame(maxHeight: .infinity)
-                    .background {
-                        RoundedRectangle(cornerRadius: 12)
-                            .fill(.white)
-                    }
-                    .shadow(radius: 16)
-                    .overlay(
-                        timer
-                            .padding(.trailing, .medium),
-                        alignment: .topTrailing
-                    )
-            }
+        GeometryReader { geometry in
+            VStack(spacing: .xLarge) {
+                timer
+                    .fixedSize(horizontal: false, vertical: true)
 
-            VStack(spacing: .large) {
-                Text(viewModel.title)
-                    .font(.headline)
-                    .frame(maxWidth: .infinity, alignment: .leading)
+                musicView(maxHeight: geometry.size.height * 0.25)
 
-                options
+                optionsView
             }
-            .frame(maxHeight: .infinity, alignment: .top)
         }
         .onAppear {
             viewModel.getQuestion()
         }
         .toolbar(.hidden)
         .padding(.horizontal, .medium)
+    }
+
+    @ViewBuilder
+    private func musicView(maxHeight: CGFloat) -> some View {
+        if let question = viewModel.question {
+            question.musicView
+                .frame(maxHeight: maxHeight)
+                .padding(.large)
+                .background {
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(.white)
+                        .shadow(radius: 16)
+                }
+        }
+    }
+
+    private var optionsView: some View {
+        VStack(spacing: .large) {
+            Text(viewModel.title)
+                .font(.headline)
+                .frame(maxWidth: .infinity, alignment: .leading)
+
+            options
+        }
+        .frame(maxHeight: .infinity, alignment: .top)
     }
 
     private var options: some View {
@@ -69,7 +79,6 @@ struct GameScreen<ViewModel: GameViewModelType>: View {
 
     private var timer: some View {
         TimerView(viewModel: viewModel.timerViewModel)
-            .padding(.medium)
     }
 
     private func option(question: Question, optionIndex: Int) -> some View {

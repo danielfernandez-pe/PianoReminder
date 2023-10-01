@@ -42,7 +42,7 @@ extension View {
     /// Font weights:
     /// ultralight (100), thin (200), light (300), regular (400),
     /// medium (500), semibold (600), bold (700), heavy (800), black (900)
-    func scaledFont(_ scalingType: ScalingType, fontWeight: UIFont.Weight = .regular) -> some View {
+    public func scaledFont(_ scalingType: ScalingType, fontWeight: UIFont.Weight = .regular) -> some View {
         return self.modifier(ScaledFont(scalingType: scalingType, fontWeight: fontWeight))
     }
 }

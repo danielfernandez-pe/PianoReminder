@@ -9,8 +9,8 @@ import Foundation
 import Combine
 import Core
 
-final class TimerViewModel: ObservableObject {
-    let totalSeconds: TimeInterval = 10
+@Observable final class TimerViewModel {
+    let totalSeconds: TimeInterval = 60
     let timerFinished = PassthroughSubject<Void, Never>()
 
     func timerIsUp() {

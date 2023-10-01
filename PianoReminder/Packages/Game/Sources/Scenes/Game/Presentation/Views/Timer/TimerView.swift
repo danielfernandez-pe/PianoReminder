@@ -6,10 +6,10 @@
 //
 
 import SwiftUI
+import PianoUI
 
 struct TimerView: View {
-    @ObservedObject var viewModel: TimerViewModel
-
+    var viewModel: TimerViewModel
     @State private var elapsedSeconds: TimeInterval = 0.0
     @State private var isTimerRunning = false
 
@@ -26,19 +26,33 @@ struct TimerView: View {
         }
         return nil
     }
-    
-    var body: some View {
-        ZStack {
-            Circle()
-                .trim(from: 0, to: CGFloat(elapsedSeconds / viewModel.totalSeconds))
-                .stroke(Color.blue, lineWidth: 10)
-                .frame(width: 40, height: 40)
-                .rotationEffect(.degrees(-90))
-                .animation(.linear(duration: 1.0), value: elapsedSeconds)
 
-            Text("\(Int(viewModel.totalSeconds - elapsedSeconds))s")
-                .font(.footnote)
-                .fontWeight(.bold)
+    private var remainingSeconds: Int {
+        Int(viewModel.totalSeconds - elapsedSeconds)
+    }
+
+    var body: some View {
+//            Circle()
+//                .trim(from: 0, to: CGFloat(elapsedSeconds / viewModel.totalSeconds))
+//                .stroke(Color.blue, lineWidth: 10)
+//                .frame(width: 40, height: 40)
+//                .rotationEffect(.degrees(-90))
+//                .animation(.linear(duration: 1.0), value: elapsedSeconds)
+        VStack(spacing: .small) {
+            HStack {
+                Spacer()
+
+                Label("\(remainingSeconds)s", systemImage: "deskclock.fill")
+                    .scaledFont(.caption, fontWeight: .bold)
+                    .foregroundStyle(Color.fgYellowDark)
+                    .padding(.small)
+                    .background {
+                        RoundedRectangle(cornerRadius: 6)
+                            .fill(Color.fgYellowLight)
+                    }
+            }
+
+            timeSlider
         }
         .onAppear {
             if !isTimerRunning {
@@ -47,10 +61,28 @@ struct TimerView: View {
             }
         }
     }
+
+    private var timeSlider: some View {
+        GeometryReader { geometry in
+            ZStack(alignment: .leading) {
+                RoundedRectangle(cornerRadius: 4)
+                    .fill(Color.fgPurple.opacity(0.25))
+                    .frame(maxWidth: .infinity, maxHeight: .small)
+
+                RoundedRectangle(cornerRadius: 4)
+                    .fill(Color.fgPurple)
+                    .frame(maxWidth: timeSliderWidth(totalWidth: geometry.size.width), maxHeight: .small)
+                    .animation(.linear(duration: 1.0), value: elapsedSeconds)
+            }
+        }
+    }
+
+    private func timeSliderWidth(totalWidth: CGFloat) -> CGFloat {
+        let remainingSeconds = viewModel.totalSeconds - elapsedSeconds
+        return (remainingSeconds * totalWidth) / viewModel.totalSeconds
+    }
 }
 
-struct TimerView_Previews: PreviewProvider {
-    static var previews: some View {
-        TimerView(viewModel: .init())
-    }
+#Preview {
+    TimerView(viewModel: .init())
 }
