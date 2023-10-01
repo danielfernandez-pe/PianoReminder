@@ -19,19 +19,23 @@ struct GameScreen<ViewModel: GameViewModelType>: View {
     var body: some View {
         GeometryReader { geometry in
             VStack(spacing: .xLarge) {
-                timer
-                    .fixedSize(horizontal: false, vertical: true)
+                Group {
+                    timer
+                        .fixedSize(horizontal: false, vertical: true)
 
-                musicView(maxHeight: geometry.size.height * 0.25)
+                    musicView(maxHeight: geometry.size.height * 0.25)
+                }
+                .padding(.horizontal, .medium)
 
                 optionsView
+                    .padding(.top, .large)
             }
         }
         .onAppear {
             viewModel.getQuestion()
         }
         .toolbar(.hidden)
-        .padding(.horizontal, .medium)
+        .background(Color.bgSecondary)
     }
 
     @ViewBuilder
@@ -49,31 +53,31 @@ struct GameScreen<ViewModel: GameViewModelType>: View {
     }
 
     private var optionsView: some View {
-        VStack(spacing: .large) {
-            Text(viewModel.title)
-                .font(.headline)
-                .frame(maxWidth: .infinity, alignment: .leading)
+        BackgroundCircleView(backgroundColor: .bgPrimary) {
+            VStack(spacing: .large) {
+                Text(viewModel.title)
+                    .scaledFont(.callout, fontWeight: .semibold)
+                    .frame(maxWidth: .infinity, alignment: .center)
 
-            options
+                options
+            }
+            .frame(maxHeight: .infinity, alignment: .top)
         }
-        .frame(maxHeight: .infinity, alignment: .top)
     }
 
+    @ViewBuilder
     private var options: some View {
-        Grid(verticalSpacing: .large) {
-            if let question = viewModel.question {
-                GridRow {
-                    option(question: question, optionIndex: 0)
-                    
-                    option(question: question, optionIndex: 1)
-                }
+        if let question = viewModel.question {
+            VStack(spacing: .medium) {
+                option(question: question, optionIndex: 0)
 
-                GridRow {
-                    option(question: question, optionIndex: 2)
-                    
-                    option(question: question, optionIndex: 3)
-                }
+                option(question: question, optionIndex: 1)
+
+                option(question: question, optionIndex: 2)
+
+                option(question: question, optionIndex: 3)
             }
+            .padding(.horizontal, .xLarge)
         }
     }
 
@@ -90,6 +94,7 @@ struct GameScreen<ViewModel: GameViewModelType>: View {
         .buttonStyle(
             buttonStyle(option: question.options[optionIndex], answer: viewModel.userAnswer)
         )
+        .shadow(color: .black.opacity(0.2), radius: 8)
         .if(shouldShowInteraction(option: question.options[optionIndex], answer: viewModel.userAnswer)) { $0.showInteraction() }
     }
 
@@ -101,7 +106,7 @@ struct GameScreen<ViewModel: GameViewModelType>: View {
             }
         }
 
-        return .primary
+        return .game
     }
 
     private func shouldShowInteraction(option: UserOption, answer: UserOption?) -> Bool {
@@ -136,40 +141,38 @@ extension View {
     }
 }
 
-struct GameScreenPreviews: PreviewProvider {
-    static var previews: some View {
-        GameScreen<MockViewModel>(
-            viewModel: MockViewModel()
+#Preview {
+    GameScreen<MockViewModel>(
+        viewModel: MockViewModel()
+    )
+}
+
+fileprivate final class MockViewModel: GameViewModelType {
+    var title: String = "Which chord will you choose?"
+    var question: Question? = .init(
+        options: [
+            .init(title: "C major", isAnswer: false),
+            .init(title: "D major", isAnswer: false),
+            .init(title: "F major", isAnswer: false),
+            .init(title: "G major", isAnswer: false)
+        ],
+        musicView: .init(
+            type: .chord(InMemoryChords.cMajor.toModel())
         )
+    )
+    var userAnswer: UserOption?
+    var currentPoints = 5
+
+    var timerViewModel = TimerViewModel()
+
+    func userTapOption(_ option: UserOption) async {
     }
 
-    private final class MockViewModel: GameViewModelType {
-        var title: String = "Which chord will you choose?"
-        var question: Question? = .init(
-            options: [
-                .init(title: "C major", isAnswer: false),
-                .init(title: "D major", isAnswer: false),
-                .init(title: "F major", isAnswer: false),
-                .init(title: "G major", isAnswer: false)
-            ],
-            musicView: .init(
-                type: .chord(InMemoryChords.cMajor.toModel())
-            )
-        )
-        var userAnswer: UserOption?
-        var currentPoints = 5
+    func getQuestion() {
+    }
 
-        var timerViewModel = TimerViewModel()
-
-        func userTapOption(_ option: UserOption) async {
-        }
-
-        func getQuestion() {
-        }
-
-        func currentScreen() -> some View {
-            EmptyView()
-        }
+    func currentScreen() -> some View {
+        EmptyView()
     }
 }
 
@@ -177,4 +180,3 @@ struct GameScreenPreviews: PreviewProvider {
  - C and F doesn't have a flat
  - Size is not correct so will overlap if not careful
  */
-

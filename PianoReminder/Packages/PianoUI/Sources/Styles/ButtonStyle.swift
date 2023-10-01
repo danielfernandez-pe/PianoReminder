@@ -14,7 +14,19 @@ extension ButtonStyle where Self == MainButtonStyle {
             style: getDefaultStyle(
                 textColor: .fgPrimary,
                 backgroundColor: .fgAccent,
-                pressedBackgroundColor: .fgAccentPressed
+                pressedBackgroundColor: .fgAccentPressed,
+                isDark: true
+            )
+        )
+    }
+
+    public static var game: MainButtonStyle {
+        MainButtonStyle(
+            style: getDefaultStyle(
+                textColor: .fgPrimary,
+                backgroundColor: .bgPrimary,
+                pressedBackgroundColor: .bgPrimary.opacity(0.6),
+                isDark: false
             )
         )
     }
@@ -24,7 +36,8 @@ extension ButtonStyle where Self == MainButtonStyle {
             style: getDefaultStyle(
                 textColor: .fgPrimary,
                 backgroundColor: .fgSuccess,
-                pressedBackgroundColor: .fgSuccess.opacity(0.6)
+                pressedBackgroundColor: .fgSuccess.opacity(0.6),
+                isDark: true
             )
         )
     }
@@ -34,7 +47,8 @@ extension ButtonStyle where Self == MainButtonStyle {
             style: getDefaultStyle(
                 textColor: .fgPrimary,
                 backgroundColor: .fgError,
-                pressedBackgroundColor: .fgError.opacity(0.6)
+                pressedBackgroundColor: .fgError.opacity(0.6),
+                isDark: true
             )
         )
     }
@@ -42,7 +56,8 @@ extension ButtonStyle where Self == MainButtonStyle {
 
 fileprivate func getDefaultStyle(textColor: Color,
                                  backgroundColor: Color,
-                                 pressedBackgroundColor: Color) -> MainButtonStyle.Style {
+                                 pressedBackgroundColor: Color,
+                                 isDark: Bool) -> MainButtonStyle.Style {
     .init(
         textColor: textColor,
         backgroundColor: backgroundColor,
@@ -50,7 +65,7 @@ fileprivate func getDefaultStyle(textColor: Color,
         uiFont: ScalingType.body.font(weight: .regular),
         cornerRadius: 8,
         shouldScaleWhenPressed: false,
-        isDark: true
+        isDark: isDark
     )
 }
 
