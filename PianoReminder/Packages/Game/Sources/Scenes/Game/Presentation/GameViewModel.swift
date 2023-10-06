@@ -10,7 +10,7 @@ import SwiftUI
 import AVFoundation
 
 protocol GameViewModelInputs {
-    func userTapOption(_ option: UserOption) async
+    func userTapOption(_ option: UserOption?) async
     func getQuestion()
 }
 
@@ -73,8 +73,11 @@ protocol GameViewModelType: GameViewModelInputs, GameViewModelOutputs {}
     }
 
     @MainActor
-    func userTapOption(_ option: UserOption) async {
-        userAnswer = UserOption(title: option.title, isAnswer: option.isAnswer)
+    func userTapOption(_ option: UserOption?) async {
+        if let option {
+            userAnswer = UserOption(title: option.title, isAnswer: option.isAnswer)
+        }
+
         await continueAfterUserTap()
     }
 

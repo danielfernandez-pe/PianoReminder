@@ -32,12 +32,6 @@ struct TimerView: View {
     }
 
     var body: some View {
-//            Circle()
-//                .trim(from: 0, to: CGFloat(elapsedSeconds / viewModel.totalSeconds))
-//                .stroke(Color.blue, lineWidth: 10)
-//                .frame(width: 40, height: 40)
-//                .rotationEffect(.degrees(-90))
-//                .animation(.linear(duration: 1.0), value: elapsedSeconds)
         VStack(spacing: .small) {
             HStack {
                 Spacer()

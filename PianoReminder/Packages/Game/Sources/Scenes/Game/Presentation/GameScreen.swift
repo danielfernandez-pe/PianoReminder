@@ -18,17 +18,19 @@ struct GameScreen<ViewModel: GameViewModelType>: View {
 
     var body: some View {
         GeometryReader { geometry in
-            VStack(spacing: .xLarge) {
+            VStack(spacing: 48) {
                 Group {
                     timer
                         .fixedSize(horizontal: false, vertical: true)
 
-                    musicView(maxHeight: geometry.size.height * 0.25)
+                    musicView(maxHeight: geometry.size.height * 0.2)
                 }
                 .padding(.horizontal, .medium)
 
+                Spacer()
+
                 optionsView
-                    .padding(.top, .large)
+                    .ignoresSafeArea()
             }
         }
         .onAppear {
@@ -54,7 +56,7 @@ struct GameScreen<ViewModel: GameViewModelType>: View {
 
     private var optionsView: some View {
         BackgroundCircleView(backgroundColor: .bgPrimary) {
-            VStack(spacing: .large) {
+            VStack(spacing: .medium) {
                 Text(viewModel.title)
                     .scaledFont(.callout, fontWeight: .semibold)
                     .frame(maxWidth: .infinity, alignment: .center)
@@ -65,19 +67,31 @@ struct GameScreen<ViewModel: GameViewModelType>: View {
         }
     }
 
-    @ViewBuilder
     private var options: some View {
-        if let question = viewModel.question {
-            VStack(spacing: .medium) {
-                option(question: question, optionIndex: 0)
+        GeometryReader { geometry in
+            if let question = viewModel.question {
+                VStack(spacing: .small) {
+                    Group {
+                        option(question: question, optionIndex: 0)
 
-                option(question: question, optionIndex: 1)
+                        option(question: question, optionIndex: 1)
 
-                option(question: question, optionIndex: 2)
+                        option(question: question, optionIndex: 2)
 
-                option(question: question, optionIndex: 3)
+                        option(question: question, optionIndex: 3)
+
+                        Button("Skip") {
+                            Task {
+                                await viewModel.userTapOption(nil)
+                            }
+                        }
+                        .scaledFont(.caption, fontWeight: .bold)
+                        .frame(maxWidth: .infinity, minHeight: 48)
+                    }
+                    .frame(maxWidth: geometry.size.width * 0.7)
+                }
+                .frame(maxWidth: .infinity)
             }
-            .padding(.horizontal, .xLarge)
         }
     }
 
@@ -165,7 +179,7 @@ fileprivate final class MockViewModel: GameViewModelType {
 
     var timerViewModel = TimerViewModel()
 
-    func userTapOption(_ option: UserOption) async {
+    func userTapOption(_ option: UserOption?) async {
     }
 
     func getQuestion() {

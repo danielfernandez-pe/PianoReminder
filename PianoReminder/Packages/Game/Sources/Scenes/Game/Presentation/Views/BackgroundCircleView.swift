@@ -31,7 +31,7 @@ struct ArchShape: Shape {
     func path(in rect: CGRect) -> Path {
         var path = Path()
                 path.move(to: CGPoint(x: 0, y: 0))
-                path.addQuadCurve(to: CGPoint(x: rect.width, y: 0), control: CGPoint(x: rect.midX, y: -60)) // Adjust the control point and curve as needed
+                path.addQuadCurve(to: CGPoint(x: rect.width, y: 0), control: CGPoint(x: rect.midX, y: -80)) // Adjust the control point and curve as needed
                 path.addLine(to: CGPoint(x: rect.width, y: rect.height))
                 path.addLine(to: CGPoint(x: 0, y: rect.height))
                 return path
