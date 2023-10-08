@@ -32,8 +32,8 @@
       "kind" : "remoteSourceControl",
       "location" : "git@github.com:danielfcodes/UI.git",
       "state" : {
-        "revision" : "b69217c15b0c7e43955e5bc4745cb46805eb5eb2",
-        "version" : "1.2.4"
+        "revision" : "44fe535c9449a168cb51711be01fdfc1ddc6b2ef",
+        "version" : "1.2.5"
       }
     }
   ],

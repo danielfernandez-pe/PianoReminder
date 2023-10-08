@@ -49,7 +49,7 @@ struct GameScreen<ViewModel: GameViewModelType>: View {
                 .background {
                     RoundedRectangle(cornerRadius: 12)
                         .fill(.white)
-                        .shadow(radius: 16)
+                        .addShadow()
                 }
         }
     }
@@ -108,7 +108,7 @@ struct GameScreen<ViewModel: GameViewModelType>: View {
         .buttonStyle(
             buttonStyle(option: question.options[optionIndex], answer: viewModel.userAnswer)
         )
-        .shadow(color: .black.opacity(0.2), radius: 8)
+        .addShadow()
         .if(shouldShowInteraction(option: question.options[optionIndex], answer: viewModel.userAnswer)) { $0.showInteraction() }
     }
 

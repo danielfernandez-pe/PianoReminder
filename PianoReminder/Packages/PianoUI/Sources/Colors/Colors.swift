@@ -25,4 +25,7 @@ extension Color {
     public static var bgPrimary = Color("bg-primary", bundle: .module)
     public static var bgSecondary = Color("bg-secondary", bundle: .module)
     public static var bgAccent = Color("bg-accent", bundle: .module)
+
+    // Others
+    public static var shadow = Color("shadow", bundle: .module)
 }
