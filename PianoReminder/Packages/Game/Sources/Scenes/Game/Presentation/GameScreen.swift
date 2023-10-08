@@ -11,6 +11,7 @@ import UI
 
 struct GameScreen<ViewModel: GameViewModelType>: View {
     var viewModel: ViewModel
+    private let minDeckHeight: CGFloat = 200
 
     init(viewModel: ViewModel) {
         self.viewModel = viewModel
@@ -43,14 +44,10 @@ struct GameScreen<ViewModel: GameViewModelType>: View {
     @ViewBuilder
     private func musicView(maxHeight: CGFloat) -> some View {
         if let question = viewModel.question {
-            question.musicView
-                .frame(maxHeight: maxHeight)
-                .padding(.large)
-                .background {
-                    RoundedRectangle(cornerRadius: 12)
-                        .fill(.white)
-                        .addShadow()
-                }
+            MusicDeckView(
+                musicView: question.musicView,
+                maxHeight: max(minDeckHeight, maxHeight)
+            )
         }
     }
 
