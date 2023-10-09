@@ -9,23 +9,6 @@ import Combine
 import SwiftUI
 import AVFoundation
 
-protocol GameViewModelInputs {
-    func userTapOption(_ option: UserOption?) async
-    func getQuestion()
-}
-
-protocol GameViewModelOutputs {
-    var title: String { get }
-
-    var question: Question? { get }
-    var userAnswer: UserOption? { get }
-
-    var currentPoints: Int { get }
-    var timerViewModel: TimerViewModel { get }
-}
-
-protocol GameViewModelType: GameViewModelInputs, GameViewModelOutputs {}
-
 @Observable final class GameViewModel: GameViewModelType {
     enum Route {
         case overview

@@ -41,14 +41,11 @@ struct GameScreen<ViewModel: GameViewModelType>: View {
         .background(Color.bgSecondary)
     }
 
-    @ViewBuilder
     private func musicView(maxHeight: CGFloat) -> some View {
-        if let question = viewModel.question {
-            MusicDeckView(
-                musicView: question.musicView,
-                maxHeight: max(minDeckHeight, maxHeight)
-            )
-        }
+        MusicDeckView(
+            viewModel: viewModel,
+            maxHeight: max(minDeckHeight, maxHeight)
+        )
     }
 
     private var optionsView: some View {
@@ -153,12 +150,12 @@ extension View {
 }
 
 #Preview {
-    GameScreen<MockViewModel>(
-        viewModel: MockViewModel()
+    GameScreen<GameMockViewModel>(
+        viewModel: GameMockViewModel()
     )
 }
 
-fileprivate final class MockViewModel: GameViewModelType {
+final class GameMockViewModel: GameViewModelType {
     var title: String = "Which chord will you choose?"
     var question: Question? = .init(
         options: [
