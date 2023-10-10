@@ -6,26 +6,77 @@
 //
 
 import SwiftUI
+import PianoUI
 
 struct TimerView: View {
-    @ObservedObject var viewModel: TimerViewModel
-    @State private var timeLeft = 5
+    var viewModel: TimerViewModel
+    @State private var elapsedSeconds: TimeInterval = 0.0
+    @State private var isTimerRunning = false
 
-    var body: some View {
-        Text(String(timeLeft))
-            .font(.headline)
-            .onReceive(viewModel.timer) { _ in
-                timeLeft -= 1
-
-                if timeLeft <= 0 {
+    private var timer: Timer? {
+        if isTimerRunning {
+            return Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
+                if elapsedSeconds < viewModel.totalSeconds {
+                    elapsedSeconds += 1.0
+                } else {
+                    isTimerRunning = false
                     viewModel.timerIsUp()
                 }
             }
+        }
+        return nil
+    }
+
+    private var remainingSeconds: Int {
+        Int(viewModel.totalSeconds - elapsedSeconds)
+    }
+
+    var body: some View {
+        VStack(spacing: .small) {
+            HStack {
+                Spacer()
+
+                Label("\(remainingSeconds)s", systemImage: "deskclock.fill")
+                    .scaledFont(.caption, fontWeight: .bold)
+                    .foregroundStyle(Color.fgYellowDark)
+                    .padding(.small)
+                    .background {
+                        RoundedRectangle(cornerRadius: 6)
+                            .fill(Color.fgYellowLight)
+                    }
+            }
+
+            timeSlider
+        }
+        .onAppear {
+            if !isTimerRunning {
+                isTimerRunning = true
+                _ = timer
+            }
+        }
+    }
+
+    private var timeSlider: some View {
+        GeometryReader { geometry in
+            ZStack(alignment: .leading) {
+                RoundedRectangle(cornerRadius: 4)
+                    .fill(Color.fgPurple.opacity(0.25))
+                    .frame(maxWidth: .infinity, maxHeight: .small)
+
+                RoundedRectangle(cornerRadius: 4)
+                    .fill(Color.fgPurple)
+                    .frame(maxWidth: timeSliderWidth(totalWidth: geometry.size.width), maxHeight: .small)
+                    .animation(.linear(duration: 1.0), value: elapsedSeconds)
+            }
+        }
+    }
+
+    private func timeSliderWidth(totalWidth: CGFloat) -> CGFloat {
+        let remainingSeconds = viewModel.totalSeconds - elapsedSeconds
+        return (remainingSeconds * totalWidth) / viewModel.totalSeconds
     }
 }
 
-struct TimerView_Previews: PreviewProvider {
-    static var previews: some View {
-        TimerView(viewModel: .init())
-    }
+#Preview {
+    TimerView(viewModel: .init())
 }

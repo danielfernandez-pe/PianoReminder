@@ -9,9 +9,8 @@ import Foundation
 import Combine
 import Core
 
-final class TimerViewModel: ObservableObject {
-    let timer = Timer.publish(every: 1, on: .main, in: .common)
-        .autoconnect()
+@Observable final class TimerViewModel {
+    let totalSeconds: TimeInterval = 15
     let timerFinished = PassthroughSubject<Void, Never>()
 
     func timerIsUp() {
@@ -19,6 +18,6 @@ final class TimerViewModel: ObservableObject {
     }
 
     func pause() {
-        timer.upstream.connect().cancel()
+        
     }
 }

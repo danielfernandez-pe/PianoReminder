@@ -10,6 +10,8 @@ import DependencyInjection
 import GameAPI
 import Game
 import Core
+import Lumberjack
+import OSLog
 
 public final class HomeCoordinator: BaseCoordinator {
     private let window: UIWindow
@@ -22,6 +24,8 @@ public final class HomeCoordinator: BaseCoordinator {
     }
 
     public override func start() {
+        logger.debug("Starting home")
+
         // put the factory
         let view = HomeScreen<HomeViewModel>(
             viewModel: .init(

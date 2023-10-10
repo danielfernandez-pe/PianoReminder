@@ -3,31 +3,26 @@
 
 import PackageDescription
 
+let packageName = "PianoUI"
 let package = Package(
     name: "PianoUI",
     platforms: [.iOS(.v17)],
     products: [
-        // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
-            name: "PianoUI",
-            targets: ["PianoUI"]
+            name: packageName,
+            targets: [packageName]
         )
     ],
     dependencies: [
         .package(url: "git@github.com:danielfcodes/UI.git", from: "1.0.0")
     ],
     targets: [
-        // Targets are the basic building blocks of a package. A target can define a module or a test suite.
-        // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
-            name: "PianoUI",
+            name: packageName,
             dependencies: [
                 .product(name: "UI", package: "UI")
-            ]
-        ),
-        .testTarget(
-            name: "PianoUITests",
-            dependencies: ["PianoUI"]
+            ],
+            path: "Sources"
         )
     ]
 )

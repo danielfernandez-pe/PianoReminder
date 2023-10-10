@@ -7,23 +7,7 @@
 
 import Combine
 import SwiftUI
-
-protocol GameViewModelInputs {
-    func userTapOption(_ option: UserOption) async
-    func getQuestion()
-}
-
-protocol GameViewModelOutputs {
-    var title: String { get }
-
-    var question: Question? { get }
-    var userAnswer: UserOption? { get }
-
-    var currentPoints: Int { get }
-    var timerViewModel: TimerViewModel { get }
-}
-
-protocol GameViewModelType: GameViewModelInputs, GameViewModelOutputs {}
+import AVFoundation
 
 @Observable final class GameViewModel: GameViewModelType {
     enum Route {
@@ -52,6 +36,7 @@ protocol GameViewModelType: GameViewModelInputs, GameViewModelOutputs {}
     // MARK: - Private properties
 
     private var cancellables = Set<AnyCancellable>()
+    private var audioPlayer: AVAudioPlayer?
 
     // MARK: - Dependencies
 
@@ -67,11 +52,15 @@ protocol GameViewModelType: GameViewModelInputs, GameViewModelOutputs {}
         self.getGameTypeUseCase = getGameTypeUseCase
 
         setupTimer()
+        setupSuccessSound()
     }
 
     @MainActor
-    func userTapOption(_ option: UserOption) async {
-        userAnswer = UserOption(title: option.title, isAnswer: option.isAnswer)
+    func userTapOption(_ option: UserOption?) async {
+        if let option {
+            userAnswer = UserOption(title: option.title, isAnswer: option.isAnswer)
+        }
+
         await continueAfterUserTap()
     }
 
@@ -92,10 +81,11 @@ protocol GameViewModelType: GameViewModelInputs, GameViewModelOutputs {}
     private func continueAfterUserTap() async {
         if userAnswer?.isAnswer == true {
             currentPoints += 1
+            playSuccessSound()
         }
 
         do {
-            try await Task.sleep(nanoseconds: 2_000_000_000)
+            try await Task.sleep(nanoseconds: 400_000_000)
             userAnswer = nil
             getQuestion()
         } catch {
@@ -108,5 +98,22 @@ protocol GameViewModelType: GameViewModelInputs, GameViewModelOutputs {}
             .map { _ in Route.overview }
             .subscribe(routing)
             .store(in: &cancellables)
+    }
+
+    private func setupSuccessSound() {
+        guard let path = Bundle.module.path(forResource: "success.wav", ofType: nil) else { return }
+        let url = URL(filePath: path)
+
+        do {
+            audioPlayer = try AVAudioPlayer(contentsOf: url)
+        } catch {
+            // log
+        }
+    }
+
+    private func playSuccessSound() {
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            self?.audioPlayer?.play()
+        }
     }
 }

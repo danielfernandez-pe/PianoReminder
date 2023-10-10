@@ -18,7 +18,7 @@ struct HomeScreen<ViewModel: HomeViewModelType>: View {
             AsyncButton("Start game") {
                 await viewModel.setupGame()
             }
-            .buttonStyle(.main)
+            .buttonStyle(.primary)
         }
     }
 }

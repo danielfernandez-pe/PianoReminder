@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A11E68572AACC2A00019BE15 /* Networking in Frameworks */ = {isa = PBXBuildFile; productRef = A11E68562AACC2A00019BE15 /* Networking */; };
+		A1313D642AAF7CFC00927058 /* Lumberjack in Frameworks */ = {isa = PBXBuildFile; productRef = A1313D632AAF7CFC00927058 /* Lumberjack */; };
 		A147B9792A64837800E5212A /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A147B9782A64837800E5212A /* HomeCoordinator.swift */; };
 		A18679702A647ABD00A4B75E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A186796F2A647ABD00A4B75E /* SceneDelegate.swift */; };
 		A1AAC0DB29E431EB00930783 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AAC0DA29E431EB00930783 /* HomeViewModel.swift */; };
@@ -21,7 +22,6 @@
 		A1C231662A172DB300F79273 /* Core in Frameworks */ = {isa = PBXBuildFile; productRef = A1C231652A172DB300F79273 /* Core */; };
 		A1C54C9D2A4174AE00EAE440 /* GameAPI in Frameworks */ = {isa = PBXBuildFile; productRef = A1C54C9C2A4174AE00EAE440 /* GameAPI */; };
 		A1CFFD732A572CBE002A88B1 /* UI in Frameworks */ = {isa = PBXBuildFile; productRef = A1CFFD722A572CBE002A88B1 /* UI */; };
-		A1CFFD752A573010002A88B1 /* Logger in Frameworks */ = {isa = PBXBuildFile; productRef = A1CFFD742A573010002A88B1 /* Logger */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,8 +51,8 @@
 				A1CFFD732A572CBE002A88B1 /* UI in Frameworks */,
 				A1C54C9D2A4174AE00EAE440 /* GameAPI in Frameworks */,
 				A1C231662A172DB300F79273 /* Core in Frameworks */,
+				A1313D642AAF7CFC00927058 /* Lumberjack in Frameworks */,
 				A11E68572AACC2A00019BE15 /* Networking in Frameworks */,
-				A1CFFD752A573010002A88B1 /* Logger in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -67,35 +67,6 @@
 				A1AAC12229E4358C00930783 /* Resources */,
 			);
 			path = Core;
-			sourceTree = "<group>";
-		};
-		A12D4E2D29F9688200B00FB9 /* Data */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Data;
-			sourceTree = "<group>";
-		};
-		A12D4E2E29F9688700B00FB9 /* Domain */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Domain;
-			sourceTree = "<group>";
-		};
-		A12D4E2F29F9688D00B00FB9 /* Presentation */ = {
-			isa = PBXGroup;
-			children = (
-				A1AAC0D829E431EB00930783 /* Scenes */,
-			);
-			path = Presentation;
-			sourceTree = "<group>";
-		};
-		A164A9E229F584E80059E7CF /* Game */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Game;
 			sourceTree = "<group>";
 		};
 		A1AAC0CC29E431EB00930783 = {
@@ -118,9 +89,7 @@
 		A1AAC0D729E431EB00930783 /* PianoReminder */ = {
 			isa = PBXGroup;
 			children = (
-				A12D4E2F29F9688D00B00FB9 /* Presentation */,
-				A12D4E2E29F9688700B00FB9 /* Domain */,
-				A12D4E2D29F9688200B00FB9 /* Data */,
+				A1AAC0D829E431EB00930783 /* Scenes */,
 				A12D4E2C29F9687A00B00FB9 /* Core */,
 				A1AAC0F129E431FE00930783 /* Packages */,
 			);
@@ -130,7 +99,6 @@
 		A1AAC0D829E431EB00930783 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
-				A164A9E229F584E80059E7CF /* Game */,
 				A1AAC0D929E431EB00930783 /* Home */,
 			);
 			path = Scenes;
@@ -214,8 +182,8 @@
 				A1BCB5B12A1A503200380EE6 /* PianoUI */,
 				A1C54C9C2A4174AE00EAE440 /* GameAPI */,
 				A1CFFD722A572CBE002A88B1 /* UI */,
-				A1CFFD742A573010002A88B1 /* Logger */,
 				A11E68562AACC2A00019BE15 /* Networking */,
+				A1313D632AAF7CFC00927058 /* Lumberjack */,
 			);
 			productName = PianoReminder;
 			productReference = A1AAC0D529E431EB00930783 /* PianoReminder.app */;
@@ -431,6 +399,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -460,6 +429,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -541,6 +511,11 @@
 			package = A11E68552AACC2A00019BE15 /* XCRemoteSwiftPackageReference "Networking" */;
 			productName = Networking;
 		};
+		A1313D632AAF7CFC00927058 /* Lumberjack */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A1B970532A572A4200D01BAB /* XCRemoteSwiftPackageReference "Logger" */;
+			productName = Lumberjack;
+		};
 		A1AAC12A29E474F200930783 /* Game */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Game;
@@ -561,11 +536,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = A1CFFD712A572CBE002A88B1 /* XCRemoteSwiftPackageReference "UI" */;
 			productName = UI;
-		};
-		A1CFFD742A573010002A88B1 /* Logger */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = A1B970532A572A4200D01BAB /* XCRemoteSwiftPackageReference "Logger" */;
-			productName = Logger;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -11,64 +11,99 @@ import UI
 
 struct GameScreen<ViewModel: GameViewModelType>: View {
     var viewModel: ViewModel
+    private let minDeckHeight: CGFloat = 200
 
     init(viewModel: ViewModel) {
         self.viewModel = viewModel
     }
 
     var body: some View {
-        VStack(spacing: .medium) {
-            if let question = viewModel.question {
-                question.musicView
-                    .frame(maxHeight: .infinity)
-            }
+        GeometryReader { geometry in
+            VStack(spacing: 48) {
+                Group {
+                    timer
+                        .fixedSize(horizontal: false, vertical: true)
 
-            VStack(spacing: .small) {
-                Text(String(viewModel.currentPoints))
-                    .font(.body)
-                    .fontWeight(.bold)
-
-                Text(viewModel.title)
-                    .font(.title)
-            }
-
-            options
-                .frame(maxHeight: .infinity)
+                    musicView(maxHeight: geometry.size.height * 0.2)
+                }
                 .padding(.horizontal, .medium)
+
+                Spacer()
+
+                optionsView
+                    .ignoresSafeArea()
+            }
         }
-        .overlay(
-            timer,
-            alignment: .topTrailing
-        )
         .onAppear {
             viewModel.getQuestion()
         }
         .toolbar(.hidden)
+        .background(Color.bgSecondary)
+    }
+
+    private func musicView(maxHeight: CGFloat) -> some View {
+        MusicDeckView(
+            viewModel: viewModel,
+            maxHeight: max(minDeckHeight, maxHeight)
+        )
+    }
+
+    private var optionsView: some View {
+        BackgroundCircleView(backgroundColor: .bgPrimary) {
+            VStack(spacing: .medium) {
+                Text(viewModel.title)
+                    .scaledFont(.callout, fontWeight: .semibold)
+                    .frame(maxWidth: .infinity, alignment: .center)
+
+                options
+            }
+            .frame(maxHeight: .infinity, alignment: .top)
+        }
     }
 
     private var options: some View {
-        VStack(spacing: .medium) {
+        GeometryReader { geometry in
             if let question = viewModel.question {
-                ForEach(question.options) { option in
-                    Button(option.title) {
-                        Task {
-                            await viewModel.userTapOption(option)
+                VStack(spacing: .small) {
+                    Group {
+                        option(question: question, optionIndex: 0)
+
+                        option(question: question, optionIndex: 1)
+
+                        option(question: question, optionIndex: 2)
+
+                        option(question: question, optionIndex: 3)
+
+                        Button("Skip") {
+                            Task {
+                                await viewModel.userTapOption(nil)
+                            }
                         }
+                        .scaledFont(.caption, fontWeight: .bold)
+                        .frame(maxWidth: .infinity, minHeight: 48)
                     }
-                    .buttonStyle(
-                        buttonStyle(option: option, answer: viewModel.userAnswer)
-                    )
-                    .if(shouldBounce(option: option, answer: viewModel.userAnswer)) {
-                        $0.bounce()
-                    }
+                    .frame(maxWidth: geometry.size.width * 0.7)
                 }
+                .frame(maxWidth: .infinity)
             }
         }
     }
 
     private var timer: some View {
         TimerView(viewModel: viewModel.timerViewModel)
-            .padding(.medium)
+    }
+
+    private func option(question: Question, optionIndex: Int) -> some View {
+        Button(question.options[optionIndex].title) {
+            Task {
+                await viewModel.userTapOption(question.options[optionIndex])
+            }
+        }
+        .buttonStyle(
+            buttonStyle(option: question.options[optionIndex], answer: viewModel.userAnswer)
+        )
+        .addShadow()
+        .if(shouldShowInteraction(option: question.options[optionIndex], answer: viewModel.userAnswer)) { $0.showInteraction() }
     }
 
     private func buttonStyle(option: UserOption,
@@ -79,45 +114,73 @@ struct GameScreen<ViewModel: GameViewModelType>: View {
             }
         }
 
-        return .main
+        return .game
     }
 
-    private func shouldBounce(option: UserOption,
-                              answer: UserOption?) -> Bool {
+    private func shouldShowInteraction(option: UserOption, answer: UserOption?) -> Bool {
         if let answer {
-            if option == answer {
-                return option.isAnswer
-            }
+            return option == answer
         }
 
         return false
     }
 }
 
-struct GameScreenPreviews: PreviewProvider {
-    static var previews: some View {
-        GameScreen<MockViewModel>(
-            viewModel: MockViewModel()
+struct UserInteractionModifier: ViewModifier {
+    @State private var showInteraction = false
+
+    func body(content: Content) -> some View {
+        content
+            .scaleEffect(showInteraction ? 1.1 : 1)
+            .animation(.easeInOut(duration: 0.2), value: showInteraction)
+            .onAppear {
+                showInteraction = true
+
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                    showInteraction = false
+                }
+            }
+    }
+}
+
+extension View {
+    public func showInteraction() -> some View {
+        modifier(UserInteractionModifier())
+    }
+}
+
+#Preview {
+    GameScreen<GameMockViewModel>(
+        viewModel: GameMockViewModel()
+    )
+}
+
+final class GameMockViewModel: GameViewModelType {
+    var title: String = "Which chord will you choose?"
+    var question: Question? = .init(
+        options: [
+            .init(title: "C major", isAnswer: false),
+            .init(title: "D major", isAnswer: false),
+            .init(title: "F major", isAnswer: false),
+            .init(title: "G major", isAnswer: false)
+        ],
+        musicView: .init(
+            type: .chord(InMemoryChords.cMajor.toModel())
         )
+    )
+    var userAnswer: UserOption?
+    var currentPoints = 5
+
+    var timerViewModel = TimerViewModel()
+
+    func userTapOption(_ option: UserOption?) async {
     }
 
-    private final class MockViewModel: GameViewModelType {
-        var title: String = "Which note will you choose?"
-        var question: Question?
-        var userAnswer: UserOption?
-        var currentPoints = 5
+    func getQuestion() {
+    }
 
-        var timerViewModel = TimerViewModel()
-
-        func userTapOption(_ option: UserOption) async {
-        }
-
-        func getQuestion() {
-        }
-
-        func currentScreen() -> some View {
-            EmptyView()
-        }
+    func currentScreen() -> some View {
+        EmptyView()
     }
 }
 
@@ -125,4 +188,3 @@ struct GameScreenPreviews: PreviewProvider {
  - C and F doesn't have a flat
  - Size is not correct so will overlap if not careful
  */
-

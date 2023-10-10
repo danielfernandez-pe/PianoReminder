@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "git@github.com:danielfcodes/Logger.git",
       "state" : {
-        "revision" : "e3c36ad67be27422b082c1763d2583726471343f",
-        "version" : "1.1.0"
+        "revision" : "df751da5788354347c3cf1a1679ae2d3c2f3e871",
+        "version" : "1.2.1"
       }
     },
     {
@@ -32,8 +32,8 @@
       "kind" : "remoteSourceControl",
       "location" : "git@github.com:danielfcodes/UI.git",
       "state" : {
-        "revision" : "39c91b0710718adf4d39780c61d77d38221ae5b7",
-        "version" : "1.2.1"
+        "revision" : "44fe535c9449a168cb51711be01fdfc1ddc6b2ef",
+        "version" : "1.2.5"
       }
     }
   ],

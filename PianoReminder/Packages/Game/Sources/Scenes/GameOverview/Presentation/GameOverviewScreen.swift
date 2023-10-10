@@ -20,7 +20,7 @@ struct GameOverviewScreen<ViewModel: GameOverviewViewModelType>: View {
             Text("Hello world")
 
             Button("Back to home", action: { viewModel.backHomeTap() })
-                .buttonStyle(.main)
+                .buttonStyle(.primary)
         }
         .toolbar(.hidden, for: .navigationBar)
     }
