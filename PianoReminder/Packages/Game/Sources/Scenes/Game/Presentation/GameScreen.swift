@@ -107,7 +107,7 @@ struct GameScreen<ViewModel: GameViewModelType>: View {
     }
 
     private func buttonStyle(option: UserOption,
-                             answer: UserOption?) -> MainButtonStyle {
+                             answer: UserOption?) -> MainButtonStyle<Icons.ButtonImage> {
         if let answer {
             if option == answer {
                 return option.isAnswer ? .correctAnswer : .wrongAnswer

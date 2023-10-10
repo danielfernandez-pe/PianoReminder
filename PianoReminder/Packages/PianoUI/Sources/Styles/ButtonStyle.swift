@@ -8,47 +8,83 @@
 import SwiftUI
 import UI
 
-extension ButtonStyle where Self == MainButtonStyle {
-    public static var primary: MainButtonStyle {
+extension Icons {
+    public struct ButtonImage: View {
+        let icon: Icons.Medium
+        let color: Color
+        let isDark: Bool
+
+        public init(icon: Icons.Medium, color: Color, isDark: Bool) {
+            self.icon = icon
+            self.color = color
+            self.isDark = isDark
+        }
+
+        public var body: some View {
+            icon.image
+                .foregroundStyle(color)
+                .if(isDark) { $0.environment(\.colorScheme, .dark) }
+        }
+    }
+}
+
+extension ButtonStyle where Self == MainButtonStyle<Icons.ButtonImage> {
+    public static var primary: MainButtonStyle<Icons.ButtonImage> {
         MainButtonStyle(
             style: getDefaultStyle(
                 textColor: .fgPrimary,
                 backgroundColor: .fgAccent,
                 pressedBackgroundColor: .fgAccentPressed,
-                isDark: true
+                isDark: true,
+                icon: nil
             )
         )
     }
 
-    public static var game: MainButtonStyle {
+    public static var game: MainButtonStyle<Icons.ButtonImage> {
         MainButtonStyle(
             style: getDefaultStyle(
                 textColor: .fgPrimary,
                 backgroundColor: .bgPrimary,
                 pressedBackgroundColor: .bgPrimary.opacity(0.6),
-                isDark: false
+                isDark: false,
+                icon: nil
             )
         )
     }
 
-    public static var correctAnswer: MainButtonStyle {
+    public static var correctAnswer: MainButtonStyle<Icons.ButtonImage> {
         MainButtonStyle(
             style: getDefaultStyle(
                 textColor: .fgPrimary,
                 backgroundColor: .fgSuccess,
                 pressedBackgroundColor: .fgSuccess.opacity(0.6),
-                isDark: true
+                isDark: true,
+                icon: {
+                    Icons.ButtonImage(
+                        icon: .check,
+                        color: .fgPrimary,
+                        isDark: true
+                    )
+                }
             )
         )
     }
 
-    public static var wrongAnswer: MainButtonStyle {
+    public static var wrongAnswer: MainButtonStyle<Icons.ButtonImage> {
         MainButtonStyle(
             style: getDefaultStyle(
                 textColor: .fgPrimary,
                 backgroundColor: .fgError,
                 pressedBackgroundColor: .fgError.opacity(0.6),
-                isDark: true
+                isDark: true,
+                icon: {
+                    Icons.ButtonImage(
+                        icon: .cross,
+                        color: .fgPrimary,
+                        isDark: true
+                    )
+                }
             )
         )
     }
@@ -57,7 +93,8 @@ extension ButtonStyle where Self == MainButtonStyle {
 fileprivate func getDefaultStyle(textColor: Color,
                                  backgroundColor: Color,
                                  pressedBackgroundColor: Color,
-                                 isDark: Bool) -> MainButtonStyle.Style {
+                                 isDark: Bool,
+                                 icon: (() -> Icons.ButtonImage)?) -> MainButtonStyle<Icons.ButtonImage>.Style {
     .init(
         textColor: textColor,
         backgroundColor: backgroundColor,
@@ -65,7 +102,8 @@ fileprivate func getDefaultStyle(textColor: Color,
         uiFont: ScalingType.body.font(weight: .regular),
         cornerRadius: 8,
         shouldScaleWhenPressed: false,
-        isDark: isDark
+        isDark: isDark,
+        icon: icon
     )
 }
 
@@ -92,5 +130,10 @@ fileprivate func getDefaultStyle(textColor: Color,
             print("tap")
         }
         .buttonStyle(.correctAnswer)
+
+        Button("Correct answer") {
+            print("tap")
+        }
+        .buttonStyle(.wrongAnswer)
     }
 }
