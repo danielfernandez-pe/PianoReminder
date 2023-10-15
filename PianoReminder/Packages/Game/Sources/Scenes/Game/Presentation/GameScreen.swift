@@ -38,7 +38,7 @@ struct GameScreen<ViewModel: GameViewModelType>: View {
             viewModel.getQuestion()
         }
         .toolbar(.hidden)
-        .background(Color.bgSecondary)
+        .background(Color.bgPrimary)
     }
 
     private func musicView(maxHeight: CGFloat) -> some View {
@@ -49,7 +49,7 @@ struct GameScreen<ViewModel: GameViewModelType>: View {
     }
 
     private var optionsView: some View {
-        BackgroundCircleView(backgroundColor: .bgPrimary) {
+        BackgroundCircleView(backgroundColor: .bgSecondary) {
             VStack(spacing: .medium) {
                 Text(viewModel.title)
                     .scaledFont(.callout, fontWeight: .semibold)

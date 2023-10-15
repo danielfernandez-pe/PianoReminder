@@ -54,6 +54,7 @@ struct ChordView: View {
             NoteTypeView(noteType: note.type)
 
             Ellipse()
+                .fill(.black)
                 .frame(
                     width: Constants.spaceBetweenBars * 1.25,
                     height: Constants.spaceBetweenBars
@@ -129,5 +130,6 @@ struct ChordView_Previews: PreviewProvider {
                 )
             )
         }
+        .background(.white)
     }
 }
