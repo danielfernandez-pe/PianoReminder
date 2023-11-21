@@ -80,12 +80,17 @@ import AVFoundation
 
     @MainActor
     private func continueAfterUserTap() async {
-        if userAnswer?.isAnswer == true {
+        let userPickedCorrectAnswer = userAnswer?.isAnswer == true
+
+        if userPickedCorrectAnswer {
             currentPoints += 1
             playSuccessSound()
         } else {
-            // TODO: skip also has a sound
-            playErrorSound()
+            let userPickedWrongAnswer = userAnswer?.isAnswer == false
+
+            if userPickedWrongAnswer {
+                playErrorSound()
+            }
         }
 
         do {

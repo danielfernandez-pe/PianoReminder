@@ -166,7 +166,7 @@ final class GameMockViewModel: GameViewModelType {
             .init(title: "G major", isAnswer: false)
         ],
         musicView: .init(
-            type: .chord(InMemoryChords.cMajor.toModel())
+            type: .chord(InMemoryChords.dMajor.toModel())
         )
     )
     var userAnswer: UserOption?

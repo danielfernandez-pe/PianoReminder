@@ -50,8 +50,9 @@ struct ChordView: View {
     }
 
     private func composedNote(for note: ComposedNote) -> some View {
-        HStack(spacing: .xSmall) {
+        ZStack {
             NoteTypeView(noteType: note.type)
+                .offset(x: -Constants.spaceBetweenBars * 1.25)
 
             Ellipse()
                 .fill(.black)
@@ -103,33 +104,31 @@ struct ChordView: View {
     }
 }
 
-struct ChordView_Previews: PreviewProvider {
-    static var previews: some View {
-        VStack(spacing: 100) {
-            ChordView(
-                chord: .init(
-                    notes: [
-                        .init(value: .a, type: .natural, octave: .oct3),
-                        .init(value: .e, type: .natural, octave: .middleC),
-                        .init(value: .g, type: .natural, octave: .middleC)
-                    ],
-                    clef: .treble,
-                    title: ""
-                )
+#Preview {
+    VStack(spacing: 100) {
+        ChordView(
+            chord: .init(
+                notes: [
+                    .init(value: .d, type: .natural, octave: .middleC),
+                    .init(value: .f, type: .sharp, octave: .middleC),
+                    .init(value: .a, type: .natural, octave: .middleC)
+                ],
+                clef: .treble,
+                title: ""
             )
+        )
 
-            ChordView(
-                chord: .init(
-                    notes: [
-                        .init(value: .b, type: .natural, octave: .middleC),
-                        .init(value: .f, type: .natural, octave: .oct5),
-                        .init(value: .a, type: .natural, octave: .oct5)
-                    ],
-                    clef: .treble,
-                    title: ""
-                )
+        ChordView(
+            chord: .init(
+                notes: [
+                    .init(value: .c, type: .natural, octave: .oct3),
+                    .init(value: .e, type: .natural, octave: .oct3),
+                    .init(value: .g, type: .natural, octave: .oct3)
+                ],
+                clef: .bass,
+                title: ""
             )
-        }
-        .background(.white)
+        )
     }
+    .background(.white)
 }
