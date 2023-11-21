@@ -52,7 +52,9 @@ struct ChordView: View {
     private func composedNote(for note: ComposedNote) -> some View {
         ZStack {
             NoteTypeView(noteType: note.type)
-                .offset(x: -Constants.spaceBetweenBars * 1.25)
+                .offset(x: note.extraSpaceForType ?
+                        (-Constants.spaceBetweenBars * 1.25) * 1.5 :
+                        -Constants.spaceBetweenBars * 1.25)
 
             Ellipse()
                 .fill(.black)
@@ -109,9 +111,9 @@ struct ChordView: View {
         ChordView(
             chord: .init(
                 notes: [
-                    .init(value: .d, type: .natural, octave: .middleC),
-                    .init(value: .f, type: .sharp, octave: .middleC),
-                    .init(value: .a, type: .natural, octave: .middleC)
+                    .init(value: .a, type: .sharp, octave: .middleC, extraSpaceForType: false),
+                    .init(value: .c, type: .sharp, octave: .oct5, extraSpaceForType: true),
+                    .init(value: .e, type: .sharp, octave: .oct5, extraSpaceForType: false)
                 ],
                 clef: .treble,
                 title: ""
@@ -131,4 +133,16 @@ struct ChordView: View {
         )
     }
     .background(.white)
+}
+
+/// Allows to safely access an array element by index
+/// Usage: array[safe: 2]
+extension Array {
+    subscript(safe index: Int) -> Element? {
+        guard index >= 0, index < endIndex else {
+            return nil
+        }
+        
+        return self[index]
+    }
 }
