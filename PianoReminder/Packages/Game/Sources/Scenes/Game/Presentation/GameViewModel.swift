@@ -84,6 +84,7 @@ import AVFoundation
             currentPoints += 1
             playSuccessSound()
         } else {
+            // TODO: skip also has a sound
             playErrorSound()
         }
 

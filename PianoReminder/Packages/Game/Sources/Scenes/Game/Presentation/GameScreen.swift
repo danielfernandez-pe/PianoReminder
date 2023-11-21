@@ -129,6 +129,7 @@ struct GameScreen<ViewModel: GameViewModelType>: View {
 struct UserInteractionModifier: ViewModifier {
     @State private var showInteraction = false
 
+    // This duration 0.2 + 0.2 should be the same as the one I'm using in GameViewModel for the Task.sleep
     func body(content: Content) -> some View {
         content
             .scaleEffect(showInteraction ? 1.1 : 1)
