@@ -23,6 +23,14 @@ struct ComposedNote: Hashable, Decodable {
     let value: Note
     let type: NoteType
     let octave: Octave
+    let extraSpaceForType: Bool
+
+    init(value: Note, type: NoteType, octave: Octave, extraSpaceForType: Bool = false) {
+        self.value = value
+        self.type = type
+        self.octave = octave
+        self.extraSpaceForType = extraSpaceForType
+    }
 }
 
 // Structure for rendering one note in the Bar

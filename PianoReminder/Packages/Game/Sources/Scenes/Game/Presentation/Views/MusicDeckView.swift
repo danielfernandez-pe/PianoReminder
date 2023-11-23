@@ -7,6 +7,10 @@
 
 import SwiftUI
 
+fileprivate enum Padding {
+    static var yOffset: CGFloat = 12
+}
+
 struct MusicDeckView<ViewModel: GameViewModelType>: View {
     var viewModel: ViewModel
     let maxHeight: CGFloat
@@ -16,31 +20,36 @@ struct MusicDeckView<ViewModel: GameViewModelType>: View {
     @State private var zIndex: CGFloat = 0
 
     @State private var topCardOffsetX: CGFloat = .zero
+    // This animation is to simulate the middle card going up as the new on top card
+    @State private var finalAnimation = false
 
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 12)
                 .fill(.white)
                 .frame(maxHeight: maxHeight)
+                .padding(.horizontal, Padding.yOffset * 2)
                 .addShadow()
-                .offset(x: 0, y: 20)
+                .offset(x: 0, y: Padding.yOffset * 2)
 
             if let newQuestion {
                 newQuestion.musicView
                     .padding(.large)
                     .frame(maxHeight: maxHeight)
+                    .padding(.horizontal, finalAnimation ? 0 : Padding.yOffset)
                     .background {
                         RoundedRectangle(cornerRadius: 12)
                             .fill(.white)
                             .addShadow()
                     }
-                    .offset(x: 0, y: 12)
+                    .offset(x: 0, y: finalAnimation ? 0 : Padding.yOffset)
             } else {
                 RoundedRectangle(cornerRadius: 12)
                     .fill(.white)
                     .frame(maxHeight: maxHeight)
+                    .padding(.horizontal, Padding.yOffset)
                     .addShadow()
-                    .offset(x: 0, y: 12)
+                    .offset(x: 0, y: Padding.yOffset)
             }
 
             if let question = currentQuestion {
@@ -77,10 +86,20 @@ struct MusicDeckView<ViewModel: GameViewModelType>: View {
             }
 
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                
+                withAnimation(.linear(duration: 0.1)) {
+                    finalAnimation = true
+                }
+            }
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                 zIndex = 0
                 newQuestion = nil
                 currentQuestion = newValue
+                finalAnimation = false
             }
+            
+            
         }
     }
 }

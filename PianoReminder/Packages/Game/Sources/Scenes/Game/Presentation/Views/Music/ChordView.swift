@@ -50,10 +50,14 @@ struct ChordView: View {
     }
 
     private func composedNote(for note: ComposedNote) -> some View {
-        HStack(spacing: .xSmall) {
+        ZStack {
             NoteTypeView(noteType: note.type)
+                .offset(x: note.extraSpaceForType ?
+                        (-Constants.spaceBetweenBars * 1.25) * 1.5 :
+                        -Constants.spaceBetweenBars * 1.25)
 
             Ellipse()
+                .fill(.black)
                 .frame(
                     width: Constants.spaceBetweenBars * 1.25,
                     height: Constants.spaceBetweenBars
@@ -102,32 +106,43 @@ struct ChordView: View {
     }
 }
 
-struct ChordView_Previews: PreviewProvider {
-    static var previews: some View {
-        VStack(spacing: 100) {
-            ChordView(
-                chord: .init(
-                    notes: [
-                        .init(value: .a, type: .natural, octave: .oct3),
-                        .init(value: .e, type: .natural, octave: .middleC),
-                        .init(value: .g, type: .natural, octave: .middleC)
-                    ],
-                    clef: .treble,
-                    title: ""
-                )
+#Preview {
+    VStack(spacing: 100) {
+        ChordView(
+            chord: .init(
+                notes: [
+                    .init(value: .a, type: .sharp, octave: .middleC, extraSpaceForType: false),
+                    .init(value: .c, type: .sharp, octave: .oct5, extraSpaceForType: true),
+                    .init(value: .e, type: .sharp, octave: .oct5, extraSpaceForType: false)
+                ],
+                clef: .treble,
+                title: ""
             )
+        )
 
-            ChordView(
-                chord: .init(
-                    notes: [
-                        .init(value: .b, type: .natural, octave: .middleC),
-                        .init(value: .f, type: .natural, octave: .oct5),
-                        .init(value: .a, type: .natural, octave: .oct5)
-                    ],
-                    clef: .treble,
-                    title: ""
-                )
+        ChordView(
+            chord: .init(
+                notes: [
+                    .init(value: .c, type: .natural, octave: .oct3),
+                    .init(value: .e, type: .natural, octave: .oct3),
+                    .init(value: .g, type: .natural, octave: .oct3)
+                ],
+                clef: .bass,
+                title: ""
             )
+        )
+    }
+    .background(.white)
+}
+
+/// Allows to safely access an array element by index
+/// Usage: array[safe: 2]
+extension Array {
+    subscript(safe index: Int) -> Element? {
+        guard index >= 0, index < endIndex else {
+            return nil
         }
+        
+        return self[index]
     }
 }

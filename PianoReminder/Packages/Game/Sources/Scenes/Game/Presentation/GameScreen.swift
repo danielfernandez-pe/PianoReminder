@@ -38,7 +38,7 @@ struct GameScreen<ViewModel: GameViewModelType>: View {
             viewModel.getQuestion()
         }
         .toolbar(.hidden)
-        .background(Color.bgSecondary)
+        .background(Color.bgPrimary)
     }
 
     private func musicView(maxHeight: CGFloat) -> some View {
@@ -49,7 +49,7 @@ struct GameScreen<ViewModel: GameViewModelType>: View {
     }
 
     private var optionsView: some View {
-        BackgroundCircleView(backgroundColor: .bgPrimary) {
+        BackgroundCircleView(backgroundColor: .bgSecondary) {
             VStack(spacing: .medium) {
                 Text(viewModel.title)
                     .scaledFont(.callout, fontWeight: .semibold)
@@ -129,6 +129,7 @@ struct GameScreen<ViewModel: GameViewModelType>: View {
 struct UserInteractionModifier: ViewModifier {
     @State private var showInteraction = false
 
+    // This duration 0.2 + 0.2 should be the same as the one I'm using in GameViewModel for the Task.sleep
     func body(content: Content) -> some View {
         content
             .scaleEffect(showInteraction ? 1.1 : 1)
@@ -165,7 +166,7 @@ final class GameMockViewModel: GameViewModelType {
             .init(title: "G major", isAnswer: false)
         ],
         musicView: .init(
-            type: .chord(InMemoryChords.cMajor.toModel())
+            type: .chord(InMemoryChords.dMajor.toModel())
         )
     )
     var userAnswer: UserOption?

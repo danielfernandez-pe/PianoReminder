@@ -15,6 +15,7 @@ struct StaffView: View {
             VStack(spacing: Constants.spaceBetweenBars) {
                 ForEach((1...5), id: \.self) { _ in
                     Rectangle()
+                        .fill(.black)
                         .frame(height: Constants.barHeight)
                 }
             }

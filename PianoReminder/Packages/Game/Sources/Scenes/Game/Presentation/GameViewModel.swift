@@ -36,7 +36,8 @@ import AVFoundation
     // MARK: - Private properties
 
     private var cancellables = Set<AnyCancellable>()
-    private var audioPlayer: AVAudioPlayer?
+    private var successPlayer: AVAudioPlayer?
+    private var errorPlayer: AVAudioPlayer?
 
     // MARK: - Dependencies
 
@@ -52,7 +53,7 @@ import AVFoundation
         self.getGameTypeUseCase = getGameTypeUseCase
 
         setupTimer()
-        setupSuccessSound()
+        setupSoundPlayers()
     }
 
     @MainActor
@@ -79,9 +80,17 @@ import AVFoundation
 
     @MainActor
     private func continueAfterUserTap() async {
-        if userAnswer?.isAnswer == true {
+        let userPickedCorrectAnswer = userAnswer?.isAnswer == true
+
+        if userPickedCorrectAnswer {
             currentPoints += 1
             playSuccessSound()
+        } else {
+            let userPickedWrongAnswer = userAnswer?.isAnswer == false
+
+            if userPickedWrongAnswer {
+                playErrorSound()
+            }
         }
 
         do {
@@ -100,12 +109,15 @@ import AVFoundation
             .store(in: &cancellables)
     }
 
-    private func setupSuccessSound() {
-        guard let path = Bundle.module.path(forResource: "success.wav", ofType: nil) else { return }
-        let url = URL(filePath: path)
+    private func setupSoundPlayers() {
+        guard let successPath = Bundle.module.path(forResource: "success.wav", ofType: nil),
+              let errorPath = Bundle.module.path(forResource: "error.wav", ofType: nil) else { return }
+        let successUrl = URL(filePath: successPath)
+        let errorUrl = URL(filePath: errorPath)
 
         do {
-            audioPlayer = try AVAudioPlayer(contentsOf: url)
+            successPlayer = try AVAudioPlayer(contentsOf: successUrl)
+            errorPlayer = try AVAudioPlayer(contentsOf: errorUrl)
         } catch {
             // log
         }
@@ -113,7 +125,13 @@ import AVFoundation
 
     private func playSuccessSound() {
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-            self?.audioPlayer?.play()
+            self?.successPlayer?.play()
+        }
+    }
+
+    private func playErrorSound() {
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            self?.errorPlayer?.play()
         }
     }
 }

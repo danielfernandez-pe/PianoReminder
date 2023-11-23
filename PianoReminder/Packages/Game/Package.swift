@@ -34,7 +34,8 @@ let package = Package(
             ],
             path: "Sources",
             resources: [
-                .process("Resources/Sounds/success.wav")
+                .process("Resources/Sounds/success.wav"),
+                .process("Resources/Sounds/error.wav"),
             ]
         ),
         .target(

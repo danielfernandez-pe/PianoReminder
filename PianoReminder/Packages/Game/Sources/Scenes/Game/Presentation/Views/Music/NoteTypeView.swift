@@ -41,6 +41,7 @@ struct NoteTypeView: View {
                 }
                 .rotationEffect(.degrees(-10))
             }
+            .foregroundStyle(.black)
         }
     }
 }
@@ -52,5 +53,6 @@ struct NoteTypeView_Previews: PreviewProvider {
 
             NoteTypeView(noteType: .sharp)
         }
+        .background(.white)
     }
 }
