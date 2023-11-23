@@ -27,13 +27,27 @@ final class GameService: GameServiceType {
 
     func fetchChords() async throws -> [ChordDTO] {
         [
+            trebleBasicMajors(),
+            trebleBasicMinors(),
+            bassBasicMajors(),
+            bassBasicMinors()
+        ].flatMap { $0 }.shuffled()
+    }
+
+    private func trebleBasicMajors() -> [ChordDTO] {
+        [
             InMemoryChords.cMajor,
             InMemoryChords.dMajor,
             InMemoryChords.eMajor,
             InMemoryChords.fMajor,
             InMemoryChords.gMajor,
             InMemoryChords.aMajor,
-            InMemoryChords.bMajor,
+            InMemoryChords.bMajor
+        ]
+    }
+
+    private func trebleBasicMinors() -> [ChordDTO] {
+        [
             InMemoryChords.cMinor,
             InMemoryChords.dMinor,
             InMemoryChords.eMinor,
@@ -41,6 +55,30 @@ final class GameService: GameServiceType {
             InMemoryChords.gMinor,
             InMemoryChords.aMinor,
             InMemoryChords.bMinor
+        ]
+    }
+
+    private func bassBasicMajors() -> [ChordDTO] {
+        [
+            InMemoryChords.cBassMajor,
+            InMemoryChords.dBassMajor,
+            InMemoryChords.eBassMajor,
+            InMemoryChords.fBassMajor,
+            InMemoryChords.gBassMajor,
+            InMemoryChords.aBassMajor,
+            InMemoryChords.bBassMajor
+        ]
+    }
+
+    private func bassBasicMinors() -> [ChordDTO] {
+        [
+            InMemoryChords.cBassMinor,
+            InMemoryChords.dBassMinor,
+            InMemoryChords.eBassMinor,
+            InMemoryChords.fBassMinor,
+            InMemoryChords.gBassMinor,
+            InMemoryChords.aBassMinor,
+            InMemoryChords.bBassMinor
         ]
     }
 }
@@ -187,6 +225,150 @@ enum InMemoryChords {
             .init(value: .f, type: .sharp, octave: .oct5)
         ],
         clef: .treble,
+        title: "B Minor"
+    )
+
+    // MARK: - Bass basic Majors
+
+    static let cBassMajor: ChordDTO = .init(
+        notes: [
+            .init(value: .c, type: .natural, octave: .oct3),
+            .init(value: .e, type: .natural, octave: .oct3),
+            .init(value: .g, type: .natural, octave: .oct3)
+        ],
+        clef: .bass,
+        title: "C Major"
+    )
+
+    static let dBassMajor: ChordDTO = .init(
+        notes: [
+            .init(value: .d, type: .natural, octave: .oct3),
+            .init(value: .f, type: .sharp, octave: .oct3),
+            .init(value: .a, type: .natural, octave: .oct3)
+        ],
+        clef: .bass,
+        title: "D Major"
+    )
+
+    static let eBassMajor: ChordDTO = .init(
+        notes: [
+            .init(value: .e, type: .natural, octave: .oct3),
+            .init(value: .g, type: .sharp, octave: .oct3),
+            .init(value: .b, type: .natural, octave: .oct3)
+        ],
+        clef: .bass,
+        title: "E Major"
+    )
+
+    static let fBassMajor: ChordDTO = .init(
+        notes: [
+            .init(value: .f, type: .natural, octave: .oct3),
+            .init(value: .a, type: .natural, octave: .oct3),
+            .init(value: .c, type: .natural, octave: .middleC)
+        ],
+        clef: .bass,
+        title: "F Major"
+    )
+
+    static let gBassMajor: ChordDTO = .init(
+        notes: [
+            .init(value: .g, type: .natural, octave: .oct3),
+            .init(value: .b, type: .natural, octave: .oct3),
+            .init(value: .d, type: .natural, octave: .middleC)
+        ],
+        clef: .bass,
+        title: "G Major"
+    )
+
+    static let aBassMajor: ChordDTO = .init(
+        notes: [
+            .init(value: .a, type: .natural, octave: .oct2),
+            .init(value: .c, type: .sharp, octave: .oct3),
+            .init(value: .e, type: .natural, octave: .oct3)
+        ],
+        clef: .bass,
+        title: "A Major"
+    )
+
+    static let bBassMajor: ChordDTO = .init(
+        notes: [
+            .init(value: .b, type: .natural, octave: .oct2),
+            .init(value: .d, type: .sharp, octave: .oct3),
+            .init(value: .f, type: .sharp, octave: .oct3)
+        ],
+        clef: .bass,
+        title: "B Major"
+    )
+
+    // MARK: - Bass basic Minors
+
+    static let cBassMinor: ChordDTO = .init(
+        notes: [
+            .init(value: .c, type: .natural, octave: .oct3),
+            .init(value: .e, type: .flat, octave: .oct3),
+            .init(value: .g, type: .natural, octave: .oct3)
+        ],
+        clef: .bass,
+        title: "C Minor"
+    )
+
+    static let dBassMinor: ChordDTO = .init(
+        notes: [
+            .init(value: .d, type: .natural, octave: .oct3),
+            .init(value: .f, type: .natural, octave: .oct3),
+            .init(value: .a, type: .natural, octave: .oct3)
+        ],
+        clef: .bass,
+        title: "D Minor"
+    )
+
+    static let eBassMinor: ChordDTO = .init(
+        notes: [
+            .init(value: .e, type: .natural, octave: .oct3),
+            .init(value: .g, type: .natural, octave: .oct3),
+            .init(value: .b, type: .natural, octave: .oct3)
+        ],
+        clef: .bass,
+        title: "E Minor"
+    )
+
+    static let fBassMinor: ChordDTO = .init(
+        notes: [
+            .init(value: .f, type: .natural, octave: .oct3),
+            .init(value: .a, type: .flat, octave: .oct3),
+            .init(value: .c, type: .natural, octave: .middleC)
+        ],
+        clef: .bass,
+        title: "F Minor"
+    )
+
+    static let gBassMinor: ChordDTO = .init(
+        notes: [
+            .init(value: .g, type: .natural, octave: .oct3),
+            .init(value: .b, type: .flat, octave: .oct3),
+            .init(value: .d, type: .natural, octave: .middleC)
+        ],
+        clef: .bass,
+        title: "G Minor"
+    )
+
+    static let aBassMinor: ChordDTO = .init(
+        notes: [
+            .init(value: .a, type: .natural, octave: .oct2),
+            .init(value: .c, type: .natural, octave: .oct3),
+            .init(value: .e, type: .natural, octave: .oct3)
+        ],
+        clef: .bass,
+        title: "A Minor"
+    )
+
+    static let bBassMinor: ChordDTO = .init(
+        notes: [
+            .init(value: .b, type: .natural, octave: .oct2),
+            .init(value: .d, type: .natural, octave: .oct3),
+            .init(value: .f, type: .sharp, octave: .oct3)
+        ],
+        clef: .bass,
         title: "B Minor"
     )
 }
