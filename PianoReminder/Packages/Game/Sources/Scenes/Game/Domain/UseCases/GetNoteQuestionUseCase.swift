@@ -22,7 +22,11 @@ struct GetNoteQuestionUseCase {
 
         while optionsIndices.count < 4 {
             let randomIndex = Int.random(in: 0..<totalOptions.count)
-            optionsIndices.insert(totalOptions[randomIndex])
+            let possibleOption = totalOptions[randomIndex]
+
+            if !optionsIndices.contains(where: { $0.title == possibleOption.title }) {
+                optionsIndices.insert(possibleOption)
+            }
         }
 
         var options: [NoteQuestion.Option] = optionsIndices.map {
