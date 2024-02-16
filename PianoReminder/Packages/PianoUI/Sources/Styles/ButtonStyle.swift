@@ -33,8 +33,8 @@ extension ButtonStyle where Self == MainButtonStyle<Icons.ButtonImage> {
         MainButtonStyle(
             style: getDefaultStyle(
                 textColor: .fgPrimary,
-                backgroundColor: .fgAccent,
-                pressedBackgroundColor: .fgAccentPressed,
+                backgroundColor: .fgPurple,
+                pressedBackgroundColor: .fgPurplePressed,
                 isDark: true,
                 icon: nil
             )

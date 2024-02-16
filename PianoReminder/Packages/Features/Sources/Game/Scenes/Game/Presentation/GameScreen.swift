@@ -81,7 +81,7 @@ struct GameScreen<ViewModel: GameViewModelType>: View {
                         }
                         .scaledFont(.caption, fontWeight: .bold)
                         .frame(maxWidth: .infinity, minHeight: 48)
-                        .foregroundStyle(Color.fgAccent)
+                        .foregroundStyle(Color.fgBlue)
                     }
                     .frame(maxWidth: geometry.size.width * 0.7)
                 }

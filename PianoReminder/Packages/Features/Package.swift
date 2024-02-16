@@ -4,7 +4,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "Game",
+    name: "Features",
     platforms: [.iOS(.v17)],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
@@ -32,7 +32,7 @@ let package = Package(
                 .product(name: "DependencyInjection", package: "DependencyInjection"),
                 .target(name: "GameAPI")
             ],
-            path: "Sources",
+            path: "Sources/Game",
             resources: [
                 .process("Resources/Sounds/success.wav"),
                 .process("Resources/Sounds/error.wav"),

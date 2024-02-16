@@ -10,7 +10,7 @@ import Combine
 import Core
 
 @Observable final class TimerViewModel {
-    let totalSeconds: TimeInterval = 60
+    let totalSeconds: TimeInterval = 15
     let timerFinished = PassthroughSubject<Void, Never>()
 
     func timerIsUp() {

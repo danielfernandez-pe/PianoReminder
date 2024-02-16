@@ -33,7 +33,7 @@
 /* Begin PBXFileReference section */
 		A12FCE8E2A48AFAD001CA28F /* DependencyInjection */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = DependencyInjection; sourceTree = "<group>"; };
 		A13BAD522A172C250084EE99 /* Core */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Core; sourceTree = "<group>"; };
-		A13BAD562A172C9B0084EE99 /* Game */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Game; sourceTree = "<group>"; };
+		A14136F52B7F3678000DFC55 /* Features */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Features; sourceTree = "<group>"; };
 		A147B9782A64837800E5212A /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
 		A186796F2A647ABD00A4B75E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		A1AAC0D529E431EB00930783 /* PianoReminder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PianoReminder.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -148,9 +148,9 @@
 		A1AAC0F129E431FE00930783 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
+				A14136F52B7F3678000DFC55 /* Features */,
 				A12FCE8E2A48AFAD001CA28F /* DependencyInjection */,
 				A1BCB5B02A1A4F9500380EE6 /* PianoUI */,
-				A13BAD562A172C9B0084EE99 /* Game */,
 				A13BAD522A172C250084EE99 /* Core */,
 			);
 			path = Packages;
