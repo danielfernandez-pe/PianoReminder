@@ -69,8 +69,8 @@ struct CardsDeckView<ViewModel: GameViewModelType>: View {
         .onAppear {
             currentQuestion = viewModel.question
         }
-        .onChange(of: viewModel.question) { oldValue, newValue in
-            guard oldValue != nil, newValue != nil else { return }
+        .onChange(of: viewModel.question) { _, newValue in
+            guard newValue != nil else { return }
 
             newQuestion = newValue
 
