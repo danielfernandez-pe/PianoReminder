@@ -7,11 +7,9 @@
 
 import Foundation
 
-protocol GameRepositoryType: ObservableObject {
-    func setupGameSession() async throws
-
-    func getNote() -> SingleNote
-    func getChord() -> Chord
-    func noteOptions() -> [SingleNote]
-    func chordOptions() -> [Chord]
+protocol GameRepositoryType {
+    func sync() async
+    func getNotes() async -> [SingleNoteDOM]
+    func getChords() async -> [ChordDOM]
+    func getStoryQuestions() async -> [StoryDOM]
 }

@@ -24,7 +24,7 @@ struct GameScreen<ViewModel: GameViewModelType>: View {
                     timer
                         .fixedSize(horizontal: false, vertical: true)
 
-                    musicView(maxHeight: geometry.size.height * 0.2)
+                    deckView(maxHeight: geometry.size.height * 0.2)
                 }
                 .padding(.horizontal, .medium)
 
@@ -41,8 +41,8 @@ struct GameScreen<ViewModel: GameViewModelType>: View {
         .background(Color.bgPrimary)
     }
 
-    private func musicView(maxHeight: CGFloat) -> some View {
-        MusicDeckView(
+    private func deckView(maxHeight: CGFloat) -> some View {
+        CardsDeckView(
             viewModel: viewModel,
             maxHeight: max(minDeckHeight, maxHeight)
         )
@@ -50,14 +50,8 @@ struct GameScreen<ViewModel: GameViewModelType>: View {
 
     private var optionsView: some View {
         BackgroundCircleView(backgroundColor: .bgSecondary) {
-            VStack(spacing: .medium) {
-                Text(viewModel.title)
-                    .scaledFont(.callout, fontWeight: .semibold)
-                    .frame(maxWidth: .infinity, alignment: .center)
-
-                options
-            }
-            .frame(maxHeight: .infinity, alignment: .top)
+            options
+                .frame(maxHeight: .infinity, alignment: .top)
         }
     }
 
@@ -94,7 +88,7 @@ struct GameScreen<ViewModel: GameViewModelType>: View {
         TimerView(viewModel: viewModel.timerViewModel)
     }
 
-    private func option(question: Question, optionIndex: Int) -> some View {
+    private func option(question: QuestionUI, optionIndex: Int) -> some View {
         Button(question.options[optionIndex].title) {
             Task {
                 await viewModel.userTapOption(question.options[optionIndex])
@@ -107,8 +101,8 @@ struct GameScreen<ViewModel: GameViewModelType>: View {
         .if(shouldShowInteraction(option: question.options[optionIndex], answer: viewModel.userAnswer)) { $0.showInteraction() }
     }
 
-    private func buttonStyle(option: UserOption,
-                             answer: UserOption?) -> MainButtonStyle<Icons.ButtonImage> {
+    private func buttonStyle(option: UserOptionUI,
+                             answer: UserOptionUI?) -> MainButtonStyle<Icons.ButtonImage> {
         if let answer {
             if option == answer {
                 return option.isAnswer ? .correctAnswer : .wrongAnswer
@@ -118,7 +112,7 @@ struct GameScreen<ViewModel: GameViewModelType>: View {
         return .game
     }
 
-    private func shouldShowInteraction(option: UserOption, answer: UserOption?) -> Bool {
+    private func shouldShowInteraction(option: UserOptionUI, answer: UserOptionUI?) -> Bool {
         if let answer {
             return option == answer
         }
@@ -159,23 +153,22 @@ extension View {
 
 final class GameMockViewModel: GameViewModelType {
     var title: String = "Which chord will you choose?"
-    var question: Question? = .init(
+    var question: QuestionUI? = .init(
         options: [
             .init(title: "C major", isAnswer: false),
             .init(title: "D major", isAnswer: false),
             .init(title: "F major", isAnswer: false),
             .init(title: "G major", isAnswer: false)
         ],
-        musicView: .init(
-            type: .chord(InMemoryChords.dMajor.toModel())
-        )
+        questionViewType: .chord(.init(notes: [], clef: .bass)),
+        category: .sightReading
     )
-    var userAnswer: UserOption?
+    var userAnswer: UserOptionUI?
     var currentPoints = 5
 
     var timerViewModel = TimerViewModel()
 
-    func userTapOption(_ option: UserOption?) async {
+    func userTapOption(_ option: UserOptionUI?) async {
     }
 
     func getQuestion() {

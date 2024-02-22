@@ -30,23 +30,18 @@ protocol HomeViewModelType: HomeViewModelInputs, HomeViewModelOutputs {}
 
     var uiError: UIError?
 
-    private let setupGameSessionUseCase: any SetupGameSessionUseCaseType
+    private let syncGameUseCase: any SyncGameDataUseCaseType
     private weak var homeRouter: (any HomeRouter)? // TODO weak not letting to work the router
 
-    init(setupGameSessionUseCase: any SetupGameSessionUseCaseType, homeRouter: any HomeRouter) {
-        self.setupGameSessionUseCase = setupGameSessionUseCase
+    init(syncGameUseCase: any SyncGameDataUseCaseType, homeRouter: any HomeRouter) {
+        self.syncGameUseCase = syncGameUseCase
         self.homeRouter = homeRouter
     }
 
     @MainActor
     func setupGame() async {
-        do {
-            try await setupGameSessionUseCase.setupGameSession()
-            homeRouter?.openGame()
-//            router.presentGame()
-        } catch {
-            uiError = .gameStart
-        }
+        await syncGameUseCase.sync() // TODO: this shouldn't be a limit to start game, I should do it in the background all the time
+        homeRouter?.openGame()
     }
 
     @MainActor

@@ -7,71 +7,42 @@
 
 import Foundation
 
-final class GameRepository<Service: GameServiceType>: GameRepositoryType {
-    private var quizNotes: [SingleNoteDTO] = []
-    private var quizChords: [ChordDTO] = []
+final class GameRepository: GameRepositoryType {
+    private let gameService: GameService
+    private let gameStorage: GameStorage
 
-    private var usedNotes: [SingleNoteDTO] = []
-    private var usedChords: [ChordDTO] = []
-
-    private let gameService: Service
-
-    init(gameService: Service) {
+    init(gameService: GameService, gameStorage: GameStorage) {
         self.gameService = gameService
+        self.gameStorage = gameStorage
     }
 
-    func setupGameSession() async throws {
-        usedChords.removeAll()
-        usedNotes.removeAll()
-        quizNotes = try await gameService.fetchNotes()
-        quizChords = try await gameService.fetchChords()
-    }
-
-    func noteOptions() -> [SingleNote] {
-        quizNotes.map { $0.toModel() } + usedNotes.map { $0.toModel() }
-    }
-
-    func chordOptions() -> [Chord] {
-        quizChords.map { $0.toModel() } + usedChords.map { $0.toModel() }
-    }
-
-    func getNote() -> SingleNote {
-        if quizNotes.isEmpty {
-            quizNotes = usedNotes
-            usedNotes.removeAll()
+    func sync() async {
+        do {
+            // mechanism to know how to sync only new ones or update old ones?
+            let chords = try await gameService.fetchChords()
+            let notes = try await gameService.fetchNotes()
+//            let storyQuestions = try await gameService.fetchStoryQuestions()
+            await gameStorage.save(data: chords)
+            await gameStorage.save(data: notes)
+//            await gameStorage.save(data: storyQuestions)
+        } catch {
+            // log, try again in next session
         }
-
-        let notesCount = quizNotes.count
-
-        guard notesCount > 1 else {
-            let noteToUse = quizNotes.removeLast()
-            usedNotes.append(noteToUse)
-            return noteToUse.toModel()
-        }
-
-        let randomIndex = Int.random(in: 0..<notesCount)
-        let noteToUse = quizNotes.remove(at: randomIndex)
-        usedNotes.append(noteToUse)
-        return noteToUse.toModel()
     }
 
-    func getChord() -> Chord {
-        if quizChords.isEmpty {
-            quizChords = usedChords
-            usedChords.removeAll()
-        }
+    func getNotes() async -> [SingleNoteDOM] {
+        let notes = await gameStorage.fetchNotes()
+        let notesDOM = notes.compactMap { DataMapper.singleNote($0) }
+        return notesDOM
+    }
 
-        let chordsCount = quizChords.count
+    func getChords() async -> [ChordDOM] {
+        let chords = await gameStorage.fetchChords()
+        let chordsDOM = chords.compactMap { DataMapper.chord($0) }
+        return chordsDOM
+    }
 
-        guard chordsCount > 1 else {
-            let chordToUse = quizChords.removeLast()
-            usedChords.append(chordToUse)
-            return chordToUse.toModel()
-        }
-
-        let randomIndex = Int.random(in: 0..<chordsCount)
-        let chordToUse = quizChords.remove(at: randomIndex)
-        usedChords.append(chordToUse)
-        return chordToUse.toModel()
+    func getStoryQuestions() async -> [StoryDOM] {
+        []
     }
 }

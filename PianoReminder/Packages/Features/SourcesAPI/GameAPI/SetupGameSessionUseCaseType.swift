@@ -7,6 +7,6 @@
 
 import Foundation
 
-public protocol SetupGameSessionUseCaseType {
-    func setupGameSession() async throws
+public protocol SyncGameDataUseCaseType {
+    func sync() async
 }

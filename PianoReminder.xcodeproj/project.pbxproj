@@ -32,6 +32,7 @@
 
 /* Begin PBXFileReference section */
 		A12FCE8E2A48AFAD001CA28F /* DependencyInjection */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = DependencyInjection; sourceTree = "<group>"; };
+		A134734D2B867EEF009E18E1 /* Storage */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Storage; sourceTree = "<group>"; };
 		A13BAD522A172C250084EE99 /* Core */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Core; sourceTree = "<group>"; };
 		A14136F52B7F3678000DFC55 /* Features */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Features; sourceTree = "<group>"; };
 		A147B9782A64837800E5212A /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
@@ -148,6 +149,7 @@
 		A1AAC0F129E431FE00930783 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
+				A134734D2B867EEF009E18E1 /* Storage */,
 				A14136F52B7F3678000DFC55 /* Features */,
 				A12FCE8E2A48AFAD001CA28F /* DependencyInjection */,
 				A1BCB5B02A1A4F9500380EE6 /* PianoUI */,

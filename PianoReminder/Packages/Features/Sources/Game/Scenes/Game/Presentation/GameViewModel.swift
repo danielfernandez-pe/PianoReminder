@@ -14,19 +14,8 @@ import AVFoundation
         case overview
     }
 
-    var title: String {
-        switch getGameTypeUseCase.getGameType() {
-        case .chords:
-            return "Which chord is?"
-        case .notes:
-            return "Which note is?"
-        case .notesAndChords:
-            return "What will you choose?"
-        }
-    }
-
-    var question: Question?
-    var userAnswer: UserOption?
+    var question: QuestionUI?
+    var userAnswer: UserOptionUI?
     var currentPoints: Int = 0
 
     let timerViewModel: TimerViewModel = .init()
@@ -41,40 +30,29 @@ import AVFoundation
 
     // MARK: - Dependencies
 
-    private let getNoteQuestionUseCase: GetNoteQuestionUseCase
-    private let getChordQuestionUseCase: GetChordQuestionUseCase
-    private let getGameTypeUseCase: GetGameTypeUseCase
+    private let getQuestionUseCase: GetQuestionUseCase
 
-    init(getNoteQuestionUseCase: GetNoteQuestionUseCase,
-         getChordQuestionUseCase: GetChordQuestionUseCase,
-         getGameTypeUseCase: GetGameTypeUseCase) {
-        self.getNoteQuestionUseCase = getNoteQuestionUseCase
-        self.getChordQuestionUseCase = getChordQuestionUseCase
-        self.getGameTypeUseCase = getGameTypeUseCase
+    init(getQuestionUseCase: GetQuestionUseCase) {
+        self.getQuestionUseCase = getQuestionUseCase
 
         setupTimer()
         setupSoundPlayers()
     }
 
     @MainActor
-    func userTapOption(_ option: UserOption?) async {
+    func userTapOption(_ option: UserOptionUI?) async {
         if let option {
-            userAnswer = UserOption(title: option.title, isAnswer: option.isAnswer)
+            userAnswer = UserOptionUI(title: option.title, isAnswer: option.isAnswer)
         }
 
         await continueAfterUserTap()
     }
 
+    @MainActor
     func getQuestion() {
-        switch getGameTypeUseCase.getGameType() {
-        case .notes:
-            let noteQuestion = getNoteQuestionUseCase.getNoteQuestion()
-            question = QuestionMapper.question(noteQuestion: noteQuestion)
-        case .chords:
-            let chordQuestion = getChordQuestionUseCase.getChordQuestion()
-            question = QuestionMapper.question(chordQuestion: chordQuestion)
-        case .notesAndChords:
-            fatalError("Implement some random mechanism")
+        Task {
+            let questionDOM = await getQuestionUseCase.getQuestion()
+            question = UIMapper.question(questionDOM)
         }
     }
 

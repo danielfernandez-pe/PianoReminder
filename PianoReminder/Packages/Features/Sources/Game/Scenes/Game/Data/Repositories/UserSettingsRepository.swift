@@ -7,14 +7,14 @@
 
 import Foundation
 
-final class UserSettingsRepository<Service: UserServiceType>: UserSettingsRepositoryType {
-    private let userService: Service
+final class UserSettingsRepository: UserSettingsRepositoryType {
+    private let userService: UserService
 
-    init(userService: Service) {
+    init(userService: UserService) {
         self.userService = userService
     }
 
-    func getGameType() -> GameType {
-        userService.getGameType()
+    func getGameSettings() -> GameSettingsDOM {
+        userService.getGameSettings()
     }
 }

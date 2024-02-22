@@ -7,8 +7,14 @@
 
 import Foundation
 
-final class UserService: UserServiceType {
-    func getGameType() -> GameType {
-        .chords
+final class UserService {
+    func getGameSettings() -> GameSettingsDOM {
+        .init(
+            isStoryQuestionsEnabled: true,
+            isChordsEnabled: true,
+            isNotesEnabled: true,
+            isListeningEnabled: false,
+            isSoundsEnabled: true
+        )
     }
 }

@@ -7,21 +7,22 @@
 
 import Foundation
 
-final class GameService: GameServiceType {
+final class GameService {
     init() {}
 
     func fetchNotes() async throws -> [SingleNoteDTO] {
         [
-            .init(value: .c, type: .natural, octave: .middleC, clef: .treble, title: "C"),
-            .init(value: .g, type: .flat, octave: .oct1, clef: .bass, title: "G flat"),
-            .init(value: .e, type: .flat, octave: .oct3, clef: .bass, title: "E flat"),
-            .init(value: .c, type: .sharp, octave: .oct5, clef: .treble, title: "C sharp"),
-            .init(value: .b, type: .flat, octave: .oct2, clef: .bass, title: "B flat"),
-            .init(value: .d, type: .natural, octave: .middleC, clef: .treble, title: "D"),
-            .init(value: .f, type: .sharp, octave: .oct3, clef: .treble, title: "F sharp"),
-            .init(value: .g, type: .natural, octave: .oct5, clef: .treble, title: "G"),
-            .init(value: .b, type: .natural, octave: .oct3, clef: .bass, title: "B"),
-            .init(value: .d, type: .flat, octave: .middleC, clef: .treble, title: "D flat")
+            .init(value: .init(value: .c, type: .natural, octave: .middleC), clef: .treble, title: "C")
+//            ,
+//            .init(value: .g, type: .flat, octave: .oct1, clef: .bass, title: "G flat"),
+//            .init(value: .e, type: .flat, octave: .oct3, clef: .bass, title: "E flat"),
+//            .init(value: .c, type: .sharp, octave: .oct5, clef: .treble, title: "C sharp"),
+//            .init(value: .b, type: .flat, octave: .oct2, clef: .bass, title: "B flat"),
+//            .init(value: .d, type: .natural, octave: .middleC, clef: .treble, title: "D"),
+//            .init(value: .f, type: .sharp, octave: .oct3, clef: .treble, title: "F sharp"),
+//            .init(value: .g, type: .natural, octave: .oct5, clef: .treble, title: "G"),
+//            .init(value: .b, type: .natural, octave: .oct3, clef: .bass, title: "B"),
+//            .init(value: .d, type: .flat, octave: .middleC, clef: .treble, title: "D flat")
         ]
     }
 
@@ -32,6 +33,20 @@ final class GameService: GameServiceType {
             bassBasicMajors(),
             bassBasicMinors()
         ].flatMap { $0 }.shuffled()
+    }
+
+    func fetchStoryQuestions() async throws -> [StoryDTO] {
+        [
+            .init(
+                titleQuestion: "When was the piano invented?",
+                storyOptions: [
+                    .init(value: "1920", isAnswer: false),
+                    .init(value: "1850", isAnswer: false),
+                    .init(value: "1509", isAnswer: true),
+                    .init(value: "345", isAnswer: false)
+                ]
+            )
+        ]
     }
 
     private func trebleBasicMajors() -> [ChordDTO] {

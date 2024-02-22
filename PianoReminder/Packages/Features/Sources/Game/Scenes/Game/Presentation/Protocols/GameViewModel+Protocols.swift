@@ -6,15 +6,13 @@
 //
 
 protocol GameViewModelInputs {
-    func userTapOption(_ option: UserOption?) async
+    func userTapOption(_ option: UserOptionUI?) async
     func getQuestion()
 }
 
 protocol GameViewModelOutputs {
-    var title: String { get }
-
-    var question: Question? { get }
-    var userAnswer: UserOption? { get }
+    var question: QuestionUI? { get }
+    var userAnswer: UserOptionUI? { get }
 
     var currentPoints: Int { get }
     var timerViewModel: TimerViewModel { get }

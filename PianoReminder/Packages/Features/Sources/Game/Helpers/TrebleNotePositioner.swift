@@ -9,7 +9,7 @@ import Foundation
 
 // swiftlint:disable cyclomatic_complexity
 struct TrebleNotePositioner {
-    func yPosition(for note: Note, in octave: Octave) -> CGFloat {
+    func yPosition(for note: NoteUI, in octave: OctaveUI) -> CGFloat {
         switch note {
         case .c:
             switch octave {
