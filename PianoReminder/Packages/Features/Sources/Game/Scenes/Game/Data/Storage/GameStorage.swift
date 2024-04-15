@@ -14,7 +14,7 @@ final class GameStorage {
 
     init() {
         do {
-            container = try ModelContainer(for: SingleNoteDTO.self, ChordDTO.self)
+            container = try ModelContainer(for: QuestionDAO.self)
         } catch {
             // log
             fatalError("Container not working")
@@ -34,8 +34,8 @@ final class GameStorage {
             // log
         }
     }
-
-    func fetchChords() async -> [ChordDTO] {
+    
+    func fetchQuestions(limit: Int? = nil) async -> [QuestionDAO] {
         let actor = BackgroundPersistenceModelActor(modelContainer: container)
         do {
             return try await actor.fetchData()
@@ -43,22 +43,4 @@ final class GameStorage {
             return [] // from memory
         }
     }
-
-    func fetchNotes() async -> [SingleNoteDTO] {
-        let actor = BackgroundPersistenceModelActor(modelContainer: container)
-        do {
-            return try await actor.fetchData()
-        } catch {
-            return [] // from memory
-        }
-    }
-
-//    func fetchStoryQuestions() async -> [ChordDTO] {
-//        let actor = BackgroundPersistenceModelActor(modelContainer: container)
-//        do {
-//            return try await actor.fetchData()
-//        } catch {
-//            return [] // from memory
-//        }
-//    }
 }

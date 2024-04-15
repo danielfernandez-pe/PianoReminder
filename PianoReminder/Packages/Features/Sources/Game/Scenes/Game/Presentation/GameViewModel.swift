@@ -30,10 +30,10 @@ import AVFoundation
 
     // MARK: - Dependencies
 
-    private let getQuestionUseCase: GetQuestionUseCase
+    private let gameManager: GameManager
 
-    init(getQuestionUseCase: GetQuestionUseCase) {
-        self.getQuestionUseCase = getQuestionUseCase
+    init(gameManager: GameManager) {
+        self.gameManager = gameManager
 
         setupTimer()
         setupSoundPlayers()
@@ -51,7 +51,7 @@ import AVFoundation
     @MainActor
     func getQuestion() {
         Task {
-            let questionDOM = await getQuestionUseCase.getQuestion()
+            let questionDOM = await gameManager.getQuestion()
             question = UIMapper.question(questionDOM)
         }
     }

@@ -18,31 +18,23 @@ final class GameRepository: GameRepositoryType {
 
     func sync() async {
         do {
-            // mechanism to know how to sync only new ones or update old ones?
+            // mechanism to know how to sync only new ones or update old ones? Using Date of update or something
             let chords = try await gameService.fetchChords()
             let notes = try await gameService.fetchNotes()
 //            let storyQuestions = try await gameService.fetchStoryQuestions()
-            await gameStorage.save(data: chords)
-            await gameStorage.save(data: notes)
+            
+            let chordQuestions = chords.compactMap { QuestionDAO(chord: $0, note: nil, story: nil, isChordQuestion: true, isNoteQuestion: false, isStoryQuestion: false) }
+            let noteQuestions = notes.compactMap { QuestionDAO(chord: nil, note: $0, story: nil, isChordQuestion: false, isNoteQuestion: true, isStoryQuestion: false) }
+            await gameStorage.save(data: chordQuestions)
+            await gameStorage.save(data: noteQuestions)
 //            await gameStorage.save(data: storyQuestions)
         } catch {
             // log, try again in next session
         }
     }
 
-    func getNotes() async -> [SingleNoteDOM] {
-        let notes = await gameStorage.fetchNotes()
-        let notesDOM = notes.compactMap { DataMapper.singleNote($0) }
-        return notesDOM
-    }
-
-    func getChords() async -> [ChordDOM] {
-        let chords = await gameStorage.fetchChords()
-        let chordsDOM = chords.compactMap { DataMapper.chord($0) }
-        return chordsDOM
-    }
-
-    func getStoryQuestions() async -> [StoryDOM] {
-        []
+    func getQuestions() async -> [QuestionDOM] {
+        let questions = await gameStorage.fetchQuestions()
+        return questions.compactMap { DataMapper.question($0) }
     }
 }

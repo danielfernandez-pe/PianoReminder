@@ -40,20 +40,12 @@ public struct GameDI {
 
         // DOMAIN
 
-        container.registerService(type: GetChordQuestionUseCase.self, scope: .graph) { r in
-            GetChordQuestionUseCase(gameRepository: r.resolveService((any GameRepositoryType).self))
-        }
-
         container.registerService(type: GetGameSettingsUseCase.self, scope: .graph) { r in
             GetGameSettingsUseCase(userSettingsRepository: r.resolveService((any UserSettingsRepositoryType).self))
         }
-
-        container.registerService(type: GetNoteQuestionUseCase.self, scope: .graph) { r in
-            GetNoteQuestionUseCase(gameRepository: r.resolveService((any GameRepositoryType).self))
-        }
         
-        container.registerService(type: GetQuestionUseCase.self, scope: .graph) { r in
-            GetQuestionUseCase(
+        container.registerService(type: GetQuestionsUseCase.self, scope: .graph) { r in
+            GetQuestionsUseCase(
                 userSettingsRepository: r.resolveService((any UserSettingsRepositoryType).self),
                 gameRepository: r.resolveService((any GameRepositoryType).self)
             )
@@ -63,11 +55,15 @@ public struct GameDI {
             SyncGameDataUseCase(gameRepository: r.resolveService((any GameRepositoryType).self))
         }
 
+        container.registerService(type: GameManager.self, scope: .graph) { r in
+            GameManager(getQuestionsUseCase: r.resolveService(GetQuestionsUseCase.self))
+        }
+
         // PRESENTATION
 
         container.registerService(type: GameViewModel.self, scope: .graph) { r in
             GameViewModel(
-                getQuestionUseCase: r.resolveService(GetQuestionUseCase.self)
+                gameManager: r.resolveService(GameManager.self)
             )
         }
 

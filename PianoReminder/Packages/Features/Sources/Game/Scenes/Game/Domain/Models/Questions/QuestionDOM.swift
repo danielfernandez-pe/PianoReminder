@@ -14,7 +14,7 @@ struct QuestionDOM {
         case story(StoryDOM)
     }
 
-    let options: [UserOptionDOM]
     let questionType: QuestionType
     let category: CategoryDOM
+    var options: [UserOptionDOM]
 }

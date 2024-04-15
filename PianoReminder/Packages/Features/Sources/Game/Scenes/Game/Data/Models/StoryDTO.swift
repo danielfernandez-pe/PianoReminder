@@ -6,20 +6,14 @@
 //
 
 import Foundation
-import SwiftData
 
-@Model
-class StoryDTO {
+struct StoryDTO: Codable {
     let titleQuestion: String
     let storyOptions: [Option]
+    var category: CategoryDTO = CategoryDTO.story
 
     struct Option: Codable {
         let value: String
         let isAnswer: Bool
-    }
-
-    init(titleQuestion: String, storyOptions: [Option]) {
-        self.titleQuestion = titleQuestion
-        self.storyOptions = storyOptions
     }
 }

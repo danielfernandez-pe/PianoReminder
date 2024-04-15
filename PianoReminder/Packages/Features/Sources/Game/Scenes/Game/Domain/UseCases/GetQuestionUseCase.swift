@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class GetQuestionUseCase {
+final class GetQuestionsUseCase {
     private let userSettingsRepository: any UserSettingsRepositoryType
     private let gameRepository: any GameRepositoryType
 
@@ -17,23 +17,13 @@ final class GetQuestionUseCase {
         self.gameRepository = gameRepository
     }
 
-    func getQuestion() async -> QuestionDOM {
+    func getQuestions() async -> [QuestionDOM] {
         let settings = userSettingsRepository.getGameSettings()
         // get note, chords or questions
-
-        let chord = await gameRepository.getChords()[0]
-//        let chordQuestion = ChordQuestionDOM(question: chord, chordOptions: [])
-
-        return QuestionDOM(
-            options: [
-                UserOptionDOM(title: "No1", isAnswer: false),
-                UserOptionDOM(title: "No2", isAnswer: false),
-                UserOptionDOM(title: "Yes", isAnswer: true),
-                UserOptionDOM(title: "No3", isAnswer: false)
-            ],
-            questionType: .chord(chord),
-            category: .sightReading
-        )
+        // check isUsed and get 20 questions
+        let fetchedQuestions = await gameRepository.getQuestions().shuffled()
+        
+        // if the fetchedQuestions are less than 20, start calling again without isUsed?
+        return fetchedQuestions
     }
 }
-// TODO: Do we need ChordQuestionDOM ? 
