@@ -7,18 +7,22 @@
 
 import Foundation
 
-final class GetQuestionsUseCase {
-    private let userSettingsRepository: any UserSettingsRepositoryType
+protocol GetQuestionsUseCaseType {
+    func getQuestions() async -> [QuestionDOM]
+}
+
+struct GetQuestionsUseCase: GetQuestionsUseCaseType {
+    private let getGameSettingsUseCase: any GetGameSettingsUseCaseType
     private let gameRepository: any GameRepositoryType
 
-    init(userSettingsRepository: any UserSettingsRepositoryType,
+    init(getGameSettingsUseCase: any GetGameSettingsUseCaseType,
          gameRepository: any GameRepositoryType) {
-        self.userSettingsRepository = userSettingsRepository
+        self.getGameSettingsUseCase = getGameSettingsUseCase
         self.gameRepository = gameRepository
     }
 
     func getQuestions() async -> [QuestionDOM] {
-        let settings = userSettingsRepository.getGameSettings()
+        let settings = getGameSettingsUseCase.getGameSettings()
         // get note, chords or questions
         // check isUsed and get 20 questions
         let fetchedQuestions = await gameRepository.getQuestions().shuffled()

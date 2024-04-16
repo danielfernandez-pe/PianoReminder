@@ -7,7 +7,11 @@
 
 import Foundation
 
-struct GetGameSettingsUseCase {
+protocol GetGameSettingsUseCaseType {
+    func getGameSettings() -> GameSettingsDOM
+}
+
+struct GetGameSettingsUseCase: GetGameSettingsUseCaseType {
     private let userSettingsRepository: any UserSettingsRepositoryType
 
     init(userSettingsRepository: any UserSettingsRepositoryType) {

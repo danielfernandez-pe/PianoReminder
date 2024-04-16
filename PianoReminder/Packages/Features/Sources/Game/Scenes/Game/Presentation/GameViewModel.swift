@@ -30,9 +30,9 @@ import AVFoundation
 
     // MARK: - Dependencies
 
-    private let gameManager: GameManager
+    private let gameManager: any GameManagerType
 
-    init(gameManager: GameManager) {
+    init(gameManager: any GameManagerType) {
         self.gameManager = gameManager
 
         setupTimer()

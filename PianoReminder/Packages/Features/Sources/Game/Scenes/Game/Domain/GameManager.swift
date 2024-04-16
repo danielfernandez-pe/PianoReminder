@@ -7,12 +7,17 @@
 
 import Foundation
 
-final class GameManager {
+protocol GameManagerType {
+    func setup() async
+    func getQuestion() async -> QuestionDOM
+}
+
+final class GameManager: GameManagerType {
     private var questions: [QuestionDOM] = []
 
-    private let getQuestionsUseCase: GetQuestionsUseCase
+    private let getQuestionsUseCase: any GetQuestionsUseCaseType
 
-    init(getQuestionsUseCase: GetQuestionsUseCase) {
+    init(getQuestionsUseCase: any GetQuestionsUseCaseType) {
         self.getQuestionsUseCase = getQuestionsUseCase
     }
 

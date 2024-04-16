@@ -111,7 +111,7 @@
     {
       "identity" : "networking",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/danielfcodes/Networking",
+      "location" : "git@github.com:danielfcodes/Networking.git",
       "state" : {
         "revision" : "87c60174b700d5cb959b19bb46f55bce826582dc",
         "version" : "1.2.0"

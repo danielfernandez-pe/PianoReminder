@@ -9,8 +9,6 @@ import Foundation
 import DependencyInjection
 import GameAPI
 
-// TODO: delete unused use cases
-// swiftlint:disable force_cast identifier_name
 public struct GameDI {
     public static func register(container: DICProtocol) {
         // DATA
@@ -40,22 +38,22 @@ public struct GameDI {
 
         // DOMAIN
 
-        container.registerService(type: GetGameSettingsUseCase.self, scope: .graph) { r in
-            GetGameSettingsUseCase(userSettingsRepository: r.resolveService((any UserSettingsRepositoryType).self))
+        container.registerService(type: GetGameSettingsUseCaseType.self, scope: .graph) { r in
+            GetGameSettingsUseCase(userSettingsRepository: r.resolveService(UserSettingsRepositoryType.self))
         }
         
-        container.registerService(type: GetQuestionsUseCase.self, scope: .graph) { r in
+        container.registerService(type: GetQuestionsUseCaseType.self, scope: .graph) { r in
             GetQuestionsUseCase(
-                userSettingsRepository: r.resolveService((any UserSettingsRepositoryType).self),
-                gameRepository: r.resolveService((any GameRepositoryType).self)
+                getGameSettingsUseCase: r.resolveService(GetGameSettingsUseCaseType.self),
+                gameRepository: r.resolveService(GameRepositoryType.self)
             )
         }
 
-        container.registerService(type: (any SyncGameDataUseCaseType).self, scope: .graph) { r in
-            SyncGameDataUseCase(gameRepository: r.resolveService((any GameRepositoryType).self))
+        container.registerService(type: SyncGameDataUseCaseType.self, scope: .graph) { r in
+            SyncGameDataUseCase(gameRepository: r.resolveService(GameRepositoryType.self))
         }
 
-        container.registerService(type: GameManager.self, scope: .graph) { r in
+        container.registerService(type: GameManagerType.self, scope: .graph) { r in
             GameManager(getQuestionsUseCase: r.resolveService(GetQuestionsUseCase.self))
         }
 
@@ -72,4 +70,3 @@ public struct GameDI {
         }
     }
 }
-// swiftlint:enable force_cast identifier_name
