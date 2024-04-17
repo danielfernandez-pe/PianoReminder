@@ -19,6 +19,7 @@ public actor BackgroundPersistenceModelActor: ModelActor {
         let context = ModelContext(modelContainer)
         // this guarantees thread safety since accessing container in multiple threads my lead to a crash
         modelExecutor = DefaultSerialModelExecutor(modelContext: context)
+        logger.debug(context.sqliteCommand)
     }
 
     public func insert<T: PersistentModel>(data: T) {
@@ -33,5 +34,15 @@ public actor BackgroundPersistenceModelActor: ModelActor {
         let fetchDescriptor = FetchDescriptor<T>(predicate: predicate, sortBy: sortBy)
         let list: [T] = try context.fetch(fetchDescriptor)
         return list
+    }
+}
+
+extension ModelContext {
+    var sqliteCommand: String {
+        if let url = container.configurations.first?.url.path(percentEncoded: false) {
+            "sqlite3 \"\(url)\""
+        } else {
+            "No SQLite database found."
+        }
     }
 }

@@ -1,5 +1,5 @@
 //
-//  GetQuestionUseCase.swift
+//  GetQuestionsUseCase.swift
 //
 //
 //  Created by Daniel Yopla on 21.02.2024.
@@ -24,10 +24,8 @@ struct GetQuestionsUseCase: GetQuestionsUseCaseType {
     func getQuestions() async -> [QuestionDOM] {
         let settings = getGameSettingsUseCase.getGameSettings()
         // get note, chords or questions
-        // check isUsed and get 20 questions
+
         let fetchedQuestions = await gameRepository.getQuestions().shuffled()
-        
-        // if the fetchedQuestions are less than 20, start calling again without isUsed?
         return fetchedQuestions
     }
 }

@@ -8,13 +8,18 @@
 import Foundation
 import OSLog
 import Game
+import Storage
 import Lumberjack
 import DependencyInjection
 
 final class DependencyInjection {
     static func setup() {
+        Self.registerMainDependencies()
         GameDI.register(container: DIContainer.shared)
+        StorageDI.register(container: DIContainer.shared)
+    }
 
+    private static func registerMainDependencies() {
         DIContainer.shared.registerService(type: LumberjackCoordinator.self, scope: .container) { resolver in
             LumberjackCoordinator(
                 loggers: [

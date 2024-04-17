@@ -1,6 +1,6 @@
 //
-//  File.swift
-//  
+//  GameDI.swift
+//
 //
 //  Created by Daniel Yopla on 20.06.2023.
 //
@@ -8,9 +8,14 @@
 import Foundation
 import DependencyInjection
 import GameAPI
+import Lumberjack
+
+var logger: LumberjackCoordinator!
 
 public struct GameDI {
     public static func register(container: DICProtocol) {
+        logger = container.resolveService(LumberjackCoordinator.self)
+        
         // DATA
 
         container.registerService(type: GameService.self, scope: .graph) { _ in
@@ -54,14 +59,14 @@ public struct GameDI {
         }
 
         container.registerService(type: GameManagerType.self, scope: .graph) { r in
-            GameManager(getQuestionsUseCase: r.resolveService(GetQuestionsUseCase.self))
+            GameManager(getQuestionsUseCase: r.resolveService(GetQuestionsUseCaseType.self))
         }
 
         // PRESENTATION
 
         container.registerService(type: GameViewModel.self, scope: .graph) { r in
             GameViewModel(
-                gameManager: r.resolveService(GameManager.self)
+                gameManager: r.resolveService(GameManagerType.self)
             )
         }
 

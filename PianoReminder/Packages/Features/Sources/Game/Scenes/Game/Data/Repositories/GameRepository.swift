@@ -25,8 +25,8 @@ final class GameRepository: GameRepositoryType {
             
             let chordQuestions = chords.compactMap { QuestionDAO(chord: $0, note: nil, story: nil, isChordQuestion: true, isNoteQuestion: false, isStoryQuestion: false) }
             let noteQuestions = notes.compactMap { QuestionDAO(chord: nil, note: $0, story: nil, isChordQuestion: false, isNoteQuestion: true, isStoryQuestion: false) }
-            await gameStorage.save(data: chordQuestions)
-            await gameStorage.save(data: noteQuestions)
+//            await gameStorage.save(data: chordQuestions)
+//            await gameStorage.save(data: noteQuestions)
 //            await gameStorage.save(data: storyQuestions)
         } catch {
             // log, try again in next session

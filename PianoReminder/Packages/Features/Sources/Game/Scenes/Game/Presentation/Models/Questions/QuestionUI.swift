@@ -7,13 +7,14 @@
 
 import Foundation
 
-struct QuestionUI: Hashable {
+struct QuestionUI: Identifiable, Hashable {
     enum QuestionViewType: Hashable {
         case chord(ChordUI)
         case note(SingleNoteUI)
         case story(StoryUI)
     }
 
+    let id: String
     let options: [UserOptionUI]
     let questionViewType: QuestionViewType
     let category: CategoryUI

@@ -12,9 +12,18 @@ let package = Package(
             targets: ["Storage"]
         ),
     ],
+    dependencies: [
+        .package(path: "../DependencyInjection"),
+        .package(url: "git@github.com:danielfcodes/Logger.git", from: "1.0.0")
+    ],
     targets: [
         .target(
-            name: "Storage"
+            name: "Storage",
+            dependencies: [
+                .product(name: "DependencyInjection", package: "DependencyInjection"),
+                .product(name: "Lumberjack", package: "Logger"),
+            ],
+            path: "Sources"
         )
     ]
 )

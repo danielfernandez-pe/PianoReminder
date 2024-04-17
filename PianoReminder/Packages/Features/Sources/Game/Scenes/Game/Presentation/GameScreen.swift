@@ -154,6 +154,7 @@ extension View {
 final class GameMockViewModel: GameViewModelType {
     var title: String = "Which chord will you choose?"
     var question: QuestionUI? = .init(
+        id: "1",
         options: [
             .init(title: "C major", isAnswer: false),
             .init(title: "D major", isAnswer: false),

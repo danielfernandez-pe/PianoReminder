@@ -12,7 +12,7 @@ struct UIMapper {
         guard let category = CategoryUI(rawValue: question.category.rawValue) else {
             return nil
         }
-        
+
         let questionOptions = question.options.map {
             UserOptionUI(title: $0.title, isAnswer: $0.isAnswer)
         }
@@ -41,34 +41,12 @@ struct UIMapper {
             }
             questionViewType = QuestionUI.QuestionViewType.story(.init(titleQuestion: storyDOM.titleQuestion, storyOptions: options))
         }
-        
+
         return QuestionUI(
+            id: question.id,
             options: questionOptions,
             questionViewType: questionViewType,
             category: category
         )
     }
-//    static func question(noteQuestion: NoteQuestionDOM) -> QuestionDOM {
-//        QuestionDOM(
-//            options: noteQuestion.noteOptions.map { .init(title: "$0.value.title", isAnswer: $0.isAnswer) },
-//            questionViewType: .note(noteQuestion.question),
-//            category: .sightReading
-//        )
-//    }
-//
-//    static func question(chordQuestion: ChordQuestionDOM) -> QuestionDOM {
-//        QuestionDOM(
-//            options: chordQuestion.chordOptions.map { .init(title: "$0.value.title", isAnswer: $0.isAnswer) },
-//            questionViewType: .chord(chordQuestion.question),
-//            category: .sightReading
-//        )
-//    }
-//
-//    static func question(storyQuestion: StoryQuestionDOM) -> QuestionDOM {
-//        QuestionDOM(
-//            options: storyQuestion.storyOptions.map { .init(title: $0.value, isAnswer: $0.isAnswer) },
-//            questionViewType: .story(storyQuestion.titleQuestion),
-//            category: .story
-//        )
-//    }
 }

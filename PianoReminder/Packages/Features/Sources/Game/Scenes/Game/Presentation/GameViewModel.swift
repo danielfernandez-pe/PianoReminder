@@ -51,6 +51,8 @@ import AVFoundation
     @MainActor
     func getQuestion() {
         Task {
+            // TODO: This setup should be in a separate scene: GameLoading
+            await gameManager.setup()
             let questionDOM = await gameManager.getQuestion()
             question = UIMapper.question(questionDOM)
         }
@@ -69,6 +71,8 @@ import AVFoundation
             if userPickedWrongAnswer {
                 playErrorSound()
             }
+
+            gameManager.userAnsweredWrong()
         }
 
         do {
