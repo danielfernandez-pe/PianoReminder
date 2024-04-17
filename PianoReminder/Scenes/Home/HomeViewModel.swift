@@ -31,7 +31,7 @@ protocol HomeViewModelType: HomeViewModelInputs, HomeViewModelOutputs {}
     var uiError: UIError?
 
     private let syncGameUseCase: any SyncGameDataUseCaseType
-    private weak var homeRouter: (any HomeRouter)? // TODO weak not letting to work the router
+    private weak var homeRouter: (any HomeRouter)? // TODO: weak not letting to work the router
 
     init(syncGameUseCase: any SyncGameDataUseCaseType, homeRouter: any HomeRouter) {
         self.syncGameUseCase = syncGameUseCase
