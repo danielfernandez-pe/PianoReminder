@@ -27,6 +27,8 @@ import AVFoundation
     private var cancellables = Set<AnyCancellable>()
     private var successPlayer: AVAudioPlayer?
     private var errorPlayer: AVAudioPlayer?
+    
+    var deleteME = true
 
     // MARK: - Dependencies
 
@@ -52,7 +54,11 @@ import AVFoundation
     func getQuestion() {
         Task {
             // TODO: This setup should be in a separate scene: GameLoading
-            await gameManager.setup()
+            if deleteME {
+                deleteME = false
+                await gameManager.setup()
+            }
+
             let questionDOM = await gameManager.getQuestion()
             question = UIMapper.question(questionDOM)
         }

@@ -35,7 +35,7 @@ final class GameService {
     func fetchStoryQuestions() async throws -> [StoryDTO] {
         [
             .init(
-                titleQuestion: "When was the piano invented?",
+                titleQuestion: "1When was the piano invented?",
                 storyOptions: [
                     .init(value: "1920", isAnswer: false),
                     .init(value: "1850", isAnswer: false),
@@ -44,7 +44,7 @@ final class GameService {
                 ]
             ),
             .init(
-                titleQuestion: "Who invented the piano?",
+                titleQuestion: "2Who invented the piano?",
                 storyOptions: [
                     .init(value: "Daniel Fernandez", isAnswer: true),
                     .init(value: "Lima", isAnswer: false),
@@ -53,7 +53,7 @@ final class GameService {
                 ]
             ),
             .init(
-                titleQuestion: "What was the first piece ever played?",
+                titleQuestion: "3What was the first piece ever played?",
                 storyOptions: [
                     .init(value: "Bohemian rhapsody", isAnswer: false),
                     .init(value: "American idiot", isAnswer: false),
@@ -61,7 +61,7 @@ final class GameService {
                 ]
             ),
             .init(
-                titleQuestion: "Which instrument was first?",
+                titleQuestion: "4Which instrument was first?",
                 storyOptions: [
                     .init(value: "Guitar", isAnswer: false),
                     .init(value: "Piano", isAnswer: true)
