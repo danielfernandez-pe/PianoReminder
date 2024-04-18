@@ -30,8 +30,9 @@ public actor BackgroundPersistenceModelActor: ModelActor {
         try context.save()
     }
 
-    public func fetchData<T: PersistentModel>(predicate: Predicate<T>? = nil, sortBy: [SortDescriptor<T>] = []) throws -> [T] {
-        let fetchDescriptor = FetchDescriptor<T>(predicate: predicate, sortBy: sortBy)
+    public func fetchData<T: PersistentModel>(predicate: Predicate<T>? = nil, sortBy: [SortDescriptor<T>] = [], limit: Int? = nil) throws -> [T] {
+        var fetchDescriptor = FetchDescriptor<T>(predicate: predicate, sortBy: sortBy)
+        fetchDescriptor.fetchLimit = limit
         let list: [T] = try context.fetch(fetchDescriptor)
         return list
     }

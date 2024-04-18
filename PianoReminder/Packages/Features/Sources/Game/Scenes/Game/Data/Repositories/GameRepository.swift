@@ -21,22 +21,30 @@ final class GameRepository: GameRepositoryType {
             // mechanism to know how to sync only new ones or update old ones? Using Date of update or something
             let chords = try await gameService.fetchChords()
             let notes = try await gameService.fetchNotes()
-//            let storyQuestions = try await gameService.fetchStoryQuestions()
+            let stories = try await gameService.fetchStoryQuestions()
             
             let chordQuestions = chords.compactMap { QuestionDAO(chord: $0, note: nil, story: nil, isChordQuestion: true, isNoteQuestion: false, isStoryQuestion: false) }
             let noteQuestions = notes.compactMap { QuestionDAO(chord: nil, note: $0, story: nil, isChordQuestion: false, isNoteQuestion: true, isStoryQuestion: false) }
+            let storyQuestions = stories.compactMap { QuestionDAO(chord: nil, note: nil, story: $0, isChordQuestion: false, isNoteQuestion: false, isStoryQuestion: true) }
             
             // Uncomment when is a fresh install
 //            await gameStorage.save(data: chordQuestions)
 //            await gameStorage.save(data: noteQuestions)
 //            await gameStorage.save(data: storyQuestions)
         } catch {
-            // log, try again in next session
+            logger.error("Sync failing \(error)")
         }
     }
 
-    func getQuestions() async -> [QuestionDOM] {
-        let questions = await gameStorage.fetchQuestions()
+    func getQuestions(includeChords: Bool,
+                      includeNotes: Bool,
+                      includeStories: Bool,
+                      limit: Int?) async -> [QuestionDOM] {
+        let predicate = #Predicate<QuestionDAO> { question in
+            question.isStoryQuestion == true
+        }
+
+        let questions = await gameStorage.fetchQuestions(predicate: predicate, limit: limit)
         return questions.compactMap { DataMapper.question($0) }
     }
 }

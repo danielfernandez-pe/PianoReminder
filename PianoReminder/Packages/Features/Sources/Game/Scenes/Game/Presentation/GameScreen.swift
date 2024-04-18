@@ -60,13 +60,9 @@ struct GameScreen<ViewModel: GameViewModelType>: View {
             if let question = viewModel.question {
                 VStack(spacing: .small) {
                     Group {
-                        option(question: question, optionIndex: 0)
-
-                        option(question: question, optionIndex: 1)
-
-                        option(question: question, optionIndex: 2)
-
-                        option(question: question, optionIndex: 3)
+                        ForEach(question.options) { option in
+                            optionButton(option)
+                        }
 
                         Button("Skip") {
                             Task {
@@ -88,17 +84,17 @@ struct GameScreen<ViewModel: GameViewModelType>: View {
         TimerView(viewModel: viewModel.timerViewModel)
     }
 
-    private func option(question: QuestionUI, optionIndex: Int) -> some View {
-        Button(question.options[optionIndex].title) {
+    private func optionButton(_ option: UserOptionUI) -> some View {
+        Button(option.title) {
             Task {
-                await viewModel.userTapOption(question.options[optionIndex])
+                await viewModel.userTapOption(option)
             }
         }
         .buttonStyle(
-            buttonStyle(option: question.options[optionIndex], answer: viewModel.userAnswer)
+            buttonStyle(option: option, answer: viewModel.userAnswer)
         )
         .addShadow()
-        .if(shouldShowInteraction(option: question.options[optionIndex], answer: viewModel.userAnswer)) { $0.showInteraction() }
+        .if(shouldShowInteraction(option: option, answer: viewModel.userAnswer)) { $0.showInteraction() }
     }
 
     private func buttonStyle(option: UserOptionUI,

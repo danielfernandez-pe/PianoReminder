@@ -42,6 +42,30 @@ final class GameService {
                     .init(value: "1509", isAnswer: true),
                     .init(value: "345", isAnswer: false)
                 ]
+            ),
+            .init(
+                titleQuestion: "Who invented the piano?",
+                storyOptions: [
+                    .init(value: "Daniel Fernandez", isAnswer: true),
+                    .init(value: "Lima", isAnswer: false),
+                    .init(value: "Lucky", isAnswer: true),
+                    .init(value: "Pocho", isAnswer: false)
+                ]
+            ),
+            .init(
+                titleQuestion: "What was the first piece ever played?",
+                storyOptions: [
+                    .init(value: "Bohemian rhapsody", isAnswer: false),
+                    .init(value: "American idiot", isAnswer: false),
+                    .init(value: "Karma police", isAnswer: true),
+                ]
+            ),
+            .init(
+                titleQuestion: "Which instrument was first?",
+                storyOptions: [
+                    .init(value: "Guitar", isAnswer: false),
+                    .init(value: "Piano", isAnswer: true)
+                ]
             )
         ]
     }

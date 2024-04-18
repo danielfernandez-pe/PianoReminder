@@ -46,14 +46,12 @@ struct NoteTypeView: View {
     }
 }
 
-// TODO: use macro
-struct NoteTypeView_Previews: PreviewProvider {
-    static var previews: some View {
-        VStack {
-            NoteTypeView(noteType: .flat)
+#Preview {
+    VStack {
+        NoteTypeView(noteType: .flat)
 
-            NoteTypeView(noteType: .sharp)
-        }
-        .background(.white)
+        NoteTypeView(noteType: .sharp)
     }
+    .background(.white)
 }
+

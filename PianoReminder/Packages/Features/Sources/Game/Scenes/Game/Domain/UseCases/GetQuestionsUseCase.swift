@@ -23,9 +23,12 @@ struct GetQuestionsUseCase: GetQuestionsUseCaseType {
 
     func getQuestions() async -> [QuestionDOM] {
         let settings = getGameSettingsUseCase.getGameSettings()
-        // get note, chords or questions
-
-        let fetchedQuestions = await gameRepository.getQuestions().shuffled()
+        let fetchedQuestions = await gameRepository.getQuestions(
+            includeChords: settings.isChordsEnabled,
+            includeNotes: settings.isNotesEnabled,
+            includeStories: settings.isStoryQuestionsEnabled,
+            limit: nil
+        ).shuffled()
         return fetchedQuestions
     }
 }

@@ -7,7 +7,8 @@
 
 import Foundation
 
-struct UserOptionUI: Hashable {
+struct UserOptionUI: Identifiable, Hashable {
+    var id: String { title }
     let title: String
     let isAnswer: Bool
 }

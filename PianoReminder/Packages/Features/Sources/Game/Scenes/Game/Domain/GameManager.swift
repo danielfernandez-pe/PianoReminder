@@ -37,11 +37,17 @@ final class GameManager: GameManagerType {
         var nextQuestion = questions.removeFirst()
         currentQuestion = nextQuestion
 
-        var randomOptions = getRandomQuestions(relatedTo: nextQuestion).compactMap { UserOptionDOM(title: $0.questionTitle, isAnswer: false) }
-        let correctOption = UserOptionDOM(title: nextQuestion.questionTitle, isAnswer: true)
-        randomOptions.append(correctOption)
+        switch nextQuestion.questionType {
+        case .story(let story):
+            let options = story.storyOptions.map { UserOptionDOM(title: $0.value, isAnswer: $0.isAnswer) }.shuffled()
+            nextQuestion.options = options
+        case .chord, .note:
+            var randomOptions = getRandomQuestions(relatedTo: nextQuestion).compactMap { UserOptionDOM(title: $0.questionTitle, isAnswer: false) }
+            let correctOption = UserOptionDOM(title: nextQuestion.questionTitle, isAnswer: true)
+            randomOptions.append(correctOption)
+            nextQuestion.options = randomOptions.shuffled()
+        }
 
-        nextQuestion.options = randomOptions.shuffled()
         return nextQuestion
     }
 

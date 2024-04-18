@@ -32,13 +32,10 @@ struct StaffView: View {
     }
 }
 
-// TODO: macros
-struct StaffView_Previews: PreviewProvider {
-    static var previews: some View {
-        VStack(spacing: 64) {
-            StaffView(clef: .treble)
+#Preview {
+    VStack(spacing: 64) {
+        StaffView(clef: .treble)
 
-            StaffView(clef: .bass)
-        }
+        StaffView(clef: .bass)
     }
 }

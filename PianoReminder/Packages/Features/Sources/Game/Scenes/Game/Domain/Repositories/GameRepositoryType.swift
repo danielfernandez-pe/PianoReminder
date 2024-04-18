@@ -9,5 +9,8 @@ import Foundation
 
 protocol GameRepositoryType {
     func sync() async
-    func getQuestions() async -> [QuestionDOM]
+    func getQuestions(includeChords: Bool,
+                      includeNotes: Bool,
+                      includeStories: Bool,
+                      limit: Int?) async -> [QuestionDOM]
 }

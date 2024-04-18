@@ -35,10 +35,11 @@ final class GameStorage {
         }
     }
     
-    func fetchQuestions(limit: Int? = nil) async -> [QuestionDAO] {
+    func fetchQuestions(predicate: Predicate<QuestionDAO>? = nil,
+                        limit: Int? = nil) async -> [QuestionDAO] {
         let actor = BackgroundPersistenceModelActor(modelContainer: container)
         do {
-            return try await actor.fetchData()
+            return try await actor.fetchData(predicate: predicate, limit: limit)
         } catch {
             return [] // from memory
         }

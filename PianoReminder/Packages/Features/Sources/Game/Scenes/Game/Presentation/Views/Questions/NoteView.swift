@@ -110,16 +110,16 @@ struct NoteView: View {
     }
 }
 
-// TODO: Fix Preview and use macro
-//struct NoteView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        NoteView(
-//            note: .init(
-//                value: .b,
-//                type: .flat,
-//                octave: .middleC,
-//                clef: .treble
-//            )
-//        )
-//    }
-//}
+#Preview {
+    NoteView(
+        note: .init(
+            value: .init(
+                value: .b,
+                type: .natural,
+                octave: .middleC
+            ),
+            clef: .treble,
+            title: "B"
+        )
+    )
+}
