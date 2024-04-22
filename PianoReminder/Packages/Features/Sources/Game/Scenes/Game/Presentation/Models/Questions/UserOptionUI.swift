@@ -9,6 +9,7 @@ import Foundation
 
 struct UserOptionUI: Identifiable, Hashable {
     var id: String { title }
+
     let title: String
     let isAnswer: Bool
 }

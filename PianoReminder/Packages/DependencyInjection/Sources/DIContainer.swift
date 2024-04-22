@@ -21,7 +21,8 @@ public enum Scope {
 }
 
 public protocol DICRegistering {
-    func registerService<Service>(type: Service.Type, scope: Scope, factory: @escaping (DICResolvering) -> Service)
+    func registerService<Service>(type: Service.Type, scope: Scope, factory: @escaping () -> Service)
+    func registerService<Service, Arg1>(type: Service.Type, scope: Scope, factory: @escaping (Arg1) -> Service)
 }
 
 public protocol DICResolvering {
@@ -39,7 +40,11 @@ public final class DIContainer: DICProtocol {
 
     private init() {}
 
-    public func registerService<Service>(type: Service.Type, scope: Scope, factory: @escaping (DICResolvering) -> Service) {
+    public func registerService<Service>(type: Service.Type, scope: Scope, factory: @escaping () -> Service) {
+        container.registerService(type: type, scope: scope, factory: factory)
+    }
+    
+    public func registerService<Service, Arg1>(type: Service.Type, scope: Scope, factory: @escaping (Arg1) -> Service) {
         container.registerService(type: type, scope: scope, factory: factory)
     }
 
@@ -53,10 +58,16 @@ public final class DIContainer: DICProtocol {
 }
 
 extension Container: DICProtocol {
-    public func registerService<Service>(type: Service.Type, scope: Scope, factory: @escaping (DICResolvering) -> Service) {
+    public func registerService<Service>(type: Service.Type, scope: Scope, factory: @escaping () -> Service) {
         self.register(type) { resolver in
-            guard let dicResolver = resolver as? DICResolvering else { fatalError("This should never happened") }
-            return factory(dicResolver)
+            return factory()
+        }
+        .inObjectScope(scope.swinjectScope)
+    }
+
+    public func registerService<Service, Arg1>(type: Service.Type, scope: Scope, factory: @escaping (Arg1) -> Service) {
+        self.register(type) { resolver, arg1 in
+            return factory(arg1)
         }
         .inObjectScope(scope.swinjectScope)
     }

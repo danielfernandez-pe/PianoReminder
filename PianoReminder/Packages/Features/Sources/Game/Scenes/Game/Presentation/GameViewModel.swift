@@ -11,7 +11,7 @@ import AVFoundation
 
 @Observable final class GameViewModel: GameViewModelType {
     enum Route {
-        case overview
+        case overview(correctQuestions: [QuestionDOM])
     }
 
     var question: QuestionUI?
@@ -71,6 +71,7 @@ import AVFoundation
         if userPickedCorrectAnswer {
             currentPoints += 1
             playSuccessSound()
+            gameManager.userAnsweredCorrectly()
         } else {
             let userPickedWrongAnswer = userAnswer?.isAnswer == false
 
@@ -92,7 +93,10 @@ import AVFoundation
 
     private func setupTimer() {
         timerViewModel.timerFinished
-            .map { _ in Route.overview }
+            .map { [weak self] _ in
+                let correctQuestions = self?.gameManager.correctAnsweredQuestions ?? []
+                return Route.overview(correctQuestions: correctQuestions)
+            }
             .subscribe(routing)
             .store(in: &cancellables)
     }

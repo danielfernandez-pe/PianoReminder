@@ -34,15 +34,15 @@ public final class GameCoordinator: BaseCoordinator {
             .routing
             .sink { [weak self] route in
                 switch route {
-                case .overview:
-                    self?.openOverview()
+                case .overview(let correctQuestions):
+                    self?.openOverview(correctQuestions: correctQuestions)
                 }
             }
             .store(in: &cancellables)
     }
 
-    private func openOverview() {
-        let gameOverviewViewModel = GameOverviewFactory.getGameOverviewViewModel(container: container)
+    private func openOverview(correctQuestions: [QuestionDOM]) {
+        let gameOverviewViewModel = GameOverviewFactory.getGameOverviewViewModel(container: container, correctQuestions: correctQuestions)
         let gameOverviewController = GameOverviewFactory.getGameOverviewController(container: container, viewModel: gameOverviewViewModel)
         navigationController.pushViewController(gameOverviewController, animated: true)
         

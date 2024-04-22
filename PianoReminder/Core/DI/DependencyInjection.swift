@@ -20,7 +20,7 @@ final class DependencyInjection {
     }
 
     private static func registerMainDependencies() {
-        DIContainer.shared.registerService(type: LumberjackCoordinator.self, scope: .container) { resolver in
+        DIContainer.shared.registerService(type: LumberjackCoordinator.self, scope: .container) {
             LumberjackCoordinator(
                 loggers: [
                     Logger.main

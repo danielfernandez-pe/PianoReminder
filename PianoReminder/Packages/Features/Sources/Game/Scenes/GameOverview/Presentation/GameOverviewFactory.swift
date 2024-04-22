@@ -15,7 +15,7 @@ final class GameOverviewFactory {
         return controller
     }
 
-    static func getGameOverviewViewModel(container: DICProtocol) -> GameOverviewViewModel {
-        container.resolveService(GameOverviewViewModel.self)
+    static func getGameOverviewViewModel(container: DICProtocol, correctQuestions: [QuestionDOM]) -> GameOverviewViewModel {
+        container.resolveService(GameOverviewViewModel.self, arg1: correctQuestions)
     }
 }

@@ -15,63 +15,63 @@ var logger: LumberjackCoordinator!
 public struct GameDI {
     public static func register(container: DICProtocol) {
         logger = container.resolveService(LumberjackCoordinator.self)
-        
+
         // DATA
 
-        container.registerService(type: GameService.self, scope: .graph) { _ in
+        container.registerService(type: GameService.self, scope: .graph) {
             GameService()
         }
 
-        container.registerService(type: GameStorage.self, scope: .graph) { _ in
+        container.registerService(type: GameStorage.self, scope: .graph) {
             GameStorage()
         }
 
-        container.registerService(type: UserService.self, scope: .graph) { _ in
+        container.registerService(type: UserService.self, scope: .graph) {
             UserService()
         }
 
-        container.registerService(type: GameRepositoryType.self, scope: .container) { r in
-            let gameService = r.resolveService(GameService.self)
-            let gameStorage = r.resolveService(GameStorage.self)
+        container.registerService(type: GameRepositoryType.self, scope: .container) {
+            let gameService = container.resolveService(GameService.self)
+            let gameStorage = container.resolveService(GameStorage.self)
             return GameRepository(gameService: gameService, gameStorage: gameStorage)
         }
 
-        container.registerService(type: UserSettingsRepositoryType.self, scope: .graph) { r in
-            let userService = r.resolveService(UserService.self)
+        container.registerService(type: UserSettingsRepositoryType.self, scope: .graph) {
+            let userService = container.resolveService(UserService.self)
             return UserSettingsRepository(userService: userService)
         }
 
         // DOMAIN
 
-        container.registerService(type: GetGameSettingsUseCaseType.self, scope: .graph) { r in
-            GetGameSettingsUseCase(userSettingsRepository: r.resolveService(UserSettingsRepositoryType.self))
+        container.registerService(type: GetGameSettingsUseCaseType.self, scope: .graph) {
+            GetGameSettingsUseCase(userSettingsRepository: container.resolveService(UserSettingsRepositoryType.self))
         }
         
-        container.registerService(type: GetQuestionsUseCaseType.self, scope: .graph) { r in
+        container.registerService(type: GetQuestionsUseCaseType.self, scope: .graph) {
             GetQuestionsUseCase(
-                getGameSettingsUseCase: r.resolveService(GetGameSettingsUseCaseType.self),
-                gameRepository: r.resolveService(GameRepositoryType.self)
+                getGameSettingsUseCase: container.resolveService(GetGameSettingsUseCaseType.self),
+                gameRepository: container.resolveService(GameRepositoryType.self)
             )
         }
 
-        container.registerService(type: SyncGameDataUseCaseType.self, scope: .graph) { r in
-            SyncGameDataUseCase(gameRepository: r.resolveService(GameRepositoryType.self))
+        container.registerService(type: SyncGameDataUseCaseType.self, scope: .graph) {
+            SyncGameDataUseCase(gameRepository: container.resolveService(GameRepositoryType.self))
         }
 
-        container.registerService(type: GameManagerType.self, scope: .graph) { r in
-            GameManager(getQuestionsUseCase: r.resolveService(GetQuestionsUseCaseType.self))
+        container.registerService(type: GameManagerType.self, scope: .graph) {
+            GameManager(getQuestionsUseCase: container.resolveService(GetQuestionsUseCaseType.self))
         }
 
         // PRESENTATION
 
-        container.registerService(type: GameViewModel.self, scope: .graph) { r in
+        container.registerService(type: GameViewModel.self, scope: .graph) {
             GameViewModel(
-                gameManager: r.resolveService(GameManagerType.self)
+                gameManager: container.resolveService(GameManagerType.self)
             )
         }
 
-        container.registerService(type: GameOverviewViewModel.self, scope: .graph) { r in
-            GameOverviewViewModel()
+        container.registerService(type: GameOverviewViewModel.self, scope: .graph) { correctQuestions in
+            GameOverviewViewModel(correctQuestions: correctQuestions)
         }
     }
 }

@@ -25,6 +25,13 @@ final class GameOverviewViewModel: GameOverviewViewModelType {
 
     // MARK: - Dependencies
 
+    private let correctQuestions: [QuestionDOM]
+
+    init(correctQuestions: [QuestionDOM]) {
+        self.correctQuestions = correctQuestions
+        print(correctQuestions)
+    }
+
     func backHomeTap() {
         routing.send(.close)
     }

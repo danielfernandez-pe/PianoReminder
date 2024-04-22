@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CompoundPredicate
 
 final class GameRepository: GameRepositoryType {
     private let gameService: GameService
@@ -40,11 +41,20 @@ final class GameRepository: GameRepositoryType {
                       includeNotes: Bool,
                       includeStories: Bool,
                       limit: Int?) async -> [QuestionDOM] {
-        let predicate = #Predicate<QuestionDAO> { question in
-            question.isStoryQuestion == true
+        let chordPredicate = #Predicate<QuestionDAO> { question in
+            includeChords ? question.isChordQuestion == true : false
         }
 
-        let questions = await gameStorage.fetchQuestions(predicate: predicate, limit: limit)
+        let notePredicate = #Predicate<QuestionDAO> { question in
+            includeNotes ? question.isNoteQuestion == true : false
+        }
+
+        let storyPredicate = #Predicate<QuestionDAO> { question in
+            includeStories ? question.isStoryQuestion == true : false
+        }
+
+        let finalPredicate = [chordPredicate, notePredicate, storyPredicate].disjunction()
+        let questions = await gameStorage.fetchQuestions(predicate: finalPredicate, limit: limit)
         return questions.compactMap { DataMapper.question($0) }
     }
 }

@@ -8,12 +8,17 @@
 import Foundation
 
 protocol GameManagerType {
+    var correctAnsweredQuestions: [QuestionDOM] { get }
+
     func setup() async
     func getQuestion() async -> QuestionDOM
+    func userAnsweredCorrectly()
     func userAnsweredWrong()
 }
 
 final class GameManager: GameManagerType {
+    var correctAnsweredQuestions: [QuestionDOM] = []
+
     private var questions: [QuestionDOM] = []
     private var wrongAnsweredQuestions: [QuestionDOM] = []
     private var currentQuestion: QuestionDOM?
@@ -31,7 +36,7 @@ final class GameManager: GameManagerType {
     func getQuestion() async -> QuestionDOM {
         if questions.isEmpty {
             questions.append(contentsOf: wrongAnsweredQuestions)
-            // get from database again but now using a predicate to avoid story questions (if the user has this setup) and isUsed doesnt matter
+            // TODO: get from database again but now using a predicate to avoid story questions (if the user has this setup) and isUsed doesnt matter
         }
 
         var nextQuestion = questions.removeFirst()
@@ -49,6 +54,11 @@ final class GameManager: GameManagerType {
         }
 
         return nextQuestion
+    }
+
+    func userAnsweredCorrectly() {
+        guard let currentQuestion else { return }
+        correctAnsweredQuestions.append(currentQuestion)
     }
 
     func userAnsweredWrong() {
@@ -77,21 +87,23 @@ final class GameManager: GameManagerType {
         }
     }
 
-    private func predicate(for question: QuestionDOM) -> Predicate<QuestionDOM> {
+    // The predicate i returning both treble and bass option with same title sometimes
+    private func predicate(for originalQuestion: QuestionDOM) -> Predicate<QuestionDOM> {
         let randomQuestionsFilter: Predicate<QuestionDOM>
+        let originalQuestionTitle = originalQuestion.questionTitle
 
-        switch question.questionType {
+        switch originalQuestion.questionType {
         case .chord:
             randomQuestionsFilter = #Predicate<QuestionDOM> { question in
-                question.isChordQuestion
+                question.isChordQuestion && !question.questionTitle.contains(originalQuestionTitle)
             }
         case .note:
             randomQuestionsFilter = #Predicate<QuestionDOM> { question in
-                question.isNoteQuestion
+                question.isNoteQuestion && question.questionTitle != originalQuestionTitle
             }
         case .story:
             randomQuestionsFilter = #Predicate<QuestionDOM> { question in
-                question.isStoryQuestion
+                question.isStoryQuestion && question.questionTitle != originalQuestionTitle
             }
         }
 

@@ -21,7 +21,8 @@ let package = Package(
         .package(path: "../DependencyInjection"),
         .package(path: "../Storage"),
         .package(url: "git@github.com:danielfcodes/UI.git", from: "1.0.0"),
-        .package(url: "git@github.com:danielfcodes/Logger.git", from: "1.0.0")
+        .package(url: "git@github.com:danielfcodes/Logger.git", from: "1.0.0"),
+        .package(url: "https://github.com/NoahKamara/CompoundPredicate.git", from: "0.1.0"),
     ],
     targets: [
         .target(
@@ -33,7 +34,8 @@ let package = Package(
                 .product(name: "Storage", package: "Storage"),
                 .product(name: "UI", package: "UI"),
                 .product(name: "Lumberjack", package: "Logger"),
-                .target(name: "GameAPI")
+                .target(name: "GameAPI"),
+                .product(name: "CompoundPredicate", package: "CompoundPredicate"),
             ],
             path: "Sources/Game",
             resources: [
