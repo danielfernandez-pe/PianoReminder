@@ -8,7 +8,7 @@
 import Foundation
 
 protocol GetQuestionsUseCaseType {
-    func getQuestions() async -> [QuestionDOM]
+    func getQuestions(isNewSession: Bool) async -> [QuestionDOM]
 }
 
 struct GetQuestionsUseCase: GetQuestionsUseCaseType {
@@ -21,12 +21,12 @@ struct GetQuestionsUseCase: GetQuestionsUseCaseType {
         self.gameRepository = gameRepository
     }
 
-    func getQuestions() async -> [QuestionDOM] {
+    func getQuestions(isNewSession: Bool) async -> [QuestionDOM] {
         let settings = getGameSettingsUseCase.getGameSettings()
         let fetchedQuestions = await gameRepository.getQuestions(
             includeChords: settings.isChordsEnabled,
             includeNotes: settings.isNotesEnabled,
-            includeStories: settings.isStoryQuestionsEnabled,
+            includeStories: isNewSession ? settings.isStoryQuestionsEnabled : false,
             limit: nil
         ).shuffled()
         return fetchedQuestions

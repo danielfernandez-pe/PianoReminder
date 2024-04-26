@@ -30,13 +30,18 @@ final class GameManager: GameManagerType {
     }
 
     func setup() async {
-        questions = await getQuestionsUseCase.getQuestions()
+        questions = await getQuestionsUseCase.getQuestions(isNewSession: true)
     }
 
+    // Use an actor and check the inProgress for questions
     func getQuestion() async -> QuestionDOM {
-        if questions.isEmpty {
+        if questions.count <= 10 {
             questions.append(contentsOf: wrongAnsweredQuestions)
-            // TODO: get from database again but now using a predicate to avoid story questions (if the user has this setup) and isUsed doesnt matter
+
+            Task {
+                let moreQuestions = await getQuestionsUseCase.getQuestions(isNewSession: false)
+                questions.append(contentsOf: moreQuestions)
+            }
         }
 
         var nextQuestion = questions.removeFirst()
