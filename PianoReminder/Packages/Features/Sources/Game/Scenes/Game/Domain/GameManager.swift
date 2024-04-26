@@ -35,17 +35,22 @@ final class GameManager: GameManagerType {
 
     // Use an actor and check the inProgress for questions
     func getQuestion() async -> QuestionDOM {
+        logger.debug("User ask for a new question. There is \(questions.count) questions available")
         if questions.count <= 10 {
+            logger.debug("Running out of questions. Appending \(wrongAnsweredQuestions.count) questions from the wrong answered")
             questions.append(contentsOf: wrongAnsweredQuestions)
 
+            logger.debug("Asking for more questions from db")
             Task {
                 let moreQuestions = await getQuestionsUseCase.getQuestions(isNewSession: false)
                 questions.append(contentsOf: moreQuestions)
+                logger.debug("Appending new questions. Now there is \(questions.count) questions available")
             }
         }
 
         var nextQuestion = questions.removeFirst()
         currentQuestion = nextQuestion
+        logger.debug("Got a question for the user. Now there is \(questions.count) questions available")
 
         switch nextQuestion.questionType {
         case .story(let story):
