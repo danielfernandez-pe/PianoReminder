@@ -71,13 +71,16 @@ final class GameManager: GameManagerType {
             var copy = try questions.filter(predicate(for: question))
             var result: [QuestionDOM] = []
 
-            for _ in 0..<min(3, questions.count) {
+            while result.count < 3 {
                 guard let randomIndex = copy.indices.randomElement() else {
                     break
                 }
 
-                result.append(copy[randomIndex])
-                copy.remove(at: randomIndex)
+                let possibleItem = copy[randomIndex]
+                if result.firstIndex(where: { $0.questionTitle == possibleItem.questionTitle }) == nil {
+                    result.append(possibleItem)
+                    copy.remove(at: randomIndex)
+                }
             }
 
             return result
@@ -87,7 +90,6 @@ final class GameManager: GameManagerType {
         }
     }
 
-    // The predicate i returning both treble and bass option with same title sometimes
     private func predicate(for originalQuestion: QuestionDOM) -> Predicate<QuestionDOM> {
         let randomQuestionsFilter: Predicate<QuestionDOM>
         let originalQuestionTitle = originalQuestion.questionTitle
@@ -95,7 +97,7 @@ final class GameManager: GameManagerType {
         switch originalQuestion.questionType {
         case .chord:
             randomQuestionsFilter = #Predicate<QuestionDOM> { question in
-                question.isChordQuestion && !question.questionTitle.contains(originalQuestionTitle)
+                question.isChordQuestion && question.questionTitle != originalQuestionTitle
             }
         case .note:
             randomQuestionsFilter = #Predicate<QuestionDOM> { question in
