@@ -8,6 +8,7 @@
 import Combine
 import SwiftUI
 import GameAPI
+import Networking
 
 protocol HomeViewModelInputs {
     func setupGame() async
@@ -36,6 +37,10 @@ protocol HomeViewModelType: HomeViewModelInputs, HomeViewModelOutputs {}
     init(syncGameUseCase: any SyncGameDataUseCaseType, homeRouter: any HomeRouter) {
         self.syncGameUseCase = syncGameUseCase
         self.homeRouter = homeRouter
+
+        Task {
+            await syncGameUseCase.sync()
+        }
     }
 
     @MainActor

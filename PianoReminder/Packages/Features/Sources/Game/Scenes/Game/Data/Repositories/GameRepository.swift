@@ -22,16 +22,18 @@ final class GameRepository: GameRepositoryType {
             // mechanism to know how to sync only new ones or update old ones? Using Date of update or something
             let chords = try await gameService.fetchChords()
             let notes = try await gameService.fetchNotes()
-            let stories = try await gameService.fetchStoryQuestions()
+            let history = try await gameService.fetchHistoryQuestions()
             
-            let chordQuestions = chords.compactMap { QuestionDAO(chord: $0, note: nil, story: nil, isChordQuestion: true, isNoteQuestion: false, isStoryQuestion: false) }
-            let noteQuestions = notes.compactMap { QuestionDAO(chord: nil, note: $0, story: nil, isChordQuestion: false, isNoteQuestion: true, isStoryQuestion: false) }
-            let storyQuestions = stories.compactMap { QuestionDAO(chord: nil, note: nil, story: $0, isChordQuestion: false, isNoteQuestion: false, isStoryQuestion: true) }
+            logger.debug("Getting new \(chords.count) chords, \(notes.count) notes and \(history.count) history questions")
+            
+            let chordQuestions = chords.compactMap { QuestionDAO(chord: $0, note: nil, history: nil, isChordQuestion: true, isNoteQuestion: false, isHistoryQuestion: false) }
+            let noteQuestions = notes.compactMap { QuestionDAO(chord: nil, note: $0, history: nil, isChordQuestion: false, isNoteQuestion: true, isHistoryQuestion: false) }
+            let historyQuestions = history.compactMap { QuestionDAO(chord: nil, note: nil, history: $0, isChordQuestion: false, isNoteQuestion: false, isHistoryQuestion: true) }
             
             // Uncomment when is a fresh install
 //            await gameStorage.save(data: chordQuestions)
 //            await gameStorage.save(data: noteQuestions)
-//            await gameStorage.save(data: storyQuestions)
+//            await gameStorage.save(data: historyQuestions)
         } catch {
             logger.error("Sync failing \(error)")
         }
@@ -50,7 +52,7 @@ final class GameRepository: GameRepositoryType {
         }
 
         let storyPredicate = #Predicate<QuestionDAO> { question in
-            includeStories ? question.isStoryQuestion == true : false
+            includeStories ? question.isHistoryQuestion == true : false
         }
 
         let finalPredicate = [chordPredicate, notePredicate, storyPredicate].disjunction()

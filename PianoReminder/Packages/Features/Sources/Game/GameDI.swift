@@ -9,6 +9,7 @@ import Foundation
 import DependencyInjection
 import GameAPI
 import Lumberjack
+import Networking
 
 var logger: LumberjackCoordinator!
 
@@ -19,7 +20,7 @@ public struct GameDI {
         // DATA
 
         container.registerService(type: GameService.self, scope: .graph) {
-            GameService()
+            GameService(networking: container.resolveService(FirebaseNetworking.self))
         }
 
         container.registerService(type: GameStorage.self, scope: .graph) {

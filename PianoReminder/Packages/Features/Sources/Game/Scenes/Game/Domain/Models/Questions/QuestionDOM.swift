@@ -11,7 +11,7 @@ struct QuestionDOM {
     enum QuestionType {
         case chord(ChordDOM)
         case note(SingleNoteDOM)
-        case story(StoryDOM)
+        case history(HistoryDOM)
     }
 
     let id = UUID().uuidString
@@ -25,7 +25,7 @@ struct QuestionDOM {
             return chordDOM.title
         case .note(let singleNoteDOM):
             return singleNoteDOM.title
-        case .story(let storyDOM):
+        case .history(let storyDOM):
             return storyDOM.titleQuestion
         }
     }
@@ -48,9 +48,9 @@ struct QuestionDOM {
         }
     }
 
-    var isStoryQuestion: Bool {
+    var isHistoryQuestion: Bool {
         switch questionType {
-        case .story:
+        case .history:
             return true
         default:
             return false

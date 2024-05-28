@@ -22,10 +22,10 @@ struct DataMapper {
             category = .sightReading
         }
 
-        if questionDao.isStoryQuestion, let story = questionDao.story {
-            let storyDom = Self.story(story)
-            questionType = .story(storyDom)
-            category = .story
+        if questionDao.isHistoryQuestion, let history = questionDao.history {
+            let historyDom = Self.history(history)
+            questionType = .history(historyDom)
+            category = .history
         }
 
         return QuestionDOM(questionType: questionType, category: category, options: [])
@@ -68,8 +68,8 @@ struct DataMapper {
         )
     }
 
-    private static func story(_ story: StoryDTO) -> StoryDOM {
-        let options = story.storyOptions.map { StoryDOM.Option(value: $0.value, isAnswer: $0.isAnswer) }
-        return StoryDOM(titleQuestion: story.titleQuestion, storyOptions: options)
+    private static func history(_ history: HistoryDTO) -> HistoryDOM {
+        let options = history.historyOptions.map { HistoryDOM.Option(value: $0.value, isAnswer: $0.isAnswer) }
+        return HistoryDOM(titleQuestion: history.titleQuestion, historyOptions: options)
     }
 }

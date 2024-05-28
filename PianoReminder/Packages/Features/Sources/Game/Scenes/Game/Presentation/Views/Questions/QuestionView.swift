@@ -17,7 +17,7 @@ struct QuestionView: View {
             ChordView(chord: chord)
         case .note(let note):
             NoteView(note: note)
-        case .story(let questionTitle):
+        case .history(let questionTitle):
             Text(questionTitle.titleQuestion)
                 .scaledFont(.body, fontWeight: .semibold)
                 .foregroundStyle(Color.fgPrimary)

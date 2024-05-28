@@ -22,6 +22,7 @@ let package = Package(
         .package(path: "../Storage"),
         .package(url: "git@github.com:danielfcodes/UI.git", from: "1.0.0"),
         .package(url: "git@github.com:danielfcodes/Logger.git", from: "1.0.0"),
+        .package(url: "git@github.com:danielfcodes/Networking.git", from: "1.2.1"),
         .package(url: "https://github.com/NoahKamara/CompoundPredicate.git", from: "0.1.0"),
     ],
     targets: [
@@ -34,6 +35,7 @@ let package = Package(
                 .product(name: "Storage", package: "Storage"),
                 .product(name: "UI", package: "UI"),
                 .product(name: "Lumberjack", package: "Logger"),
+                .product(name: "Networking", package: "Networking"),
                 .target(name: "GameAPI"),
                 .product(name: "CompoundPredicate", package: "CompoundPredicate"),
             ],

@@ -9,5 +9,5 @@ import Foundation
 
 enum CategoryUI: String, Hashable {
     case sightReading
-    case story
+    case history
 }

@@ -35,11 +35,11 @@ struct UIMapper {
                   let clef = ClefUI(rawValue: singleNoteDOM.clef.rawValue) else { return nil }
             let note = ComposedNoteUI(value: value, type: type, octave: octave)
             questionViewType = QuestionUI.QuestionViewType.note(.init(value: note, clef: clef, title: singleNoteDOM.title))
-        case .story(let storyDOM):
-            let options = storyDOM.storyOptions.map {
-                StoryUI.Option(value: $0.value, isAnswer: $0.isAnswer)
+        case .history(let historyDOM):
+            let options = historyDOM.historyOptions.map {
+                HistoryUI.Option(value: $0.value, isAnswer: $0.isAnswer)
             }
-            questionViewType = QuestionUI.QuestionViewType.story(.init(titleQuestion: storyDOM.titleQuestion, storyOptions: options))
+            questionViewType = QuestionUI.QuestionViewType.history(.init(titleQuestion: historyDOM.titleQuestion, historyOptions: options))
         }
 
         return QuestionUI(

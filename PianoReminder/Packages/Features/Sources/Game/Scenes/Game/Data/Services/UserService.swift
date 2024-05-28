@@ -10,9 +10,9 @@ import Foundation
 final class UserService {
     func getGameSettings() -> GameSettingsDOM {
         .init(
-            isStoryQuestionsEnabled: false,
-            isChordsEnabled: true,
-            isNotesEnabled: false,
+            isHistoryQuestionsEnabled: true,
+            isChordsEnabled: false,
+            isNotesEnabled: true,
             isListeningEnabled: false,
             isSoundsEnabled: true
         )

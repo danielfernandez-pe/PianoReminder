@@ -1,5 +1,5 @@
 //
-//  StoryUI.swift
+//  HistoryUI.swift
 //
 //
 //  Created by Daniel Yopla on 21.02.2024.
@@ -7,9 +7,9 @@
 
 import Foundation
 
-struct StoryUI: Hashable, Equatable {
+struct HistoryUI: Hashable, Equatable {
     let titleQuestion: String
-    let storyOptions: [Option]
+    let historyOptions: [Option]
 
     struct Option: Hashable {
         let value: String

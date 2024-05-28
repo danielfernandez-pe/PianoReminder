@@ -8,7 +8,7 @@
 import Foundation
 
 struct GameSettingsDOM {
-    let isStoryQuestionsEnabled: Bool
+    let isHistoryQuestionsEnabled: Bool
     let isChordsEnabled: Bool
     let isNotesEnabled: Bool
     let isListeningEnabled: Bool

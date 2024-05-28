@@ -9,5 +9,5 @@ import Foundation
 
 enum CategoryDTO: String, Codable {
     case sightReading
-    case story
+    case history
 }

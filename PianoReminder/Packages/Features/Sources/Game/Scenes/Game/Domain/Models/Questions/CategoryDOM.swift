@@ -9,5 +9,5 @@ import Foundation
 
 enum CategoryDOM: String {
     case sightReading
-    case story
+    case history
 }

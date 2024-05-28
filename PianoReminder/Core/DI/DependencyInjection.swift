@@ -10,6 +10,7 @@ import OSLog
 import Game
 import Storage
 import Lumberjack
+import Networking
 import DependencyInjection
 
 final class DependencyInjection {
@@ -26,6 +27,10 @@ final class DependencyInjection {
                     Logger.main
                 ]
             )
+        }
+
+        DIContainer.shared.registerService(type: FirebaseNetworking.self, scope: .container) {
+            FirebaseNetworking()
         }
     }
 }

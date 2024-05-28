@@ -53,8 +53,8 @@ final class GameManager: GameManagerType {
         logger.debug("Got a question for the user. Now there is \(questions.count) questions available")
 
         switch nextQuestion.questionType {
-        case .story(let story):
-            let options = story.storyOptions.map { UserOptionDOM(title: $0.value, isAnswer: $0.isAnswer) }.shuffled()
+        case .history(let history):
+            let options = history.historyOptions.map { UserOptionDOM(title: $0.value, isAnswer: $0.isAnswer) }.shuffled()
             nextQuestion.options = options
         case .chord, .note:
             var randomOptions = getRandomQuestions(relatedTo: nextQuestion).compactMap { UserOptionDOM(title: $0.questionTitle, isAnswer: false) }
@@ -113,9 +113,9 @@ final class GameManager: GameManagerType {
             randomQuestionsFilter = #Predicate<QuestionDOM> { question in
                 question.isNoteQuestion && question.questionTitle != originalQuestionTitle
             }
-        case .story:
+        case .history:
             randomQuestionsFilter = #Predicate<QuestionDOM> { question in
-                question.isStoryQuestion && question.questionTitle != originalQuestionTitle
+                question.isHistoryQuestion && question.questionTitle != originalQuestionTitle
             }
         }
 

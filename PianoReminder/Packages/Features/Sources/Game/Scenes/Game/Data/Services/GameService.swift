@@ -6,68 +6,60 @@
 //
 
 import Foundation
+import Networking
 
 final class GameService {
+    enum FirebaseCollection: String {
+        case chords
+        case notes
+        case history
+
+        func getPath() -> String {
+            let mainPath = "questions/EN/"
+            return "\(mainPath)\(rawValue)"
+        }
+    }
+
+    private let networking: FirebaseNetworking
+
+    init(networking: FirebaseNetworking) {
+        self.networking = networking
+    }
+
     func fetchNotes() async throws -> [SingleNoteDTO] {
-        [
-            .init(value: .init(value: .c, type: .sharp, octave: .oct5), clef: .treble, title: "C flat"),
-            .init(value: .init(value: .c, type: .natural, octave: .middleC), clef: .treble, title: "C"),
-            .init(value: .init(value: .d, type: .flat, octave: .middleC), clef: .treble, title: "D flat"),
-            .init(value: .init(value: .d, type: .natural, octave: .middleC), clef: .treble, title: "D"),
-            .init(value: .init(value: .e, type: .flat, octave: .oct3), clef: .bass, title: "E flat"),
-            .init(value: .init(value: .f, type: .sharp, octave: .oct3), clef: .treble, title: "F sharp"),
-            .init(value: .init(value: .g, type: .flat, octave: .oct1), clef: .bass, title: "G flat"),
-            .init(value: .init(value: .g, type: .natural, octave: .oct5), clef: .treble, title: "G"),
-            .init(value: .init(value: .b, type: .flat, octave: .oct2), clef: .bass, title: "B flat"),
-            .init(value: .init(value: .b, type: .natural, octave: .oct3), clef: .bass, title: "B")
-        ]
+        let data = try await networking.get(path: FirebaseCollection.notes.getPath())
+        let jsonDecoder = JSONDecoder()
+        return try jsonDecoder.decode([SingleNoteDTO].self, from: data)
+//        [
+//            .init(value: .init(value: .c, type: .sharp, octave: .oct5), clef: .treble, title: "C flat"),
+//            .init(value: .init(value: .c, type: .natural, octave: .middleC), clef: .treble, title: "C"),
+//            .init(value: .init(value: .d, type: .flat, octave: .middleC), clef: .treble, title: "D flat"),
+//            .init(value: .init(value: .d, type: .natural, octave: .middleC), clef: .treble, title: "D"),
+//            .init(value: .init(value: .e, type: .flat, octave: .oct3), clef: .bass, title: "E flat"),
+//            .init(value: .init(value: .f, type: .sharp, octave: .oct3), clef: .treble, title: "F sharp"),
+//            .init(value: .init(value: .g, type: .flat, octave: .oct1), clef: .bass, title: "G flat"),
+//            .init(value: .init(value: .g, type: .natural, octave: .oct5), clef: .treble, title: "G"),
+//            .init(value: .init(value: .b, type: .flat, octave: .oct2), clef: .bass, title: "B flat"),
+//            .init(value: .init(value: .b, type: .natural, octave: .oct3), clef: .bass, title: "B")
+//        ]
     }
 
     func fetchChords() async throws -> [ChordDTO] {
-        [
-            trebleBasicMajors(),
-            trebleBasicMinors(),
-            bassBasicMajors(),
-            bassBasicMinors()
-        ].flatMap { $0 }.shuffled()
+        let data = try await networking.get(path: FirebaseCollection.chords.getPath())
+        let jsonDecoder = JSONDecoder()
+        return try jsonDecoder.decode([ChordDTO].self, from: data)
+//        [
+//            trebleBasicMajors(),
+//            trebleBasicMinors(),
+//            bassBasicMajors(),
+//            bassBasicMinors()
+//        ].flatMap { $0 }.shuffled()
     }
 
-    func fetchStoryQuestions() async throws -> [StoryDTO] {
-        [
-            .init(
-                titleQuestion: "1When was the piano invented?",
-                storyOptions: [
-                    .init(value: "1920", isAnswer: false),
-                    .init(value: "1850", isAnswer: false),
-                    .init(value: "1509", isAnswer: true),
-                    .init(value: "345", isAnswer: false)
-                ]
-            ),
-            .init(
-                titleQuestion: "2Who invented the piano?",
-                storyOptions: [
-                    .init(value: "Daniel Fernandez", isAnswer: true),
-                    .init(value: "Lima", isAnswer: false),
-                    .init(value: "Lucky", isAnswer: true),
-                    .init(value: "Pocho", isAnswer: false)
-                ]
-            ),
-            .init(
-                titleQuestion: "3What was the first piece ever played?",
-                storyOptions: [
-                    .init(value: "Bohemian rhapsody", isAnswer: false),
-                    .init(value: "American idiot", isAnswer: false),
-                    .init(value: "Karma police", isAnswer: true),
-                ]
-            ),
-            .init(
-                titleQuestion: "4Which instrument was first?",
-                storyOptions: [
-                    .init(value: "Guitar", isAnswer: false),
-                    .init(value: "Piano", isAnswer: true)
-                ]
-            )
-        ]
+    func fetchHistoryQuestions() async throws -> [HistoryDTO] {
+        let data = try await networking.get(path: FirebaseCollection.history.getPath())
+        let jsonDecoder = JSONDecoder()
+        return try jsonDecoder.decode([HistoryDTO].self, from: data)
     }
 
     private func trebleBasicMajors() -> [ChordDTO] {
@@ -329,7 +321,7 @@ enum InMemoryChords {
     static let bBassMajor: ChordDTO = .init(
         notes: [
             .init(value: .b, type: .natural, octave: .oct2),
-            .init(value: .d, type: .sharp, octave: .oct3),
+            .init(value: .d, type: .sharp, octave: .oct3, extraSpaceForType: true),
             .init(value: .f, type: .sharp, octave: .oct3)
         ],
         clef: .bass,

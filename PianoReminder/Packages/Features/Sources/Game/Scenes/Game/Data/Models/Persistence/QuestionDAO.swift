@@ -12,25 +12,25 @@ import SwiftData
 class QuestionDAO {
     let chord: ChordDTO?
     let note: SingleNoteDTO?
-    let story: StoryDTO?
+    let history: HistoryDTO?
     
     let isChordQuestion: Bool
     let isNoteQuestion: Bool
-    let isStoryQuestion: Bool
+    let isHistoryQuestion: Bool
     
     var isUsed: Bool = false
 
     init(chord: ChordDTO?,
          note: SingleNoteDTO?,
-         story: StoryDTO?,
+         history: HistoryDTO?,
          isChordQuestion: Bool,
          isNoteQuestion: Bool,
-         isStoryQuestion: Bool) {
+         isHistoryQuestion: Bool) {
         self.chord = chord
         self.note = note
-        self.story = story
+        self.history = history
         self.isChordQuestion = isChordQuestion
         self.isNoteQuestion = isNoteQuestion
-        self.isStoryQuestion = isStoryQuestion
+        self.isHistoryQuestion = isHistoryQuestion
     }
 }

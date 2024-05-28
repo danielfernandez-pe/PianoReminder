@@ -11,7 +11,7 @@ struct QuestionUI: Identifiable, Hashable {
     enum QuestionViewType: Hashable {
         case chord(ChordUI)
         case note(SingleNoteUI)
-        case story(StoryUI)
+        case history(HistoryUI)
     }
 
     let id: String

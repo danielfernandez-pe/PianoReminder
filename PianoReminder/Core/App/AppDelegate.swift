@@ -8,7 +8,7 @@
 import SwiftUI
 import Lumberjack
 import DependencyInjection
-import FirebaseCore
+import Networking
 
 let logger = DIContainer.shared.resolveService(LumberjackCoordinator.self)
 
@@ -17,7 +17,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
         DependencyInjection.setup()
-        FirebaseApp.configure()
+        FirebaseInit.initializeFirebase(with: "GoogleService-Info")
         return true
     }
 }
