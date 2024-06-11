@@ -9,7 +9,7 @@ import Foundation
 import Networking
 
 final class GameService {
-    enum FirebaseCollection: String {
+    enum FirebaseCollection: String, Decodable {
         case chords
         case notes
         case history
@@ -28,9 +28,27 @@ final class GameService {
     }
 
     func fetchEntitiesToSync(from lastSynced: Date) async throws -> [EntityToSyncDTO] {
-        let data = try await networking.get(path: FirebaseCollection.sync.rawValue)
+        let data = try await networking.get(path: FirebaseCollection.sync.rawValue) // TODO: query snapshot
         let jsonDecoder = JSONDecoder()
         return try jsonDecoder.decode([EntityToSyncDTO].self, from: data)
+    }
+
+    func fetchChord(id: String) async throws -> ChordDTO {
+        let data = try await networking.get(path: FirebaseCollection.chords.getPathWithLocale())
+        let jsonDecoder = JSONDecoder()
+        return try jsonDecoder.decode(ChordDTO.self, from: data)
+    }
+
+    func fetchNote(id: String) async throws -> SingleNoteDTO {
+        let data = try await networking.get(path: FirebaseCollection.notes.getPathWithLocale())
+        let jsonDecoder = JSONDecoder()
+        return try jsonDecoder.decode(SingleNoteDTO.self, from: data)
+    }
+
+    func fetchHistory(id: String) async throws -> HistoryDTO {
+        let data = try await networking.get(path: FirebaseCollection.history.getPathWithLocale())
+        let jsonDecoder = JSONDecoder()
+        return try jsonDecoder.decode(HistoryDTO.self, from: data)
     }
 
     func fetchNotes() async throws -> [SingleNoteDTO] {
@@ -122,6 +140,7 @@ enum InMemoryChords {
     // MARK: - Treble basic Majors
 
     static let cMajor: ChordDTO = .init(
+        id: "1",
         notes: [
             .init(value: .c, type: .natural, octave: .middleC),
             .init(value: .e, type: .natural, octave: .middleC),
@@ -132,6 +151,7 @@ enum InMemoryChords {
     )
 
     static let dMajor: ChordDTO = .init(
+        id: "2",
         notes: [
             .init(value: .d, type: .natural, octave: .middleC),
             .init(value: .f, type: .sharp, octave: .middleC),
@@ -142,6 +162,7 @@ enum InMemoryChords {
     )
 
     static let eMajor: ChordDTO = .init(
+        id: "3",
         notes: [
             .init(value: .e, type: .natural, octave: .middleC),
             .init(value: .g, type: .sharp, octave: .middleC),
@@ -152,6 +173,7 @@ enum InMemoryChords {
     )
 
     static let fMajor: ChordDTO = .init(
+        id: "4",
         notes: [
             .init(value: .f, type: .natural, octave: .middleC),
             .init(value: .a, type: .natural, octave: .middleC),
@@ -162,6 +184,7 @@ enum InMemoryChords {
     )
 
     static let gMajor: ChordDTO = .init(
+        id: "5",
         notes: [
             .init(value: .g, type: .natural, octave: .middleC),
             .init(value: .b, type: .natural, octave: .middleC),
@@ -172,6 +195,7 @@ enum InMemoryChords {
     )
 
     static let aMajor: ChordDTO = .init(
+        id: "6",
         notes: [
             .init(value: .a, type: .natural, octave: .middleC),
             .init(value: .c, type: .sharp, octave: .oct5),
@@ -182,6 +206,7 @@ enum InMemoryChords {
     )
 
     static let bMajor: ChordDTO = .init(
+        id: "7",
         notes: [
             .init(value: .b, type: .natural, octave: .middleC),
             .init(value: .d, type: .sharp, octave: .oct5, extraSpaceForType: true),
@@ -194,6 +219,7 @@ enum InMemoryChords {
     // MARK: - Treble basic Minors
 
     static let cMinor: ChordDTO = .init(
+        id: "8",
         notes: [
             .init(value: .c, type: .natural, octave: .middleC),
             .init(value: .e, type: .flat, octave: .middleC),
@@ -204,6 +230,7 @@ enum InMemoryChords {
     )
 
     static let dMinor: ChordDTO = .init(
+        id: "9",
         notes: [
             .init(value: .d, type: .natural, octave: .middleC),
             .init(value: .f, type: .natural, octave: .middleC),
@@ -214,6 +241,7 @@ enum InMemoryChords {
     )
 
     static let eMinor: ChordDTO = .init(
+        id: "10",
         notes: [
             .init(value: .e, type: .natural, octave: .middleC),
             .init(value: .g, type: .natural, octave: .middleC),
@@ -224,6 +252,7 @@ enum InMemoryChords {
     )
 
     static let fMinor: ChordDTO = .init(
+        id: "11",
         notes: [
             .init(value: .f, type: .natural, octave: .middleC),
             .init(value: .a, type: .flat, octave: .middleC),
@@ -234,6 +263,7 @@ enum InMemoryChords {
     )
 
     static let gMinor: ChordDTO = .init(
+        id: "12",
         notes: [
             .init(value: .g, type: .natural, octave: .middleC),
             .init(value: .b, type: .flat, octave: .middleC),
@@ -244,6 +274,7 @@ enum InMemoryChords {
     )
 
     static let aMinor: ChordDTO = .init(
+        id: "13",
         notes: [
             .init(value: .a, type: .natural, octave: .middleC),
             .init(value: .c, type: .natural, octave: .oct5),
@@ -254,6 +285,7 @@ enum InMemoryChords {
     )
 
     static let bMinor: ChordDTO = .init(
+        id: "14",
         notes: [
             .init(value: .b, type: .natural, octave: .middleC),
             .init(value: .d, type: .natural, octave: .oct5),
@@ -266,6 +298,7 @@ enum InMemoryChords {
     // MARK: - Bass basic Majors
 
     static let cBassMajor: ChordDTO = .init(
+        id: "15",
         notes: [
             .init(value: .c, type: .natural, octave: .oct3),
             .init(value: .e, type: .natural, octave: .oct3),
@@ -276,6 +309,7 @@ enum InMemoryChords {
     )
 
     static let dBassMajor: ChordDTO = .init(
+        id: "16",
         notes: [
             .init(value: .d, type: .natural, octave: .oct3),
             .init(value: .f, type: .sharp, octave: .oct3),
@@ -286,6 +320,7 @@ enum InMemoryChords {
     )
 
     static let eBassMajor: ChordDTO = .init(
+        id: "17",
         notes: [
             .init(value: .e, type: .natural, octave: .oct3),
             .init(value: .g, type: .sharp, octave: .oct3),
@@ -296,6 +331,7 @@ enum InMemoryChords {
     )
 
     static let fBassMajor: ChordDTO = .init(
+        id: "18",
         notes: [
             .init(value: .f, type: .natural, octave: .oct3),
             .init(value: .a, type: .natural, octave: .oct3),
@@ -306,6 +342,7 @@ enum InMemoryChords {
     )
 
     static let gBassMajor: ChordDTO = .init(
+        id: "19",
         notes: [
             .init(value: .g, type: .natural, octave: .oct3),
             .init(value: .b, type: .natural, octave: .oct3),
@@ -316,6 +353,7 @@ enum InMemoryChords {
     )
 
     static let aBassMajor: ChordDTO = .init(
+        id: "20",
         notes: [
             .init(value: .a, type: .natural, octave: .oct2),
             .init(value: .c, type: .sharp, octave: .oct3),
@@ -326,6 +364,7 @@ enum InMemoryChords {
     )
 
     static let bBassMajor: ChordDTO = .init(
+        id: "21",
         notes: [
             .init(value: .b, type: .natural, octave: .oct2),
             .init(value: .d, type: .sharp, octave: .oct3, extraSpaceForType: true),
@@ -338,6 +377,7 @@ enum InMemoryChords {
     // MARK: - Bass basic Minors
 
     static let cBassMinor: ChordDTO = .init(
+        id: "22",
         notes: [
             .init(value: .c, type: .natural, octave: .oct3),
             .init(value: .e, type: .flat, octave: .oct3),
@@ -348,6 +388,7 @@ enum InMemoryChords {
     )
 
     static let dBassMinor: ChordDTO = .init(
+        id: "23",
         notes: [
             .init(value: .d, type: .natural, octave: .oct3),
             .init(value: .f, type: .natural, octave: .oct3),
@@ -358,6 +399,7 @@ enum InMemoryChords {
     )
 
     static let eBassMinor: ChordDTO = .init(
+        id: "24",
         notes: [
             .init(value: .e, type: .natural, octave: .oct3),
             .init(value: .g, type: .natural, octave: .oct3),
@@ -368,6 +410,7 @@ enum InMemoryChords {
     )
 
     static let fBassMinor: ChordDTO = .init(
+        id: "25",
         notes: [
             .init(value: .f, type: .natural, octave: .oct3),
             .init(value: .a, type: .flat, octave: .oct3),
@@ -378,6 +421,7 @@ enum InMemoryChords {
     )
 
     static let gBassMinor: ChordDTO = .init(
+        id: "26",
         notes: [
             .init(value: .g, type: .natural, octave: .oct3),
             .init(value: .b, type: .flat, octave: .oct3),
@@ -388,6 +432,7 @@ enum InMemoryChords {
     )
 
     static let aBassMinor: ChordDTO = .init(
+        id: "27",
         notes: [
             .init(value: .a, type: .natural, octave: .oct2),
             .init(value: .c, type: .natural, octave: .oct3),
@@ -398,6 +443,7 @@ enum InMemoryChords {
     )
 
     static let bBassMinor: ChordDTO = .init(
+        id: "28",
         notes: [
             .init(value: .b, type: .natural, octave: .oct2),
             .init(value: .d, type: .natural, octave: .oct3),

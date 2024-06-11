@@ -29,7 +29,6 @@ public final class HomeCoordinator: BaseCoordinator {
         // put the factory
         let view = HomeScreen<HomeViewModel>(
             viewModel: .init(
-                syncGameUseCase: container.resolveService((any SyncGameDataUseCaseType).self),
                 homeRouter: self
             )
         )

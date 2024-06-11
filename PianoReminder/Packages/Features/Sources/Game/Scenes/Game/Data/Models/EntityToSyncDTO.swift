@@ -17,5 +17,6 @@ struct EntityToSyncDTO: Decodable {
     let id: String
     let syncType: SyncType
     let modified: String
+    let path: GameService.FirebaseCollection
     let locale: String
 }

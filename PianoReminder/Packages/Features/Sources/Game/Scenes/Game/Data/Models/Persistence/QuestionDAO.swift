@@ -10,9 +10,9 @@ import SwiftData
 
 @Model
 class QuestionDAO {
-    let chord: ChordDTO?
-    let note: SingleNoteDTO?
-    let history: HistoryDTO?
+    var chord: ChordDTO?
+    var note: SingleNoteDTO?
+    var history: HistoryDTO?
     
     let isChordQuestion: Bool
     let isNoteQuestion: Bool

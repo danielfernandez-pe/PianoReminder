@@ -9,6 +9,7 @@ import SwiftUI
 import Lumberjack
 import DependencyInjection
 import Networking
+import GameAPI
 
 let logger = DIContainer.shared.resolveService(LumberjackCoordinator.self)
 
@@ -18,6 +19,15 @@ class AppDelegate: NSObject, UIApplicationDelegate {
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
         DependencyInjection.setup()
         FirebaseInit.initializeFirebase(with: "GoogleService-Info")
+        sync()
         return true
+    }
+
+    private func sync() {
+        let syncUseCase = DIContainer.shared.resolveService(SyncGameDataUseCaseType.self)
+
+        Task {
+            await syncUseCase.sync()
+        }
     }
 }

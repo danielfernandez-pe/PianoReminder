@@ -26,6 +26,10 @@ public actor BackgroundPersistenceModelActor: ModelActor {
         context.insert(data)
     }
 
+    public func delete<T: PersistentModel>(data: T) {
+        context.delete(data)
+    }
+
     public func save() throws {
         try context.save()
     }
