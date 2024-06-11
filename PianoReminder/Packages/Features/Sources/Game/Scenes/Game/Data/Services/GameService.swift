@@ -13,8 +13,9 @@ final class GameService {
         case chords
         case notes
         case history
+        case sync
 
-        func getPath() -> String {
+        func getPathWithLocale() -> String {
             let mainPath = "questions/EN/"
             return "\(mainPath)\(rawValue)"
         }
@@ -26,8 +27,14 @@ final class GameService {
         self.networking = networking
     }
 
+    func fetchEntitiesToSync(from lastSynced: Date) async throws -> [EntityToSyncDTO] {
+        let data = try await networking.get(path: FirebaseCollection.sync.rawValue)
+        let jsonDecoder = JSONDecoder()
+        return try jsonDecoder.decode([EntityToSyncDTO].self, from: data)
+    }
+
     func fetchNotes() async throws -> [SingleNoteDTO] {
-        let data = try await networking.get(path: FirebaseCollection.notes.getPath())
+        let data = try await networking.get(path: FirebaseCollection.notes.getPathWithLocale())
         let jsonDecoder = JSONDecoder()
         return try jsonDecoder.decode([SingleNoteDTO].self, from: data)
 //        [
@@ -45,7 +52,7 @@ final class GameService {
     }
 
     func fetchChords() async throws -> [ChordDTO] {
-        let data = try await networking.get(path: FirebaseCollection.chords.getPath())
+        let data = try await networking.get(path: FirebaseCollection.chords.getPathWithLocale())
         let jsonDecoder = JSONDecoder()
         return try jsonDecoder.decode([ChordDTO].self, from: data)
 //        [
@@ -57,7 +64,7 @@ final class GameService {
     }
 
     func fetchHistoryQuestions() async throws -> [HistoryDTO] {
-        let data = try await networking.get(path: FirebaseCollection.history.getPath())
+        let data = try await networking.get(path: FirebaseCollection.history.getPathWithLocale())
         let jsonDecoder = JSONDecoder()
         return try jsonDecoder.decode([HistoryDTO].self, from: data)
     }

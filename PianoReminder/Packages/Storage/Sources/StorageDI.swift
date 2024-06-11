@@ -13,5 +13,9 @@ var logger: LumberjackCoordinator!
 public struct StorageDI {
     public static func register(container: DICProtocol) {
         logger = container.resolveService(LumberjackCoordinator.self)
+
+        container.registerService(type: UserDefaultsService.self, scope: .graph) {
+            UserDefaultsService()
+        }
     }
 }

@@ -7,15 +7,25 @@
 
 import Foundation
 import GameAPI
+import Storage
 
 struct SyncGameDataUseCase: SyncGameDataUseCaseType {
     private let gameRepository: any GameRepositoryType
+    private let userDefaultsService: UserDefaultsService
 
-    init(gameRepository: any GameRepositoryType) {
+    init(gameRepository: any GameRepositoryType, userDefaultsService: UserDefaultsService) {
         self.gameRepository = gameRepository
+        self.userDefaultsService = userDefaultsService
     }
 
     func sync() async {
-        await gameRepository.sync()
+        let lastSynced = userDefaultsService.lastSynced
+
+        do {
+            try await gameRepository.sync(lastSynced: lastSynced)
+            userDefaultsService.lastSynced = .now
+        } catch {
+            logger.error("Game sync is failing. \(error.localizedDescription)")
+        }
     }
 }

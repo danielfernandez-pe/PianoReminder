@@ -10,6 +10,7 @@ import DependencyInjection
 import GameAPI
 import Lumberjack
 import Networking
+import Storage
 
 var logger: LumberjackCoordinator!
 
@@ -56,7 +57,10 @@ public struct GameDI {
         }
 
         container.registerService(type: SyncGameDataUseCaseType.self, scope: .graph) {
-            SyncGameDataUseCase(gameRepository: container.resolveService(GameRepositoryType.self))
+            SyncGameDataUseCase(
+                gameRepository: container.resolveService(GameRepositoryType.self),
+                userDefaultsService: container.resolveService(UserDefaultsService.self)
+            )
         }
 
         container.registerService(type: GameManagerType.self, scope: .graph) {
