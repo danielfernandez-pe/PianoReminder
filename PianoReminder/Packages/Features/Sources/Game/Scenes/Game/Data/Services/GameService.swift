@@ -27,26 +27,26 @@ final class GameService {
         self.networking = networking
     }
 
-    func fetchEntitiesToSync(from lastSynced: Date) async throws -> [EntityToSyncDTO] {
-        let data = try await networking.get(path: FirebaseCollection.sync.rawValue) // TODO: query snapshot
+    func fetchEntitiesToSync(from lastSynced: String) async throws -> [EntityToSyncDTO] {
+        let data = try await networking.get(path: FirebaseCollection.sync.rawValue, queryField: "modified", value: lastSynced)
         let jsonDecoder = JSONDecoder()
         return try jsonDecoder.decode([EntityToSyncDTO].self, from: data)
     }
 
     func fetchChord(id: String) async throws -> ChordDTO {
-        let data = try await networking.get(path: FirebaseCollection.chords.getPathWithLocale())
+        let data = try await networking.getDocument(path: FirebaseCollection.chords.getPathWithLocale(), id: id)
         let jsonDecoder = JSONDecoder()
         return try jsonDecoder.decode(ChordDTO.self, from: data)
     }
 
     func fetchNote(id: String) async throws -> SingleNoteDTO {
-        let data = try await networking.get(path: FirebaseCollection.notes.getPathWithLocale())
+        let data = try await networking.getDocument(path: FirebaseCollection.notes.getPathWithLocale(), id: id)
         let jsonDecoder = JSONDecoder()
         return try jsonDecoder.decode(SingleNoteDTO.self, from: data)
     }
 
     func fetchHistory(id: String) async throws -> HistoryDTO {
-        let data = try await networking.get(path: FirebaseCollection.history.getPathWithLocale())
+        let data = try await networking.getDocument(path: FirebaseCollection.history.getPathWithLocale(), id: id)
         let jsonDecoder = JSONDecoder()
         return try jsonDecoder.decode(HistoryDTO.self, from: data)
     }

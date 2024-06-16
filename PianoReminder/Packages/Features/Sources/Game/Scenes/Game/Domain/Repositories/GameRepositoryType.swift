@@ -8,7 +8,7 @@
 import Foundation
 
 protocol GameRepositoryType {
-    func sync(lastSynced: Date?) async throws
+    func sync(lastSynced: String?) async throws
     func getQuestions(includeChords: Bool,
                       includeNotes: Bool,
                       includeStories: Bool,

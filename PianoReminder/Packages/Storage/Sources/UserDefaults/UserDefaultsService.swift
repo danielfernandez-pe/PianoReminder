@@ -10,17 +10,15 @@ import Foundation
 public final class UserDefaultsService {
     static let dateFormatter = ISO8601DateFormatter()
 
-    public var lastSynced: Date? {
-        get {
-            guard let dateString = UserDefaults.standard.string(forKey: "lastSynced") else { return nil }
-            return Self.dateFormatter.date(from: dateString)
-        }
-        set {
-            if let newValue {
-                UserDefaults.standard.set(Self.dateFormatter.string(from: newValue), forKey: "lastSynced")
-            } else {
-                UserDefaults.standard.removeObject(forKey: "lastSynced")
-            }
+    public func getLastSynced() -> String? {
+        UserDefaults.standard.string(forKey: "lastSynced")
+    }
+
+    public func setLastSynced(to date: Date?) {
+        if let date {
+            UserDefaults.standard.set(Self.dateFormatter.string(from: date), forKey: "lastSynced")
+        } else {
+            UserDefaults.standard.removeObject(forKey: "lastSynced")
         }
     }
 }

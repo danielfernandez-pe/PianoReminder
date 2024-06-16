@@ -42,6 +42,7 @@
 		A1B1B6052B23A5D40035AE3A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A1BCB5B02A1A4F9500380EE6 /* PianoUI */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = PianoUI; sourceTree = "<group>"; };
 		A1DA0A722A647DD700B1978E /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A1F508AD2C185FB700B7B64E /* Networking */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Networking; path = ../packages/Networking; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +76,7 @@
 		A1AAC0CC29E431EB00930783 = {
 			isa = PBXGroup;
 			children = (
+				A1F508AD2C185FB700B7B64E /* Networking */,
 				A1AAC0D729E431EB00930783 /* PianoReminder */,
 				A1AAC0D629E431EB00930783 /* Products */,
 				A1AAC0F529E4320F00930783 /* Frameworks */,

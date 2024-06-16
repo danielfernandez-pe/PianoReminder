@@ -17,7 +17,7 @@ final class GameRepository: GameRepositoryType {
         self.gameStorage = gameStorage
     }
 
-    func sync(lastSynced: Date?) async throws {
+    func sync(lastSynced: String?) async throws {
         if let lastSynced {
             logger.debug("Starting incremental sync from \(lastSynced)")
             let entitiesToSync = try await gameService.fetchEntitiesToSync(from: lastSynced)
@@ -40,7 +40,7 @@ final class GameRepository: GameRepositoryType {
 
     private func syncChord(entity: EntityToSyncDTO) async {
         do {
-            let chord = try await gameService.fetchChord(id: entity.id)
+            let chord = try await gameService.fetchChord(id: entity.entityId)
             switch entity.syncType {
             case .created:
                 let unsyncQuestion = QuestionDAO(
@@ -53,38 +53,35 @@ final class GameRepository: GameRepositoryType {
                 )
                 await gameStorage.save(data: [unsyncQuestion])
             case .updated:
-                let entityId = entity.id
+                let entityId = entity.entityId
                 let predicate = #Predicate<QuestionDAO> { question in
-                    if let chordId = question.chord?.id {
-                        return chordId == entityId
-                    } else {
-                        return false
-                    }
+                    question.isChordQuestion && question.chord?.id == entityId
                 }
 
                 await gameStorage.updateQuestion(predicate: predicate) { question in
-                    question.chord = chord
+//                    question.chord = chord
                 }
             case .deleted:
-                let entityId = entity.id
-                let predicate = #Predicate<QuestionDAO> { question in
-                    if let chordId = question.chord?.id {
-                        return chordId == entityId
-                    } else {
-                        return false
-                    }
-                }
-
-                await gameStorage.deleteQuestion(predicate: predicate)
+                break
+//                let entityId = entity.entityId
+//                let predicate = #Predicate<QuestionDAO> { question in
+//                    if let chordId = question.chord?.id {
+//                        return chordId == entityId
+//                    } else {
+//                        return false
+//                    }
+//                }
+//
+//                await gameStorage.deleteQuestion(predicate: predicate)
             }
         } catch {
-            
+            logger.error("Error fetching chord \(error.localizedDescription)")
         }
     }
 
     private func syncNote(entity: EntityToSyncDTO) async {
         do {
-            let unsyncNote = try await gameService.fetchNote(id: entity.id)
+            let unsyncNote = try await gameService.fetchNote(id: entity.entityId)
         } catch {
             
         }
@@ -92,7 +89,7 @@ final class GameRepository: GameRepositoryType {
 
     private func syncHistory(entity: EntityToSyncDTO) async {
         do {
-            let unsyncHistory = try await gameService.fetchHistory(id: entity.id)
+            let unsyncHistory = try await gameService.fetchHistory(id: entity.entityId)
         } catch {
             
         }

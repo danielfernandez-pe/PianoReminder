@@ -19,11 +19,11 @@ struct SyncGameDataUseCase: SyncGameDataUseCaseType {
     }
 
     func sync() async {
-        let lastSynced = userDefaultsService.lastSynced
+        let lastSynced = userDefaultsService.getLastSynced()
 
         do {
             try await gameRepository.sync(lastSynced: lastSynced)
-            userDefaultsService.lastSynced = .now
+            userDefaultsService.setLastSynced(to: .now)
         } catch {
             logger.error("Game sync fail. \(error.localizedDescription)")
         }

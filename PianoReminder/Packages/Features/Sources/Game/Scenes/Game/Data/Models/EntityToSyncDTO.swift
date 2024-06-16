@@ -14,7 +14,7 @@ struct EntityToSyncDTO: Decodable {
         case deleted
     }
 
-    let id: String
+    let entityId: String
     let syncType: SyncType
     let modified: String
     let path: GameService.FirebaseCollection

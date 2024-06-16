@@ -10,6 +10,27 @@ import SwiftData
 
 @Model
 class QuestionDAO {
+    func matchesChordId(_ chordId: String) -> Bool {
+            return chord?.id == chordId
+        }
+
+    var id: String {
+        if let chord {
+            return chord.id
+        }
+
+        // TODO: add ids to note and history
+        if let note {
+            return ""
+        }
+
+        if let history {
+            return ""
+        }
+
+        fatalError("Question without an entity should never happen")
+    }
+
     var chord: ChordDTO?
     var note: SingleNoteDTO?
     var history: HistoryDTO?
