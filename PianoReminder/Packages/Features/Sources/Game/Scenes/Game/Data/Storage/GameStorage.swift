@@ -14,7 +14,7 @@ final class GameStorage {
 
     init() {
         do {
-            container = try ModelContainer(for: QuestionDAO.self)
+            container = try ModelContainer(for: ChordDAO.self, SingleNoteDAO.self, HistoryDAO.self)
         } catch {
             // log
             fatalError("Container not working")
@@ -30,18 +30,19 @@ final class GameStorage {
 
         do {
             try await actor.save()
+            logger.debug("\(data.count) questions created successfully")
         } catch {
             // TODO: log
         }
     }
 
-    func updateQuestion(predicate: Predicate<QuestionDAO>, updateBlock: @escaping (QuestionDAO) -> Void) async {
+    func updateEntity<T: PersistentModel>(predicate: Predicate<T>, updateBlock: @escaping (T) -> Void) async {
         let actor = BackgroundPersistenceModelActor(modelContainer: container)
 
         do {
             let results = try await actor.fetchData(predicate: predicate)
             if results.isEmpty {
-                logger.debug("No questions found to update.")
+                logger.debug("No questions found to update")
                 return
             }
 
@@ -56,7 +57,7 @@ final class GameStorage {
         }
     }
 
-    func deleteQuestion(predicate: Predicate<QuestionDAO>) async {
+    func deleteEntity<T: PersistentModel>(predicate: Predicate<T>) async {
         let actor = BackgroundPersistenceModelActor(modelContainer: container)
 
         do {
@@ -67,13 +68,14 @@ final class GameStorage {
             }
 
             try await actor.save()
+            logger.debug("\(results.count) questions deleted successfully")
         } catch {
             // TODO: Log
         }
     }
 
-    func fetchQuestions(predicate: Predicate<QuestionDAO>? = nil,
-                        limit: Int? = nil) async -> [QuestionDAO] {
+    func fetchEntities<T: PersistentModel>(predicate: Predicate<T>? = nil,
+                                           limit: Int? = nil) async -> [T] {
         let actor = BackgroundPersistenceModelActor(modelContainer: container)
         do {
             return try await actor.fetchData(predicate: predicate, limit: limit)

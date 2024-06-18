@@ -1,36 +1,35 @@
 //
-//  ChordDTO.swift
-//  
+//  SingleNoteDAO.swift
+//
 //
 //  Created by Daniel Yopla on 15.06.2023.
 //
 
 import Foundation
+import SwiftData
 
-struct ChordDTO: Codable {
-    let id: String
-    let notes: [ComposedNoteDTO]
+@Model
+class SingleNoteDAO: Decodable {
+    let value: ComposedNoteDTO
     let clef: ClefDTO
     let title: String
     var category: CategoryDTO = CategoryDTO.sightReading
 
-    init(id: String, notes: [ComposedNoteDTO], clef: ClefDTO, title: String) {
-        self.id = id
-        self.notes = notes
+    init(value: ComposedNoteDTO, clef: ClefDTO, title: String) {
+        self.value = value
         self.clef = clef
         self.title = title
     }
 
-    init(from decoder: Decoder) throws {
+    required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.id = try container.decode(String.self, forKey: .id)
-        self.notes = try container.decode([ComposedNoteDTO].self, forKey: .notes)
+        self.value = try container.decode(ComposedNoteDTO.self, forKey: .value)
         self.clef = try container.decode(ClefDTO.self, forKey: .clef)
         self.title = try container.decode(String.self, forKey: .title)
         self.category = try container.decodeIfPresent(CategoryDTO.self, forKey: .category) ?? .sightReading
     }
 
     private enum CodingKeys: String, CodingKey {
-        case id, notes, clef, title, category
+        case title, clef, value, category
     }
 }

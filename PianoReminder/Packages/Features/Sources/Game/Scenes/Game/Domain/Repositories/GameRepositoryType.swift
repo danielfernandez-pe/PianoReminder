@@ -11,6 +11,6 @@ protocol GameRepositoryType {
     func sync(lastSynced: String?) async throws
     func getQuestions(includeChords: Bool,
                       includeNotes: Bool,
-                      includeStories: Bool,
+                      includeHistory: Bool,
                       limit: Int?) async -> [QuestionDOM]
 }

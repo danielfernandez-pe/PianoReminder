@@ -1,13 +1,15 @@
 //
-//  HistoryDTO.swift
+//  HistoryDAO.swift
 //
 //
 //  Created by Daniel Yopla on 19.02.2024.
 //
 
 import Foundation
+import SwiftData
 
-struct HistoryDTO: Codable {
+@Model
+class HistoryDAO: Decodable {
     let titleQuestion: String
     let historyOptions: [Option]
     var category: CategoryDTO = CategoryDTO.history
@@ -22,10 +24,10 @@ struct HistoryDTO: Codable {
         self.historyOptions = historyOptions
     }
 
-    init(from decoder: Decoder) throws {
+    required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.titleQuestion = try container.decode(String.self, forKey: .titleQuestion)
-        self.historyOptions = try container.decode([HistoryDTO.Option].self, forKey: .historyOptions)
+        self.historyOptions = try container.decode([HistoryDAO.Option].self, forKey: .historyOptions)
         self.category = try container.decodeIfPresent(CategoryDTO.self, forKey: .category) ?? .sightReading
         
     }

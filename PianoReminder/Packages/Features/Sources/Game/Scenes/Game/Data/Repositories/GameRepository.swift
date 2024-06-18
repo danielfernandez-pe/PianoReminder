@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import CompoundPredicate
 
 final class GameRepository: GameRepositoryType {
     private let gameService: GameService
@@ -24,7 +23,7 @@ final class GameRepository: GameRepositoryType {
             for entityToSync in entitiesToSync {
                 switch entityToSync.path {
                 case .chords:
-                    await syncChord(entity: entityToSync)
+                    try await syncChord(entity: entityToSync)
                 case .notes:
                     await syncNote(entity: entityToSync)
                 case .history:
@@ -38,44 +37,30 @@ final class GameRepository: GameRepositoryType {
         }
     }
 
-    private func syncChord(entity: EntityToSyncDTO) async {
-        do {
-            let chord = try await gameService.fetchChord(id: entity.entityId)
-            switch entity.syncType {
-            case .created:
-                let unsyncQuestion = QuestionDAO(
-                    chord: chord,
-                    note: nil,
-                    history: nil,
-                    isChordQuestion: true,
-                    isNoteQuestion: false,
-                    isHistoryQuestion: false
-                )
-                await gameStorage.save(data: [unsyncQuestion])
-            case .updated:
-                let entityId = entity.entityId
-                let predicate = #Predicate<QuestionDAO> { question in
-                    question.isChordQuestion && question.chord?.id == entityId
-                }
-
-                await gameStorage.updateQuestion(predicate: predicate) { question in
-//                    question.chord = chord
-                }
-            case .deleted:
-                break
-//                let entityId = entity.entityId
-//                let predicate = #Predicate<QuestionDAO> { question in
-//                    if let chordId = question.chord?.id {
-//                        return chordId == entityId
-//                    } else {
-//                        return false
-//                    }
-//                }
-//
-//                await gameStorage.deleteQuestion(predicate: predicate)
+    private func syncChord(entity: EntityToSyncDTO) async throws {
+        switch entity.syncType {
+        case .created:
+            let unsyncedChord = try await gameService.fetchChord(id: entity.entityId)
+            await gameStorage.save(data: [unsyncedChord])
+        case .updated:
+            let unsyncedChord = try await gameService.fetchChord(id: entity.entityId)
+            let entityId = entity.entityId
+            let predicate = #Predicate<ChordDAO> { chord in
+                chord.id == entityId
             }
-        } catch {
-            logger.error("Error fetching chord \(error.localizedDescription)")
+
+            await gameStorage.updateEntity(predicate: predicate) { chord in
+                chord.title = unsyncedChord.title
+                chord.clef = unsyncedChord.clef
+                chord.notes = unsyncedChord.notes
+            }
+        case .deleted:
+            let entityId = entity.entityId
+            let predicate = #Predicate<ChordDAO> { chord in
+                chord.id == entityId
+            }
+
+            await gameStorage.deleteEntity(predicate: predicate)
         }
     }
 
@@ -83,7 +68,7 @@ final class GameRepository: GameRepositoryType {
         do {
             let unsyncNote = try await gameService.fetchNote(id: entity.entityId)
         } catch {
-            
+            // TODO: Log
         }
     }
 
@@ -91,29 +76,35 @@ final class GameRepository: GameRepositoryType {
         do {
             let unsyncHistory = try await gameService.fetchHistory(id: entity.entityId)
         } catch {
-            
+            // TODO: Log
         }
     }
 
     func getQuestions(includeChords: Bool,
                       includeNotes: Bool,
-                      includeStories: Bool,
+                      includeHistory: Bool,
                       limit: Int?) async -> [QuestionDOM] {
-        let chordPredicate = #Predicate<QuestionDAO> { question in
-            includeChords ? question.isChordQuestion == true : false
+        var questions: [QuestionDOM] = []
+
+        if includeChords {
+            let predicate = #Predicate<ChordDAO> { _ in true }
+            let chords = await gameStorage.fetchEntities(predicate: predicate)
+            questions.append(contentsOf: chords.map { DataMapper.question(fromChord: $0) })
         }
 
-        let notePredicate = #Predicate<QuestionDAO> { question in
-            includeNotes ? question.isNoteQuestion == true : false
+        if includeNotes {
+            let predicate = #Predicate<SingleNoteDAO> { _ in true }
+            let notes = await gameStorage.fetchEntities(predicate: predicate)
+            questions.append(contentsOf: notes.map { DataMapper.question(fromNote: $0) })
         }
 
-        let storyPredicate = #Predicate<QuestionDAO> { question in
-            includeStories ? question.isHistoryQuestion == true : false
+        if includeHistory {
+            let predicate = #Predicate<HistoryDAO> { _ in true }
+            let history = await gameStorage.fetchEntities(predicate: predicate)
+            questions.append(contentsOf: history.map { DataMapper.question(fromHistory: $0) })
         }
 
-        let finalPredicate = [chordPredicate, notePredicate, storyPredicate].disjunction()
-        let questions = await gameStorage.fetchQuestions(predicate: finalPredicate, limit: limit)
-        return questions.compactMap { DataMapper.question($0) }
+        return questions
     }
     
     private func syncAll() async throws {
@@ -122,15 +113,11 @@ final class GameRepository: GameRepositoryType {
         let chords = try await gameService.fetchChords()
         let notes = try await gameService.fetchNotes()
         let history = try await gameService.fetchHistoryQuestions()
-        
-        logger.debug("Getting new \(chords.count) chords, \(notes.count) notes and \(history.count) history questions")
-        
-        let chordQuestions = chords.compactMap { QuestionDAO(chord: $0, note: nil, history: nil, isChordQuestion: true, isNoteQuestion: false, isHistoryQuestion: false) }
-        let noteQuestions = notes.compactMap { QuestionDAO(chord: nil, note: $0, history: nil, isChordQuestion: false, isNoteQuestion: true, isHistoryQuestion: false) }
-        let historyQuestions = history.compactMap { QuestionDAO(chord: nil, note: nil, history: $0, isChordQuestion: false, isNoteQuestion: false, isHistoryQuestion: true) }
 
-        await gameStorage.save(data: chordQuestions)
-        await gameStorage.save(data: noteQuestions)
-        await gameStorage.save(data: historyQuestions)
+        logger.debug("Getting new \(chords.count) chords, \(notes.count) notes and \(history.count) history questions")
+
+        await gameStorage.save(data: chords)
+        await gameStorage.save(data: notes)
+        await gameStorage.save(data: history)
     }
 }

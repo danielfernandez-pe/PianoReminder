@@ -19,15 +19,6 @@
       }
     },
     {
-      "identity" : "compoundpredicate",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/NoahKamara/CompoundPredicate.git",
-      "state" : {
-        "revision" : "adda76e5f797205259c7d918b7bd58040154356f",
-        "version" : "0.1.0"
-      }
-    },
-    {
       "identity" : "firebase-ios-sdk",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/firebase/firebase-ios-sdk.git",
@@ -151,15 +142,6 @@
       "state" : {
         "revision" : "6f8518f68b664079472a3be79c910e472fa9cd0b",
         "version" : "1.2.7"
-      }
-    },
-    {
-      "identity" : "xctest-dynamic-overlay",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/pointfreeco/xctest-dynamic-overlay",
-      "state" : {
-        "revision" : "6f30bdba373bbd7fbfe241dddd732651f2fbd1e2",
-        "version" : "1.1.2"
       }
     }
   ],

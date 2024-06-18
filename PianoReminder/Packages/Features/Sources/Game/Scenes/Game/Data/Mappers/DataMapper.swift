@@ -8,30 +8,27 @@
 import Foundation
 
 struct DataMapper {
-    static func question(_ questionDao: QuestionDAO) -> QuestionDOM {
-        var questionType: QuestionDOM.QuestionType!
-        var category: CategoryDOM = .sightReading
-
-        if questionDao.isChordQuestion, let chord = questionDao.chord, let chordDom = Self.chord(chord) {
-            questionType = .chord(chordDom)
-            category = .sightReading
+    static func question(fromChord chord: ChordDAO) -> QuestionDOM {
+        guard let domChord = Self.chord(chord) else {
+            fatalError("This should never happend. There is a problem in the database types")
         }
 
-        if questionDao.isNoteQuestion, let note = questionDao.note, let noteDom = Self.singleNote(note) {
-            questionType = .note(noteDom)
-            category = .sightReading
-        }
-
-        if questionDao.isHistoryQuestion, let history = questionDao.history {
-            let historyDom = Self.history(history)
-            questionType = .history(historyDom)
-            category = .history
-        }
-
-        return QuestionDOM(questionType: questionType, category: category, options: [])
+        return QuestionDOM(questionType: .chord(domChord), category: .sightReading, options: [])
     }
 
-    private static func singleNote(_ singleNote: SingleNoteDTO) -> SingleNoteDOM? {
+    static func question(fromNote note: SingleNoteDAO) -> QuestionDOM {
+        guard let domNote = Self.singleNote(note) else {
+            fatalError("This should never happend. There is a problem in the database types")
+        }
+
+        return QuestionDOM(questionType: .note(domNote), category: .sightReading, options: [])
+    }
+
+    static func question(fromHistory history: HistoryDAO) -> QuestionDOM {
+        return QuestionDOM(questionType: .history(Self.history(history)), category: .history, options: [])
+    }
+
+    private static func singleNote(_ singleNote: SingleNoteDAO) -> SingleNoteDOM? {
         guard let clef = ClefDOM(rawValue: singleNote.clef.rawValue),
               let note = NoteDOM(rawValue: singleNote.value.value.rawValue),
               let type = NoteTypeDOM(rawValue: singleNote.value.type.rawValue),
@@ -47,7 +44,7 @@ struct DataMapper {
         )
     }
 
-    private static func chord(_ chord: ChordDTO) -> ChordDOM? {
+    private static func chord(_ chord: ChordDAO) -> ChordDOM? {
         guard let clef = ClefDOM(rawValue: chord.clef.rawValue) else { return nil }
         let notes: [ComposedNoteDOM] = chord.notes.compactMap { composedNote -> ComposedNoteDOM? in
             guard let note = NoteDOM(rawValue: composedNote.value.rawValue),
@@ -68,7 +65,7 @@ struct DataMapper {
         )
     }
 
-    private static func history(_ history: HistoryDTO) -> HistoryDOM {
+    private static func history(_ history: HistoryDAO) -> HistoryDOM {
         let options = history.historyOptions.map { HistoryDOM.Option(value: $0.value, isAnswer: $0.isAnswer) }
         return HistoryDOM(titleQuestion: history.titleQuestion, historyOptions: options)
     }

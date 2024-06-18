@@ -23,6 +23,7 @@ struct SyncGameDataUseCase: SyncGameDataUseCaseType {
 
         do {
             try await gameRepository.sync(lastSynced: lastSynced)
+            logger.debug("Sync successfully. Saving lastSynced")
             userDefaultsService.setLastSynced(to: .now)
         } catch {
             logger.error("Game sync fail. \(error.localizedDescription)")

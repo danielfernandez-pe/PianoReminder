@@ -26,7 +26,7 @@ struct GetQuestionsUseCase: GetQuestionsUseCaseType {
         let fetchedQuestions = await gameRepository.getQuestions(
             includeChords: settings.isChordsEnabled,
             includeNotes: settings.isNotesEnabled,
-            includeStories: isNewSession ? settings.isHistoryQuestionsEnabled : false,
+            includeHistory: isNewSession ? settings.isHistoryQuestionsEnabled : false,
             limit: nil
         ).shuffled()
         return fetchedQuestions
