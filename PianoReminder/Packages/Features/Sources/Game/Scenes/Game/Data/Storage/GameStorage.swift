@@ -30,7 +30,7 @@ final class GameStorage {
 
         do {
             try await actor.save()
-            logger.debug("\(data.count) questions created successfully")
+            logger.debug("\(data.count) entities created successfully")
         } catch {
             // TODO: log
         }
@@ -42,7 +42,7 @@ final class GameStorage {
         do {
             let results = try await actor.fetchData(predicate: predicate)
             if results.isEmpty {
-                logger.debug("No questions found to update")
+                logger.debug("No entity found to update")
                 return
             }
 
@@ -51,7 +51,7 @@ final class GameStorage {
             }
 
             try await actor.save()
-            logger.debug("question updated successfully")
+            logger.debug("entity updated successfully")
         } catch {
             // TODO: log
         }
@@ -68,7 +68,7 @@ final class GameStorage {
             }
 
             try await actor.save()
-            logger.debug("\(results.count) questions deleted successfully")
+            logger.debug("\(results.count) entities deleted successfully")
         } catch {
             // TODO: Log
         }

@@ -25,9 +25,9 @@ final class GameRepository: GameRepositoryType {
                 case .chords:
                     try await syncChord(entity: entityToSync)
                 case .notes:
-                    await syncNote(entity: entityToSync)
+                    try await syncNote(entity: entityToSync)
                 case .history:
-                    await syncHistory(entity: entityToSync)
+                    try await syncHistory(entity: entityToSync)
                 default:
                     break
                 }
@@ -40,9 +40,11 @@ final class GameRepository: GameRepositoryType {
     private func syncChord(entity: EntityToSyncDTO) async throws {
         switch entity.syncType {
         case .created:
+            logger.debug("Sync - starting creating of entity for chord")
             let unsyncedChord = try await gameService.fetchChord(id: entity.entityId)
             await gameStorage.save(data: [unsyncedChord])
         case .updated:
+            logger.debug("Sync - starting updating of entity for chord")
             let unsyncedChord = try await gameService.fetchChord(id: entity.entityId)
             let entityId = entity.entityId
             let predicate = #Predicate<ChordDAO> { chord in
@@ -55,6 +57,7 @@ final class GameRepository: GameRepositoryType {
                 chord.notes = unsyncedChord.notes
             }
         case .deleted:
+            logger.debug("Sync - starting deletion of entity for chord")
             let entityId = entity.entityId
             let predicate = #Predicate<ChordDAO> { chord in
                 chord.id == entityId
@@ -64,19 +67,62 @@ final class GameRepository: GameRepositoryType {
         }
     }
 
-    private func syncNote(entity: EntityToSyncDTO) async {
-        do {
+    private func syncNote(entity: EntityToSyncDTO) async throws {
+        switch entity.syncType {
+        case .created:
+            logger.debug("Sync - starting creating of entity for note")
             let unsyncNote = try await gameService.fetchNote(id: entity.entityId)
-        } catch {
-            // TODO: Log
+            await gameStorage.save(data: [unsyncNote])
+        case .updated:
+            logger.debug("Sync - starting updating of entity for note")
+            let unsyncedNote = try await gameService.fetchNote(id: entity.entityId)
+            let entityId = entity.entityId
+            let predicate = #Predicate<SingleNoteDAO> { note in
+                note.id == entityId
+            }
+
+            await gameStorage.updateEntity(predicate: predicate) { note in
+                note.title = unsyncedNote.title
+                note.clef = unsyncedNote.clef
+                note.value = unsyncedNote.value
+            }
+        case .deleted:
+            logger.debug("Sync - starting deletion of entity for note")
+            let entityId = entity.entityId
+            let predicate = #Predicate<SingleNoteDAO> { note in
+                note.id == entityId
+            }
+
+            await gameStorage.deleteEntity(predicate: predicate)
         }
     }
 
-    private func syncHistory(entity: EntityToSyncDTO) async {
-        do {
-            let unsyncHistory = try await gameService.fetchHistory(id: entity.entityId)
-        } catch {
-            // TODO: Log
+    private func syncHistory(entity: EntityToSyncDTO) async throws {
+        switch entity.syncType {
+        case .created:
+            logger.debug("Sync - starting creating of entity for history")
+            let unsyncedHistory = try await gameService.fetchHistory(id: entity.entityId)
+            await gameStorage.save(data: [unsyncedHistory])
+        case .updated:
+            logger.debug("Sync - starting updating of entity for history")
+            let unsyncedHistory = try await gameService.fetchHistory(id: entity.entityId)
+            let entityId = entity.entityId
+            let predicate = #Predicate<HistoryDAO> { history in
+                history.id == entityId
+            }
+
+            await gameStorage.updateEntity(predicate: predicate) { history in
+                history.titleQuestion = unsyncedHistory.titleQuestion
+                history.historyOptions = unsyncedHistory.historyOptions
+            }
+        case .deleted:
+            logger.debug("Sync - starting deletion of entity for history")
+            let entityId = entity.entityId
+            let predicate = #Predicate<HistoryDAO> { history in
+                history.id == entityId
+            }
+
+            await gameStorage.deleteEntity(predicate: predicate)
         }
     }
 

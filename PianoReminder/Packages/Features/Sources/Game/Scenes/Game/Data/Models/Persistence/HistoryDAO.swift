@@ -10,8 +10,9 @@ import SwiftData
 
 @Model
 class HistoryDAO: Decodable {
-    let titleQuestion: String
-    let historyOptions: [Option]
+    let id: String
+    var titleQuestion: String
+    var historyOptions: [Option]
     var category: CategoryDTO = CategoryDTO.history
 
     struct Option: Codable {
@@ -19,13 +20,15 @@ class HistoryDAO: Decodable {
         let isAnswer: Bool
     }
 
-    init(titleQuestion: String, historyOptions: [Option]) {
+    init(id: String, titleQuestion: String, historyOptions: [Option]) {
+        self.id = id
         self.titleQuestion = titleQuestion
         self.historyOptions = historyOptions
     }
 
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.id = try container.decode(String.self, forKey: .id)
         self.titleQuestion = try container.decode(String.self, forKey: .titleQuestion)
         self.historyOptions = try container.decode([HistoryDAO.Option].self, forKey: .historyOptions)
         self.category = try container.decodeIfPresent(CategoryDTO.self, forKey: .category) ?? .sightReading
@@ -33,6 +36,6 @@ class HistoryDAO: Decodable {
     }
 
     private enum CodingKeys: String, CodingKey {
-        case titleQuestion, historyOptions, category
+        case id, titleQuestion, historyOptions, category
     }
 }
