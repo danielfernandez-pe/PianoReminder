@@ -28,7 +28,12 @@ final class GameService {
     }
 
     func fetchEntitiesToSync(from lastSynced: String) async throws -> [EntityToSyncDTO] {
-        let data = try await networking.get(path: FirebaseCollection.sync.rawValue, queryField: "modified", value: lastSynced)
+        let data = try await networking.get(
+            path: FirebaseCollection.sync.rawValue,
+            queryField: "modified",
+            orderField: "modified",
+            value: lastSynced
+        )
         let jsonDecoder = JSONDecoder()
         return try jsonDecoder.decode([EntityToSyncDTO].self, from: data)
     }
