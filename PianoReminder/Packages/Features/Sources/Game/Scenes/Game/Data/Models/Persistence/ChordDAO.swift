@@ -10,7 +10,7 @@ import SwiftData
 
 @Model
 class ChordDAO: Decodable {
-    let id: String
+    var id: String
     var notes: [ComposedNoteDTO]
     var clef: ClefDTO
     var title: String

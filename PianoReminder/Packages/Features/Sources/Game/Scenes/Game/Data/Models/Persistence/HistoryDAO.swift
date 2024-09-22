@@ -10,7 +10,7 @@ import SwiftData
 
 @Model
 class HistoryDAO: Decodable {
-    let id: String
+    var id: String
     var titleQuestion: String
     var historyOptions: [Option]
     var category: CategoryDTO = CategoryDTO.history

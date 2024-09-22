@@ -11,6 +11,7 @@ import Storage
 
 final class GameStorage {
     private let container: ModelContainer
+    private lazy var actor = BackgroundPersistenceModelActor(modelContainer: container)
 
     init() {
         do {
@@ -22,8 +23,6 @@ final class GameStorage {
     }
 
     func save<T: PersistentModel>(data: [T]) async {
-        let actor = BackgroundPersistenceModelActor(modelContainer: container)
-
         for model in data {
             await actor.insert(data: model)
         }
@@ -37,8 +36,6 @@ final class GameStorage {
     }
 
     func updateEntity<T: PersistentModel>(predicate: Predicate<T>, updateBlock: @escaping (T) -> Void) async {
-        let actor = BackgroundPersistenceModelActor(modelContainer: container)
-
         do {
             let results = try await actor.fetchData(predicate: predicate)
             if results.isEmpty {
@@ -58,8 +55,6 @@ final class GameStorage {
     }
 
     func deleteEntity<T: PersistentModel>(predicate: Predicate<T>) async {
-        let actor = BackgroundPersistenceModelActor(modelContainer: container)
-
         do {
             let results = try await actor.fetchData(predicate: predicate)
             
@@ -76,7 +71,6 @@ final class GameStorage {
 
     func fetchEntities<T: PersistentModel>(predicate: Predicate<T>? = nil,
                                            limit: Int? = nil) async -> [T] {
-        let actor = BackgroundPersistenceModelActor(modelContainer: container)
         do {
             return try await actor.fetchData(predicate: predicate, limit: limit)
         } catch {

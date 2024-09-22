@@ -109,6 +109,15 @@
       }
     },
     {
+      "identity" : "networking",
+      "kind" : "remoteSourceControl",
+      "location" : "git@github.com:danielfcodes/Networking.git",
+      "state" : {
+        "revision" : "1ce152a777741e71eb37737f2a4cd91484a4c754",
+        "version" : "1.2.3"
+      }
+    },
+    {
       "identity" : "promises",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/promises.git",

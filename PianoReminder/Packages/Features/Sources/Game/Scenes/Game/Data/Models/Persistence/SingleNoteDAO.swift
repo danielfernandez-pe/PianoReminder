@@ -10,7 +10,7 @@ import SwiftData
 
 @Model
 class SingleNoteDAO: Decodable {
-    let id: String
+    var id: String
     var value: ComposedNoteDTO
     var clef: ClefDTO
     var title: String

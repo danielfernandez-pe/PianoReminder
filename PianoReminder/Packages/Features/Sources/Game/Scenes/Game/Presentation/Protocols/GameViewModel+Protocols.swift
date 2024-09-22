@@ -7,7 +7,7 @@
 
 protocol GameViewModelInputs {
     func userTapOption(_ option: UserOptionUI?) async
-    func getQuestion()
+    @MainActor func getQuestion()
 }
 
 protocol GameViewModelOutputs {
